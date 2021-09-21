@@ -1,0 +1,47 @@
+#
+# Copyright (c) 2021 - for information on the respective copyright owner
+# see the NOTICE file and/or the repository https://github.com/carbynestack/carbynestack.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+repositories:
+  - name: carbynestack-oci
+    url: "ghcr.io/carbynestack"
+    oci: true
+    username: {{ requiredEnv "GITHUB_USERNAME" }}
+    password: {{ requiredEnv "GITHUB_TOKEN" }}
+
+#
+# Deploys a Carbyne Stack Castor Offline Tuple Store service.
+#
+# References:
+#     https://github.com/carbynestack/castor
+#
+releases:
+- name: {{ requiredEnv "RELEASE_NAME" }}-castor
+  chart: carbynestack-oci/castor
+  version: "0.1-SNAPSHOT-1257597392-1-6853da7"
+  values:
+  - castor:
+      noSslValidation: {{ env "NO_SSL_VALIDATION" | default false }}
+      image:
+        tag: 0.1-SNAPSHOT-1257597392-1-6853da7
+      isMaster: {{ env "IS_MASTER" | default "true" }}
+      {{ if env "CASTOR_SLAVE_URI" }}
+      slaveUri: {{ env "CASTOR_SLAVE_URI" }}
+      {{ end }}
+      minio:
+        endpoint: http://{{ requiredEnv "RELEASE_NAME" }}-minio:9000
+      redis:
+        host: {{ requiredEnv "RELEASE_NAME" }}-redis
+      db:
+        host: cs-{{ requiredEnv "RELEASE_NAME" }}-postgres-dbms
+        userSecretName: cs.cs-{{ requiredEnv "RELEASE_NAME" }}-postgres-dbms.credentials.postgresql.acid.zalan.do
+        passwordSecretName: cs.cs-{{ requiredEnv "RELEASE_NAME" }}-postgres-dbms.credentials.postgresql.acid.zalan.do
+      logLevel: DEBUG
+  - service:
+      type: ClusterIP
+      annotations:
+  - redis:
+      name: {{ requiredEnv "RELEASE_NAME" }}-redis

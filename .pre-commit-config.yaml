@@ -1,0 +1,21 @@
+#
+# Copyright (c) 2021 - for information on the respective copyright owner
+# see the NOTICE file and/or the repository https://github.com/carbynestack/castor.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+repos:
+  - repo: https://github.com/executablebooks/mdformat
+    rev: 0.7.7
+    hooks:
+      - id: mdformat
+        args:
+          - --wrap
+          - "80"
+        additional_dependencies:
+          - mdformat-gfm
+  - repo: https://github.com/igorshubovych/markdownlint-cli
+    rev: v0.27.1
+    hooks:
+      - id: markdownlint
+        exclude: ^docs/.*$

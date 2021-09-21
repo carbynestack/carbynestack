@@ -1,0 +1,50 @@
+#
+# Copyright (c) 2021 - for information on the respective copyright owner
+# see the NOTICE file and/or the repository https://github.com/carbynestack/carbynestack.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+repositories:
+  - name: carbynestack-oci
+    url: "ghcr.io/carbynestack"
+    oci: true
+    username: {{ requiredEnv "GITHUB_USERNAME" }}
+    password: {{ requiredEnv "GITHUB_TOKEN" }}
+
+#
+# Deploys a Carbyne Stack Amphora Object Store service.
+#
+# References:
+#     https://github.com/carbynestack/amphora
+#
+releases:
+- name: {{ requiredEnv "RELEASE_NAME" }}-amphora
+  chart: carbynestack-oci/amphora
+  version: "0.1-SNAPSHOT-1257676920-1-1db68bb"
+  values:
+  - spdz:
+      macKey: {{ if eq (env "IS_MASTER") "true" }} {{ env "MAC_KEY" | default "-88222337191559387830816715872691188861" | quote }} {{ else }} {{ env "MAC_KEY" | default "1113507028231509545156335486838233835" | quote }} {{ end }}
+      prime: {{ env "SPDZ_PRIME" | default "198766463529478683931867765928436695041" | quote }}
+      r: {{ env "SPDZ_R" | default "141515903391459779531506841503331516415" | quote }}
+      rInv: {{ env "SPDZ_R_INV" | default "133854242216446749056083838363708373830" | quote }}
+  - amphora:
+      playerId: {{ if eq (env "IS_MASTER") "true" }}0{{ else }}1{{ end }}
+      vcPartner: {{ requiredEnv "AMPHORA_VC_PARTNER_URI" }}
+      noSslValidation: {{ env "NO_SSL_VALIDATION" | default false }}
+      image:
+        tag: 0.1-SNAPSHOT-1257676920-1-1db68bb
+      castor:
+        serviceUri: http://{{ requiredEnv "RELEASE_NAME" }}-castor:10100
+      redis:
+        host: {{ requiredEnv "RELEASE_NAME" }}-redis
+      minio:
+        endpoint: http://{{ requiredEnv "RELEASE_NAME" }}-minio:9000
+      db:
+        host: cs-{{ requiredEnv "RELEASE_NAME" }}-postgres-dbms
+        userSecretName: cs.cs-{{ requiredEnv "RELEASE_NAME" }}-postgres-dbms.credentials.postgresql.acid.zalan.do
+        passwordSecretName: cs.cs-{{ requiredEnv "RELEASE_NAME" }}-postgres-dbms.credentials.postgresql.acid.zalan.do
+      logLevel: DEBUG
+  - service:
+      type: ClusterIP
+      annotations:

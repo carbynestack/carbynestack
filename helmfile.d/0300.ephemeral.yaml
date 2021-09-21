@@ -1,0 +1,55 @@
+#
+# Copyright (c) 2021 - for information on the respective copyright owner
+# see the NOTICE file and/or the repository https://github.com/carbynestack/carbynestack.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+repositories:
+  - name: carbynestack-oci
+    url: "ghcr.io/carbynestack"
+    oci: true
+    username: {{ requiredEnv "GITHUB_USERNAME" }}
+    password: {{ requiredEnv "GITHUB_TOKEN" }}
+
+#
+# Deploys a Carbyne Stack Ephemeral Serverless Computing service.
+#
+# References:
+#     https://github.com/carbynestack/ephemeral
+#
+releases:
+- name: {{ requiredEnv "RELEASE_NAME" }}-ephemeral
+  chart: carbynestack-oci/ephemeral
+  version: "0.1-SNAPSHOT-1257716526-1-5deb524"
+  values:
+    - discovery:
+        image:
+          tag: 0.1-SNAPSHOT-1257716526-1-5deb524
+        frontendUrl: {{ requiredEnv "FRONTEND_URL" }}
+        isMaster: {{ requiredEnv "IS_MASTER" }}
+        master:
+          host: {{ requiredEnv "DISCOVERY_MASTER_HOST" }}
+          port: {{ env "DISCOVERY_MASTER_PORT" | default 31400 }}
+    - ephemeral:
+        image:
+          repository: {{ env "EPHEMERAL_IMAGE_REPOSITORY" | default "carbynestack/ephemeral/ephemeral" }}
+          tag: {{ env "EPHEMERAL_IMAGE_TAG" | default "0.1-SNAPSHOT-1257716526-1-5deb524" }}
+        resources:
+          requests:
+            memory: {{ env "EPHEMERAL_RESOURCES_REQUESTS_MEMORY" | default "256Mi" }}
+            cpu: {{ env "EPHEMERAL_RESOURCES_REQUESTS_CPU" | default "100m" }}
+        minScale: 1
+        amphora:
+          host: {{ requiredEnv "RELEASE_NAME" }}-amphora:10000
+          scheme: "http"
+          path: "/"
+        frontendUrl: {{ requiredEnv "FRONTEND_URL" }}
+        discoveryAddress: {{ requiredEnv "RELEASE_NAME" }}-ephemeral-discovery
+        playerId: {{ if eq (env "IS_MASTER") "true" }}0{{ else }}1{{ end }}
+        spdz:
+          prime: {{ env "SPDZ_PRIME" | default "198766463529478683931867765928436695041" | quote }}
+          rInv: {{ env "SPDZ_R_INV" | default "133854242216446749056083838363708373830" | quote }}
+    - networkController:
+        image:
+          tag: 0.1-SNAPSHOT-1257716526-1-5deb524

@@ -27,20 +27,6 @@ Throughout the remainder of this guide, we assume that you have set up local
 clusters using the kind tool as described in the
 [Platform Setup](platform-setup.md) guide.
 
-## Helm Registry Credentials
-
-The Helm charts for deploying the Carbyne Stack services are hosted on the
-GitHub package registry that currently requires authentication. Make the
-required credentials available to `helmfile` using:
-
-> :bulb: **NOTE**: Replace `<username>` and `<password>` with your actual
-> credentials.
-
-```shell
-export GITHUB_USERNAME=<username>
-export GITHUB_TOKEN=<password>
-```
-
 ## Virtual Cloud Deployment
 
 > :bulb: **NOTE**: In case you are on a slow internet connection, you can use
@@ -92,9 +78,9 @@ export GITHUB_TOKEN=<password>
    cloud from the command line. Install the CLI using:
 
    ```shell
-   export CLI_VERSION=0.1-SNAPSHOT-1257781266-1-33a14c8
+   export CLI_VERSION=0.1-SNAPSHOT-1258699431-2-e5f3f7a
    curl -o cs.jar \
-    -L https://maven.pkg.github.com/carbynestack/cli/io.carbynestack.cli/$CLI_VERSION/cli-$CLI_VERSION-jar-with-dependencies.jar
+    -L https://github.com/carbynestack/cli/releases/download/$CLI_VERSION/cli-$CLI_VERSION-jar-with-dependencies.jar
    ```
 
 1. Next configure the CLI to talk to the just deployed virtual cloud by creating

@@ -9,8 +9,6 @@ repositories:
   - name: carbynestack-oci
     url: "ghcr.io/carbynestack"
     oci: true
-    username: {{ requiredEnv "GITHUB_USERNAME" }}
-    password: {{ requiredEnv "GITHUB_TOKEN" }}
 
 #
 # Deploys a Carbyne Stack Amphora Object Store service.

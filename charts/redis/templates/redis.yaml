@@ -1,0 +1,56 @@
+#
+# Copyright (c) 2021 - for information on the respective copyright owner
+# see the NOTICE file and/or the repository https://github.com/carbynestack/carbynestack.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "redis.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "redis.name" . }}
+    helm.sh/chart: {{ include "redis.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "redis.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "redis.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.redis.image.repository }}:{{ .Values.redis.image.tag }}"
+          imagePullPolicy: {{ .Values.redis.image.pullPolicy }}
+          ports:
+            - name: mgmt
+              containerPort: 6379
+              protocol: TCP
+          args:
+            - redis-server
+            - /usr/local/etc/redis/redis.conf
+          volumeMounts:
+            - name: config-volume
+              mountPath: /usr/local/etc/redis/redis.conf
+          livenessProbe:
+            exec:
+              command:
+                - redis-cli
+                - -h
+                - localhost
+                - ping
+                - >
+                - /dev/null
+            periodSeconds: 5
+            initialDelaySeconds: 30
+      volumes:
+        - name: config-volume
+          configMap:
+            name: {{ .Values.redis.name }}

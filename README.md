@@ -18,7 +18,8 @@ the [Carbyne Stack website](https://carbynestack.io).
 ## Getting Started
 
 Carbyne Stack can be deployed and experimented with locally. See the
-[Getting Started](docs/getting-started.md) page for instructions.
+[Getting Started](https://carbynestack.io/getting-started/) section on the
+[Carybne Stack website](https://carbynestack.io) for instructions.
 
 ## Contributing
 

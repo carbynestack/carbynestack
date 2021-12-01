@@ -23,7 +23,7 @@ releases:
   values:
     - discovery:
         image:
-          tag: 0.1-SNAPSHOT-1257716526-1-5deb524
+          tag: 0.1-snapshot-1525401638-9-a0b5e7a
         frontendUrl: {{ requiredEnv "FRONTEND_URL" }}
         isMaster: {{ requiredEnv "IS_MASTER" }}
         master:

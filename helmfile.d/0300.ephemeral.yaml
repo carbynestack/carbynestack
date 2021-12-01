@@ -19,11 +19,11 @@ repositories:
 releases:
 - name: {{ requiredEnv "RELEASE_NAME" }}-ephemeral
   chart: carbynestack-oci/ephemeral
-  version: "0.1-SNAPSHOT-1257716526-1-5deb524"
+  version: "0.1-SNAPSHOT-1525401638-9-a0b5e7a"
   values:
     - discovery:
         image:
-          tag: 0.1-snapshot-1525401638-9-a0b5e7a
+          tag: 0.1-SNAPSHOT-1525401638-9-a0b5e7a
         frontendUrl: {{ requiredEnv "FRONTEND_URL" }}
         isMaster: {{ requiredEnv "IS_MASTER" }}
         master:
@@ -32,7 +32,7 @@ releases:
     - ephemeral:
         image:
           repository: {{ env "EPHEMERAL_IMAGE_REPOSITORY" | default "carbynestack/ephemeral/ephemeral" }}
-          tag: {{ env "EPHEMERAL_IMAGE_TAG" | default "0.1-SNAPSHOT-1257716526-1-5deb524" }}
+          tag: {{ env "EPHEMERAL_IMAGE_TAG" | default "0.1-SNAPSHOT-1525401638-9-a0b5e7a" }}
         resources:
           requests:
             memory: {{ env "EPHEMERAL_RESOURCES_REQUESTS_MEMORY" | default "256Mi" }}
@@ -50,4 +50,4 @@ releases:
           rInv: {{ env "SPDZ_R_INV" | default "133854242216446749056083838363708373830" | quote }}
     - networkController:
         image:
-          tag: 0.1-SNAPSHOT-1257716526-1-5deb524
+          tag: 0.1-SNAPSHOT-1525401638-9-a0b5e7a

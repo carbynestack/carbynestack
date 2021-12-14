@@ -19,7 +19,7 @@ repositories:
 releases:
 - name: {{ requiredEnv "RELEASE_NAME" }}-amphora
   chart: carbynestack-oci/amphora
-  version: "0.1-SNAPSHOT-1257676920-1-1db68bb"
+  version: "0.1-SNAPSHOT-1576737535-6-7798b9e"
   values:
   - spdz:
       macKey: {{ if eq (env "IS_MASTER") "true" }} {{ env "MAC_KEY" | default "-88222337191559387830816715872691188861" | quote }} {{ else }} {{ env "MAC_KEY" | default "1113507028231509545156335486838233835" | quote }} {{ end }}
@@ -31,7 +31,7 @@ releases:
       vcPartner: {{ requiredEnv "AMPHORA_VC_PARTNER_URI" }}
       noSslValidation: {{ env "NO_SSL_VALIDATION" | default false }}
       image:
-        tag: 0.1-SNAPSHOT-1257676920-1-1db68bb
+        tag: 0.1-SNAPSHOT-1576737535-6-7798b9e
       castor:
         serviceUri: http://{{ requiredEnv "RELEASE_NAME" }}-castor:10100
       redis:

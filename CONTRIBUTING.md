@@ -1,26 +1,41 @@
 # Contributing
 
-Want to contribute? Great! You can do so through the standard GitHub pull
-request model. A description of the workflow from a technical point of view is
-described in [Developer's Guide](DEVELOPING.md).
+Want to contribute? Great! You can do so through the standard GitHub
+[fork and pull model](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/getting-started/about-collaborative-development-models#fork-and-pull-model)
+. A description of the workflow from a technical point of view is described in
+our [Developer Guide](DEVELOPING.md).
 
 For large contributions we do encourage you to file a ticket in the GitHub issue
 tracking system prior to any code development to coordinate with the Carbyne
 Stack maintainers early in the process. Coordinating up front helps to avoid
 frustration later on.
 
-Your contribution must be licensed under the Apache-2.0 license, the license
+Your contribution must be licensed under the `Apache-2.0` license, the license
 used by this project.
 
-## Add / retain copyright notices
+## Add / retain Copyright Notices
 
 Include a copyright notice and license in each new file to be contributed,
 consistent with the style used by this project. If your contribution contains
 code under the copyright of a third party, document its origin, license, and
-copyright holders. Under no circumstances remove existing copyright notices,
-license texts and headers, or disclaimers.
+copyright holders. Under no circumstances should you remove existing copyright
+notices, license texts and headers, or disclaimers.
 
-## Sign your work
+## Sign your Commits
+
+Carbyne Stack is security-related software, and attacks on the supply chain of
+security-related software are a _real_ threat. Therefore, we require
+cryptographically signed commits. This ensures that the author of the
+contributed code is actually the person whose name is on the commits, and that
+the code change is actually what the author wrote.
+
+There are a lot of great guides out there that make setting up your environment
+to support signed commits a breeze (see e.g., the comprehensive blog post
+[How (and why) to sign Git commits][signcommits] from Alessandro Segala). Please
+also see our [Developer Guide](DEVELOPING.md) for more information on this
+topic.
+
+## Sign off your Work
 
 This project tracks patch provenance and licensing using the Developer
 Certificate of Origin 1.1 (DCO) from [developercertificate.org][dco] and
@@ -75,17 +90,16 @@ your contribution just append a line
 Signed-off-by: Random J Developer <random@developer.example.org>
 ```
 
-to every commit message using your real name or your pseudonym and a valid email
-address.
+to every commit message using your _real name_ and a valid email address.
 
-If you have set your `user.name` and `user.email` git configs you can
+If you have set your `user.name` and `user.email` git config properties you can
 automatically sign the commit by running the git-commit command with the `-s`
 option. There may be multiple sign-offs if more than one developer was involved
 in authoring the contribution.
 
 For a more detailed description of this procedure, please see
-[SubmittingPatches] which was extracted from the Linux kernel project, and which
-is stored in an external repository.
+[Submitting Patches][submittingpatches] which was extracted from the Linux
+kernel project, and which is stored in an external repository.
 
 ### Individual vs. Corporate Contributors
 
@@ -95,9 +109,9 @@ have the right to submit the code.
 
 If you are a developer who is authorized to contribute to Carbyne Stack on
 behalf of your employer, then please use your corporate email address in the
-Signed-off-by tag. Otherwise, please use a personal email address.
+`Signed-off-by` tag. Otherwise, please use a personal email address.
 
-## Maintain Copyright holder / Contributor list
+## Maintain Copyright Holder / Contributor List
 
 Each contributor is responsible for identifying themselves in the
 [NOTICE](NOTICE.md) file, the project's list of copyright holders and authors.
@@ -107,8 +121,8 @@ part of your first pull request.
 If you are a developer who is authorized to contribute to Carbyne Stack on
 behalf of your employer, then add your company / organization to the list of
 copyright holders in the [NOTICE](NOTICE.md) file. As author of a corporate
-contribution you can also add your name and corporate email address as in the
-Signed-off-by tag.
+contribution, you must also add your name and corporate email address as in the
+`Signed-off-by` tag.
 
 If your contribution is covered by this project's DCO's clause "(c) The
 contribution was provided directly to me by some other person who certified (a)
@@ -116,4 +130,5 @@ or (b) and I have not modified it", please add the appropriate copyright
 holder(s) to the [NOTICE](NOTICE.md) file as part of your contribution.
 
 [dco]: https://developercertificate.org/
+[signcommits]: https://withblue.ink/2020/05/17/how-and-why-to-sign-git-commits.html
 [submittingpatches]: https://github.com/wking/signed-off-by/blob/7d71be37194df05c349157a2161c7534feaf86a4/Documentation/SubmittingPatches

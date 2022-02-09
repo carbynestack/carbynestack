@@ -1,8 +1,9 @@
-# Developer's Guide
+# Developer Guide
 
-This document describes the workflow for contributing using the GitHub Fork
-model that consists of creating a fork, doing your work, issuing a pull request,
-and merging that pull request back into the original project.
+This document describes the workflow for contributing using the GitHub
+[fork and pull model](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/getting-started/about-collaborative-development-models#fork-and-pull-model)
+that consists of creating a fork, doing your work, issuing a pull request, and
+merging that pull request back into the original project.
 
 ## Attribution
 
@@ -107,19 +108,27 @@ To create a new branch and start working on it:
 # Checkout the master branch - you want your new branch to come from master
 git checkout master
 
-# Create a new branch named newfeature (give your branch its own simple 
-# informative name)
-git branch newfeature
-
-# Switch to your new branch
-git checkout newfeature
+# Create and switch to a new branch named new-feature (give your branch its own
+# simple informative name)
+git checkout -b new-feature
 ```
 
 ### Commit Your Changes
 
-Now, go to town hacking away and making whatever changes you want to. Please
-make sure to provide meaningful git commit messages. A great discussion of this
-topic is available from Chris Beams in his post
+Now, go to town hacking away and making whatever changes you want to. Along the
+way, whenever you completed a self-contained piece of the high-level feature you
+implement, commit your changes using:
+
+```shell
+git commit -sS
+```
+
+The flags `-s` and `-S` make sure that your commits are cryptographically
+signed, and that the contribution made in that commit is signed off. See the
+[Contributing Guide](CONTRIBUTING.md) for more information on this.
+
+Please make sure to provide _meaningful_ git commit messages. A great discussion
+of this topic is available from Chris Beams in his post
 [How to Write a Git Commit Message](https://chris.beams.io/posts/git-commit/).
 In short, please adhere to the following seven rules:
 
@@ -166,6 +175,29 @@ See also: #456, #789
 Note that all parts except the subject line are optional, i.e. should be used
 when needed. This does not mean that they should be omitted out of laziness.
 
+## Adhere to Quality Standards
+
+To support meeting high-quality standards, we use several metrics and supporting
+tools. To get a pull request accepted by the maintainers you must make sure
+that:
+
+1. The test coverage is above `80%` and does not decrease by your code changes.
+   This metric is tracked using the
+   [Codecov](https://app.codecov.io/gh/carbynestack) tool.
+
+1. You do not introduce code quality issues or increase technical debt. To
+   fulfill these requirements, we use the static code analysis tool
+   [Codacy](https://app.codacy.com/organizations/gh/carbynestack).
+
+1. Your code and its (transitive) dependencies are free from security
+   vulnerabilities. We rely on [Snyk](https://snyk.io/) to ensure that this
+   requirement is met.
+
+When submitting a pull request (see next section), the respective scans are
+triggered automatically, and their results are made available as part of the PR
+conversation. Make sure that all checks succeed before requesting a review by
+the maintainers.
+
 ## Submitting a Pull Request
 
 ### Cleaning Up Your Work
@@ -198,7 +230,7 @@ git checkout
 git rebase -i master
 ```
 
-This will open up a text editor where you can specify which commits to squash.
+This will open a text editor where you can specify which commits to squash.
 
 ### Submitting
 
@@ -238,33 +270,8 @@ git checkout -b 999 pull/origin/999
 Keep in mind that these branches will be read only, and you won't be able to
 push any changes.
 
-### Automatically Merging a Pull Request
+### Merging a Pull Request
 
-In cases where the merge would be a simple fast-forward, you can automatically
-do the merge by just clicking the button on the pull request page on GitHub.
-
-### Manually Merging a Pull Request
-
-To do the merge manually, you'll need to check ut the target branch in the
-source repo, pull directly from the fork, and then merge and push.
-
-```shell
-# Checkout the branch you're merging to in the target repo
-git checkout master
-
-# Pull the development branch from the fork repo where the pull request 
-# development was done.
-git pull https://github.com/FORK-USERNAME/carbynestack.git newfeature
-
-# Merge the development branch
-git merge newfeature
-
-# Push master with the new feature merged into it
-git push origin master
-```
-
-Now that you're done with the development branch, you're free to delete it.
-
-```shell
-git branch -d newfeature
-```
+If the contributor adhered to the flow of actions described above, the merge
+will be a simple fast-forward. You can automatically do the merge by just
+clicking the button on the pull request page on GitHub.

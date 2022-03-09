@@ -24,7 +24,13 @@ releases:
   - castor:
       noSslValidation: {{ env "NO_SSL_VALIDATION" | default false }}
       image:
-        tag: 0.1-SNAPSHOT-1576642733-7-72de814
+        registry: {{ env "CASTOR_IMAGE_REGISTRY" | default "ghcr.io" }}
+        repository: {{ env "CASTOR_IMAGE_REPOSITORY" | default "carbynestack/castor-service" }}
+        tag: {{ env "CASTOR_IMAGE_TAG" | default "0.1-SNAPSHOT-1576642733-7-72de814" }}
+        {{ if env "IMAGE_PULL_SECRET" }}
+        pullSecrets:
+          - {{ env "IMAGE_PULL_SECRET" }}
+        {{ end }}
       isMaster: {{ env "IS_MASTER" | default "true" }}
       {{ if env "CASTOR_SLAVE_URI" }}
       slaveUri: {{ env "CASTOR_SLAVE_URI" }}
@@ -43,3 +49,12 @@ releases:
       annotations:
   - redis:
       name: {{ requiredEnv "RELEASE_NAME" }}-redis
+      image:
+        {{ if env REDIS_REPOSITORY }}
+        repository: {{ env REDIS_REPOSITORY }}
+        {{ end }}
+        tag: {{ env "REDIS_IMAGE_TAG" | default "6.2.5" }}
+        {{ if env IMAGE_PULL_SECRET }}
+        pullSecrets:
+          - {{ env "IMAGE_PULL_SECRET" }}
+        {{ end }}

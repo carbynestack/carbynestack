@@ -23,7 +23,13 @@ releases:
   values:
     - discovery:
         image:
-          tag: 0.1-SNAPSHOT-1525401638-9-a0b5e7a
+          registry: {{ env "DISCOVERY_IMAGE_REGISTRY" | default "ghcr.io" }}
+          repository: {{ env "DISCOVERY_IMAGE_REPOSITORY" | default "carbynestack/ephemeral/discovery" }}
+          tag: {{ env "DISCOVERY_IMAGE_TAG" | default "0.1-SNAPSHOT-1525401638-9-a0b5e7a" }}
+          {{ if env "IMAGE_PULL_SECRET" }}
+          pullSecrets:
+            - {{ env "IMAGE_PULL_SECRET" }}
+          {{ end }}
         frontendUrl: {{ requiredEnv "FRONTEND_URL" }}
         isMaster: {{ requiredEnv "IS_MASTER" }}
         master:
@@ -31,8 +37,13 @@ releases:
           port: {{ env "DISCOVERY_MASTER_PORT" | default 31400 }}
     - ephemeral:
         image:
+          registry: {{ env "EPHEMERAL_IMAGE_REGISTRY" | default "ghcr.io" }}
           repository: {{ env "EPHEMERAL_IMAGE_REPOSITORY" | default "carbynestack/ephemeral/ephemeral" }}
           tag: {{ env "EPHEMERAL_IMAGE_TAG" | default "0.1-SNAPSHOT-1525401638-9-a0b5e7a" }}
+          {{ if env "IMAGE_PULL_SECRET" }}
+          pullSecrets:
+            - {{ env "IMAGE_PULL_SECRET" }}
+          {{ end }}
         resources:
           requests:
             memory: {{ env "EPHEMERAL_RESOURCES_REQUESTS_MEMORY" | default "256Mi" }}
@@ -50,4 +61,10 @@ releases:
           rInv: {{ env "SPDZ_R_INV" | default "133854242216446749056083838363708373830" | quote }}
     - networkController:
         image:
-          tag: 0.1-SNAPSHOT-1525401638-9-a0b5e7a
+          registry: {{ env "NETWORK_CONTROLLER_IMAGE_REGISTRY" | default "ghcr.io" }}
+          repository: {{ env "NETWORK_CONTROLLER_IMAGE_REPOSITORY" | default "carbynestack/ephemeral/network-controller" }}
+          tag: {{ env "NETWORK_CONTROLLER_IMAGE_TAG" | default "0.1-SNAPSHOT-1525401638-9-a0b5e7a" }}
+          {{ if env "IMAGE_PULL_SECRET" }}
+          pullSecrets:
+            - {{ env "IMAGE_PULL_SECRET" }}
+          {{ end }}

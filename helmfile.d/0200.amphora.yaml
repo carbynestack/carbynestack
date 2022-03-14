@@ -31,7 +31,13 @@ releases:
       vcPartner: {{ requiredEnv "AMPHORA_VC_PARTNER_URI" }}
       noSslValidation: {{ env "NO_SSL_VALIDATION" | default false }}
       image:
-        tag: 0.1-SNAPSHOT-1576737535-6-7798b9e
+        registry: {{ env "AMPHORA_IMAGE_REGISTRY" | default "ghcr.io" }}
+        repository: {{ env "AMPHORA_IMAGE_REPOSITORY" | default "carbynestack/amphora-service" }}
+        tag: {{ env "AMPHORA_IMAGE_TAG" | default "0.1-SNAPSHOT-1576737535-6-7798b9e" }}
+        {{ if env "IMAGE_PULL_SECRET" }}
+        pullSecrets:
+          - {{ env "IMAGE_PULL_SECRET" }}
+        {{ end }}
       castor:
         serviceUri: http://{{ requiredEnv "RELEASE_NAME" }}-castor:10100
       redis:

@@ -50,11 +50,11 @@ releases:
   - redis:
       name: {{ requiredEnv "RELEASE_NAME" }}-redis
       image:
-        {{ if env REDIS_REPOSITORY }}
-        repository: {{ env REDIS_REPOSITORY }}
+        {{ if env "REDIS_REPOSITORY" }}
+        repository: {{ env "REDIS_REPOSITORY" }}
         {{ end }}
         tag: {{ env "REDIS_IMAGE_TAG" | default "6.2.5" }}
-        {{ if env IMAGE_PULL_SECRET }}
+        {{ if env "IMAGE_PULL_SECRET" }}
         pullSecrets:
           - {{ env "IMAGE_PULL_SECRET" }}
         {{ end }}

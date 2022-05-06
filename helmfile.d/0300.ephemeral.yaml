@@ -19,13 +19,13 @@ repositories:
 releases:
 - name: {{ requiredEnv "RELEASE_NAME" }}-ephemeral
   chart: carbynestack-oci/ephemeral
-  version: "0.1-SNAPSHOT-1525401638-9-a0b5e7a"
+  version: "0.1-SNAPSHOT-2280825554-16-c43d17c"
   values:
     - discovery:
         image:
           registry: {{ env "DISCOVERY_IMAGE_REGISTRY" | default "ghcr.io" }}
           repository: {{ env "DISCOVERY_IMAGE_REPOSITORY" | default "carbynestack/ephemeral/discovery" }}
-          tag: {{ env "DISCOVERY_IMAGE_TAG" | default "0.1-SNAPSHOT-1525401638-9-a0b5e7a" }}
+          tag: {{ env "DISCOVERY_IMAGE_TAG" | default "0.1-SNAPSHOT-2280825554-16-c43d17c" }}
           {{ if env "IMAGE_PULL_SECRET" }}
           pullSecrets:
             - {{ env "IMAGE_PULL_SECRET" }}
@@ -39,7 +39,7 @@ releases:
         image:
           registry: {{ env "EPHEMERAL_IMAGE_REGISTRY" | default "ghcr.io" }}
           repository: {{ env "EPHEMERAL_IMAGE_REPOSITORY" | default "carbynestack/ephemeral/ephemeral" }}
-          tag: {{ env "EPHEMERAL_IMAGE_TAG" | default "0.1-SNAPSHOT-1525401638-9-a0b5e7a" }}
+          tag: {{ env "EPHEMERAL_IMAGE_TAG" | default "0.1-SNAPSHOT-2280825554-16-c43d17c" }}
           {{ if env "IMAGE_PULL_SECRET" }}
           pullSecrets:
             - {{ env "IMAGE_PULL_SECRET" }}
@@ -63,7 +63,7 @@ releases:
         image:
           registry: {{ env "NETWORK_CONTROLLER_IMAGE_REGISTRY" | default "ghcr.io" }}
           repository: {{ env "NETWORK_CONTROLLER_IMAGE_REPOSITORY" | default "carbynestack/ephemeral/network-controller" }}
-          tag: {{ env "NETWORK_CONTROLLER_IMAGE_TAG" | default "0.1-SNAPSHOT-1525401638-9-a0b5e7a" }}
+          tag: {{ env "NETWORK_CONTROLLER_IMAGE_TAG" | default "0.1-SNAPSHOT-2280825554-16-c43d17c" }}
           {{ if env "IMAGE_PULL_SECRET" }}
           pullSecrets:
             - {{ env "IMAGE_PULL_SECRET" }}

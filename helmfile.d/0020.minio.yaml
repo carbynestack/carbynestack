@@ -6,12 +6,40 @@
 #
 
 #
-# Creates a Minio tenant using the Minio operator.
+# Creates a Minio deployment using the vanilla helm chart (without minio operator!).
 #
 # References:
-#     https://github.com/minio/operator
+#     https://github.com/minio/minio/tree/master/helm/minio
 #
+repositories:
+  - name: minio
+    url: https://charts.min.io/
+
 releases:
   - name: {{ requiredEnv "RELEASE_NAME" }}-minio
-    chart: ../charts/minio
+    chart: minio/minio
+    version: 3.6.0
     wait: true
+    values:
+      - image:
+          repository: {{ env MINIO_REPOSITORY | default "quay.io/minio/minio" }}
+          tag: {{ env "MINIO_TAG" | default "RELEASE.2022-03-11T23-57-45Z" }}
+        mcImage:
+          repository: {{ env MINIO_MC_REPOSITORY | default "quay.io/minio/mc"  }}
+          tag: {{ env MINIO_MC_TAG | default "RELEASE.2022-03-13T22-34-00Z" }}
+        {{ if env "IMAGE_PULL_SECRET" }}
+        imagePullSecrets:
+          - name: {{ env "IMAGE_PULL_SECRET" }}
+        {{ end }}
+        mode: standalone
+        rootUser: "dummy-key"
+        rootPassword: "dummy-secret"
+        replicas: 1
+        persistence:
+          enabled: {{ env MINIO_PERSISTENCE_ENABLED | default "false" }}
+          size: 1Gi
+        resources:
+          limits:
+            memory: 256Mi
+          requests:
+            memory: 256Mi

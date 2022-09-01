@@ -1,0 +1,22 @@
+#
+# Copyright (c) 2022 - for information on the respective copyright owner
+# see the NOTICE file and/or the repository https://github.com/carbynestack/.github.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+name: 'Stale Issue Cleanup'
+
+on:
+
+  # Allow workflow to be triggered manually
+  workflow_dispatch:
+
+  # Trigger at 1:00 AM each day
+  schedule:
+    - cron: '0 1 * * *'
+
+jobs:
+  
+  # re-usable workflow @see https://docs.github.com/en/actions/using-workflows/reusing-workflows
+  stale-issue-cleanup:
+    uses: carbynestack/.github/.github/workflows/stale-actions.yml@main

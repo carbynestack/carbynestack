@@ -1,0 +1,9 @@
+{
+  "default": true,
+  "MD013": {
+    "tables": false
+  },
+  "MD043": {
+    "headings": null
+  }
+}

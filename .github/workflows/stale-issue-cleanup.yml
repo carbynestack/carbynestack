@@ -19,4 +19,4 @@ jobs:
   
   # re-usable workflow @see https://docs.github.com/en/actions/using-workflows/reusing-workflows
   stale-issue-cleanup:
-    uses: carbynestack/.github/.github/workflows/stale-actions.yml@main
+    uses: carbynestack/.github/.github/workflows/stale-actions.yml@master

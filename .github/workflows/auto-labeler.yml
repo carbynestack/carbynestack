@@ -19,5 +19,5 @@ on:
 jobs:
   
   # re-usable workflow @see https://docs.github.com/en/actions/using-workflows/reusing-workflows
-  stale-issue-cleanup:
+  auto-labeling:
     uses: carbynestack/.github/.github/workflows/auto-labeler.yml@main

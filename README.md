@@ -25,6 +25,14 @@ Carbyne Stack can be deployed and experimented with locally. See the
 
 Please see the Carbyne Stack [Contributor's Guide](CONTRIBUTING.md).
 
+### Enhancement Proposals
+
+We use [_Carbyne Stack Enhancement Proposals_](enhancements/README.md) (CSEPs)
+to suggest, communicate and coordinate on new significant efforts for the
+Carbyne Stack project. The CSEP process is intended to provide a consistent and
+controlled path for larger changes to Carbyne Stack (such as new features) so
+that all stakeholders can be confident about the direction of the project.
+
 ## License
 
 Carbyne Stack is open-sourced under the Apache License 2.0. See the

@@ -8,7 +8,10 @@
   - [Non-Goals](#non-goals)
 - [Proposal](#proposal)
   - [Risks and Mitigations](#risks-and-mitigations)
+  - [User Stories](#user-stories)
+    - [Virtual Cloud Deployment](#virtual-cloud-deployment)
 - [Design Details](#design-details)
+- [Alternatives](#alternatives)
 
 <!-- TOC -->
 
@@ -66,8 +69,37 @@ This CSEP proposes to provide IaC configurations for the
 [CS getting started](https://carbynestack.io/getting-started/) guides for
 [platform setup](https://carbynestack.io/getting-started/platform-setup/) and
 [Stack Deployment](https://carbynestack.io/getting-started/deployment/) using
-[Terraform](https://www.terraform.io/), which is one of the most popular and
-well known IaC tools.
+[CDK for Terraform (CDKTF)](https://developer.hashicorp.com/terraform/cdktf/).
+CDKTF allows to programmatically describe an infrastructure setup using well
+established programming languages such as Typescript, Java, C# or Go.
+Underneath, instructions are translated into
+[Terraform](https://developer.hashicorp.com/terraform) configurations without
+any limitations in functionality.
+
+### User Stories
+
+The user story described below make use of the following role:
+
+- A **Service Provider** is the party that offers a service on a Carbyne Stack
+  virtual cloud by deploying and invoking MPC functionality.
+- A **CS Developer** is a party that participates in implementing the Carbyne
+  Stack foundation services.
+
+#### Virtual Cloud Deployment
+
+A service provider or CS developer wants to deploy a Carbyne Stack Virtual Cloud
+(VC) consisting of three Virtual Cloud Providers (VCPs). To achieve this, they
+deploy a Carbyne Stack VC using CDKTF configuration the desired number VCPs as a
+parameter as follows:
+
+```bash
+git clone https://github.com/carbynestack/carbynestack.git
+cd carbynestack
+TF_VAR_numberOfVcps=3 cdktf deploy
+```
+
+Once the VC is deployed, CDKTF will print the VC configuration which can then be
+written to the CS CLI configuration file as it is.
 
 ### Risks and Mitigations
 
@@ -76,3 +108,13 @@ n/a
 ## Design Details
 
 n/a
+
+## Alternatives
+
+As an alternative to CDKTF to be used as IaC tool, there are plenty of other
+tools available (see
+[Top 10 IaC Tools by 2022](https://spectralops.io/blog/top-10-infrastructure-as-code-iac-tools-to-know-in-2022/)
+for an overview on IaC and an excerpt on available tools). So, as an
+alternative, [Pulumi](https://www.pulumi.com/), a relatively new IaC tool
+following the programmatic paradigm and said to be focusing on platform
+engineers, can be used.

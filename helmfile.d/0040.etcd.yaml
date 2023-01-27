@@ -1,0 +1,32 @@
+#
+# Copyright (c) 2023 - for information on the respective copyright owner
+# see the NOTICE file and/or the repository https://github.com/carbynestack/carbynestack.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+repositories:
+  - name: bitnami
+    url: "https://charts.bitnami.com/bitnami"
+
+#
+# Deploys etcd used as coordination service between VCPs in a VC.
+#
+# References:
+#     https://artifacthub.io/packages/helm/bitnami/etcd
+#
+values:
+  - etcd:
+      enabled: {{ env "IS_MASTER" }}
+releases:
+  - name: {{ requiredEnv "RELEASE_NAME" }}-etcd
+    chart: bitnami/etcd
+    version: "8.3.1"
+    condition: etcd.enabled
+    wait: true
+    values:
+      - auth:
+          rbac:
+            create: false
+        service:
+          type: LoadBalancer

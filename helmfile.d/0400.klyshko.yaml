@@ -1,0 +1,39 @@
+#
+# Copyright (c) 2023 - for information on the respective copyright owner
+# see the NOTICE file and/or the repository https://github.com/carbynestack/carbynestack.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+repositories:
+  - name: carbynestack-oci
+    url: "ghcr.io/carbynestack"
+    oci: true
+
+#
+# Deploys a Carbyne Stack Klyshko Offline Tuple Generation service.
+#
+# References:
+#     https://github.com/carbynestack/klyshko
+#
+releases:
+  - name: {{ requiredEnv "RELEASE_NAME" }}-klyshko-operator
+    chart: carbynestack-oci/klyshko-operator
+    version: "0.1.0-basic-implementation"
+    values:
+      - controller:
+          image:
+            registry: {{ env "KLYSHKO_IMAGE_REGISTRY" | default "ghcr.io" }}
+            repository: {{ env "KLYSHKO_IMAGE_REPOSITORY" | default "carbynestack/klyshko-operator-controller" }}
+            tag: {{ env "KLYSHKO_IMAGE_TAG" | default "basic-implementation" }}
+            pullPolicy: {{ env "KLYSHKO_IMAGE_PULL_POLICY" | default "IfNotPresent" }}
+      - provisioner:
+          image:
+            registry: {{ env "KLYSHKO_IMAGE_REGISTRY" | default "ghcr.io" }}
+            repository: {{ env "KLYSHKO_IMAGE_REPOSITORY" | default "carbynestack/klyshko-provisioner" }}
+            tag: {{ env "KLYSHKO_IMAGE_TAG" | default "basic-implementation" }}
+            pullPolicy: {{ env "KLYSHKO_IMAGE_PULL_POLICY" | default "IfNotPresent" }}
+      {{ if env "IMAGE_PULL_SECRET" }}
+      - imagePullSecrets:
+        - {{ env "IMAGE_PULL_SECRET" }}
+      {{ end }}

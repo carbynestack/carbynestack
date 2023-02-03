@@ -29,8 +29,8 @@
 
 ## Summary
 
-Manage and authenticate users accessing the Carbyne Stack user-facing APIs via
-OAuth2/ standards.
+The goal of this CSEP is to allow for management and authentication of users
+accessing the Carbyne Stack user-facing APIs via OAuth2/ standards.
 
 ## Motivation
 
@@ -60,6 +60,8 @@ this, access management can be implemented in the future.
 
 - Add [Ory Kratos][ory-kratos] for user management.
 - Add [Ory Hydra][ory-hydra] for OAuth2/OIDC based authentication.
+- Extend client and the CLI to handle authentication
+- Configure Istio to enforce end-user authentication
 
 ### User Stories
 

@@ -30,7 +30,7 @@
 ## Summary
 
 The goal of this CSEP is to allow for management and authentication of users
-accessing the Carbyne Stack user-facing APIs via OAuth2/ standards.
+accessing the Carbyne Stack user-facing APIs via OAuth2/OIDC standards.
 
 ## Motivation
 

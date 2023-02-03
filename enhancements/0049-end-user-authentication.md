@@ -2,7 +2,7 @@
 
 <!-- TOC -->
 
-- [CSEP-0049: End User Authentication](#csep-0049--end-user-authentication)
+- [CSEP-0049: End User Authentication](#csep-0049-end-user-authentication)
   - [Summary](#summary)
   - [Motivation](#motivation)
     - [Goals](#goals)

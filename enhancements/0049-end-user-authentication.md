@@ -2,19 +2,28 @@
 
 <!-- TOC -->
 
-- [Summary](#summary)
-- [Motivation](#motivation)
-  - [Goals](#goals)
-  - [Non-Goals](#non-goals)
-- [Proposal](#proposal)
-  - [User Stories](#user-stories)
-    - [User Creation](#user-creation)
-    - [Data Upload](#data-upload)
-  - [Notes/Constraints/Caveats](#notesconstraintscaveats)
-  - [Risks and Mitigations](#risks-and-mitigations)
-- [Design Details](#design-details)
-- [Alternatives](#alternatives)
-- [Infrastructure Needed](#infrastructure-needed)
+- [CSEP-0049: End User Authentication](#csep-0049--end-user-authentication)
+  - [Summary](#summary)
+  - [Motivation](#motivation)
+    - [Goals](#goals)
+    - [Non-Goals](#non-goals)
+  - [Proposal](#proposal)
+    - [User Stories](#user-stories)
+      - [User Creation](#user-creation)
+      - [Data Upload](#data-upload)
+    - [Notes/Constraints/Caveats](#notesconstraintscaveats)
+    - [Risks and Mitigations](#risks-and-mitigations)
+  - [Design Details](#design-details)
+    - [Deployment](#deployment)
+    - [Services](#services)
+    - [Service Provider Identity](#service-provider-identity)
+    - [Exposing Endpoints](#exposing-endpoints)
+    - [Clients](#clients)
+    - [User Login and Consent](#user-login-and-consent)
+    - [OAuth2 Client Setup](#oauth2-client-setup)
+    - [CLI](#cli)
+  - [Alternatives](#alternatives)
+  - [Infrastructure Needed](#infrastructure-needed)
 
 <!-- TOC -->
 
@@ -145,7 +154,14 @@ configuration is available.
 The database connection details have to be configured to use the shared Postgres
 database deployed as part of the SDK stack.
 
-All of this will be implemented in the [Carbyne Stack SDK][cs-sdk]
+All of this will be implemented in the [Carbyne Stack SDK][cs-sdk].
+
+### Services
+
+As end user authentication is handled by Istio, no changes in the service
+implementations are required. This will change when authorization is to be
+implemented ([non-goal](#non-goals) of this CSEP) on top of the functionality
+described in this CSEP.
 
 ### Service Provider Identity
 
@@ -157,6 +173,10 @@ Admin API to create the identity. Note that the cluster internal admin API
 endpoint is to be used here.
 
 ### Exposing Endpoints
+
+Existing Istio gateways, virtual services, and destination rules have to be
+updated to enable end-user authentication for Amphora and Ephemeral. The basics
+of how to do this are described [here][istio-end-user-authenticaion].
 
 Istio virtual services and destination rules are created for the Kratos and
 Hydra public APIs. Host names are set according to the values specified in the
@@ -242,6 +262,7 @@ aggressively.
 [hydra-ui]: https://github.com/ory/hydra-login-consent-node
 [hydra-ui-helm-deployment]: http://k8s.ory.sh/helm/hydra.html
 [istio-auth-policy]: https://istio.io/latest/docs/tasks/security/authentication/authn-policy/#require-valid-tokens-per-path
+[istio-end-user-authenticaion]: https://istio.io/latest/docs/tasks/security/authentication/authn-policy/#end-user-authentication
 [istio-jwt]: https://istio.io/latest/docs/tasks/security/authorization/authz-jwt/#allow-requests-with-valid-jwt-and-list-typed-claims
 [istio-user-authentication]: https://istio.io/latest/docs/tasks/security/authentication/authn-policy/#end-user-authentication
 [ory-helm-charts]: http://k8s.ory.sh/helm/

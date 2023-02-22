@@ -21,7 +21,8 @@ spec:
   databases:
 {{ .Values.databases | toYaml | trim | indent 4 }}
   postgresql:
-    version: "10"
+    version: "15"
   patroni:
     pg_hba:
-    - host    all all 0.0.0.0/0 md5
+    - host all all 0.0.0.0/0 md5
+    - local all all md5

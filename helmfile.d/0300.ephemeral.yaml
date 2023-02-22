@@ -19,7 +19,7 @@ repositories:
 releases:
 - name: {{ requiredEnv "RELEASE_NAME" }}-ephemeral
   chart: carbynestack-oci/ephemeral
-  version: "0.1-SNAPSHOT-2804677120-20-efc7f8d"
+  version: "0.1-SNAPSHOT-4243288527-23-5bd2cf6"
   values:
     - discovery:
         image:

@@ -10,7 +10,7 @@ scheduler:
   threshold: 50000
   ttlSecondsAfterFinished: 120
   generator:
-    image: ghcr.io/carbynestack/klyshko-mp-spdz:latest
+    image: ghcr.io/carbynestack/klyshko-mp-spdz:0.1.4
     imagePullPolicy: IfNotPresent
 
 playerCount:

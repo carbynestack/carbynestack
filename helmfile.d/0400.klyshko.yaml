@@ -17,21 +17,21 @@ repositories:
 #     https://github.com/carbynestack/klyshko
 #
 releases:
-  - name: {{ requiredEnv "RELEASE_NAME" }}-klyshko-operator
-    chart: carbynestack-oci/klyshko-operator
-    version: "0.1.0-basic-implementation"
+  - name: {{ requiredEnv "RELEASE_NAME" }}-klyshko
+    chart: carbynestack-oci/klyshko
+    version: "0.1.5"
     values:
       - controller:
           image:
             registry: {{ env "KLYSHKO_IMAGE_REGISTRY" | default "ghcr.io" }}
-            repository: {{ env "KLYSHKO_IMAGE_REPOSITORY" | default "carbynestack/klyshko-operator-controller" }}
-            tag: {{ env "KLYSHKO_IMAGE_TAG" | default "basic-implementation" }}
+            repository: {{ env "KLYSHKO_IMAGE_REPOSITORY" | default "carbynestack/klyshko-operator" }}
+            tag: {{ env "KLYSHKO_IMAGE_TAG" | default "0.1.1" }}
             pullPolicy: {{ env "KLYSHKO_IMAGE_PULL_POLICY" | default "IfNotPresent" }}
       - provisioner:
           image:
             registry: {{ env "KLYSHKO_IMAGE_REGISTRY" | default "ghcr.io" }}
             repository: {{ env "KLYSHKO_IMAGE_REPOSITORY" | default "carbynestack/klyshko-provisioner" }}
-            tag: {{ env "KLYSHKO_IMAGE_TAG" | default "basic-implementation" }}
+            tag: {{ env "KLYSHKO_IMAGE_TAG" | default "0.1.0" }}
             pullPolicy: {{ env "KLYSHKO_IMAGE_PULL_POLICY" | default "IfNotPresent" }}
       {{ if env "IMAGE_PULL_SECRET" }}
       - imagePullSecrets:

@@ -21,7 +21,7 @@ releases:
           threshold: {{ env "KLYSHKO_THRESHOLD" | default 50000 }}
           ttlSecondsAfterFinished: {{ env "KLYSHKO_TTL_SECONDS_AFTER_FINISHED" | default 120 }}
           generator:
-            image: {{ env "KLYSHKO_GENERATOR_IMAGE" | default "ghcr.io/carbynestack/klyshko-mp-spdz:latest" }}
+            image: {{ env "KLYSHKO_GENERATOR_IMAGE" | default "ghcr.io/carbynestack/klyshko-mp-spdz:0.1.4" }}
             imagePullPolicy: {{ env "KLYSHKO_GENERATOR_IMAGE_PULL_POLICY" | default "IfNotPresent" }}
         playerCount: 2
         playerId: {{ if eq (env "IS_MASTER") "true" }}0{{ else }}1{{ end }}

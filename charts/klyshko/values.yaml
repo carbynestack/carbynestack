@@ -7,10 +7,11 @@
 scheduler:
   enabled: false
   concurrency: 2
-  threshold: 50000
+  threshold: 100000
+  tuplesPerJob: 100000
   ttlSecondsAfterFinished: 120
   generator:
-    image: ghcr.io/carbynestack/klyshko-mp-spdz:0.1.4
+    image: ghcr.io/carbynestack/klyshko-mp-spdz:0.2.0
     imagePullPolicy: IfNotPresent
 
 playerCount:

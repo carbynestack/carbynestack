@@ -12,6 +12,7 @@ metadata:
 spec:
   concurrency: {{ .Values.scheduler.concurrency }}
   threshold: {{ .Values.scheduler.threshold }}
+  tuplesPerJob: {{ .Values.scheduler.tuplesPerJob }}
   generator:
     image: {{ .Values.scheduler.generator.image }}
     imagePullPolicy: {{ .Values.scheduler.generator.imagePullPolicy }}

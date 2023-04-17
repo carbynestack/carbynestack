@@ -19,7 +19,7 @@ repositories:
 releases:
   - name: {{ requiredEnv "RELEASE_NAME" }}-klyshko
     chart: carbynestack-oci/klyshko
-    version: "0.1.6"
+    version: "0.1.7"
     values:
       - controller:
           image:

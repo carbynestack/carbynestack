@@ -18,11 +18,85 @@ releases:
       - scheduler:
           enabled: {{ env "IS_MASTER" | default "false" }}
           concurrency: {{ env "KLYSHKO_CONCURRENCY" | default 2 }}
-          threshold: {{ env "KLYSHKO_THRESHOLD" | default 50000 }}
           ttlSecondsAfterFinished: {{ env "KLYSHKO_TTL_SECONDS_AFTER_FINISHED" | default 120 }}
-          generator:
-            image: {{ env "KLYSHKO_GENERATOR_IMAGE" | default "ghcr.io/carbynestack/klyshko-mp-spdz:0.2.0" }}
-            imagePullPolicy: {{ env "KLYSHKO_GENERATOR_IMAGE_PULL_POLICY" | default "IfNotPresent" }}
+          # Assigning a higher priority to GFp input masks and multiplication triples to get
+          # us going quickly after launching the stack.
+          bitGfp:
+            enabled: {{ env "KLYSHKO_SCHEDULER_BIT_GFP_ENABLED" | default "true" }}
+            threshold: {{ env "KLYSHKO_SCHEDULER_BIT_GFP_THRESHOLD" | default 100000 }}
+            priority: {{ env "KLYSHKO_SCHEDULER_BIT_GFP_PRIORITY" | default 1 }}
+          inputMaskGfp:
+            enabled: {{ env "KLYSHKO_SCHEDULER_INPUT_MASK_GFP_ENABLED" | default "true" }}
+            threshold: {{ env "KLYSHKO_SCHEDULER_INPUT_MASK_GFP_THRESHOLD" | default 100000 }}
+            priority: {{ env "KLYSHKO_SCHEDULER_INPUT_MASK_GFP_PRIORITY" | default 10 }}
+          inverseGfp:
+            enabled: {{ env "KLYSHKO_SCHEDULER_INVERSE_GFP_ENABLED" | default "true" }}
+            threshold: {{ env "KLYSHKO_SCHEDULER_INVERSE_GFP_THRESHOLD" | default 100000 }}
+            priority: {{ env "KLYSHKO_SCHEDULER_INVERSE_GFP_PRIORITY" | default 1 }}
+          squareGfp:
+            enabled: {{ env "KLYSHKO_SCHEDULER_SQUARE_GFP_ENABLED" | default "true" }}
+            threshold: {{ env "KLYSHKO_SCHEDULER_SQUARE_GFP_THRESHOLD" | default 100000 }}
+            priority: {{ env "KLYSHKO_SCHEDULER_SQUARE_GFP_PRIORITY" | default 1 }}
+          multiplicationGfp:
+            enabled: {{ env "KLYSHKO_SCHEDULER_MULTIPLICATION_GFP_ENABLED" | default "true" }}
+            threshold: {{ env "KLYSHKO_SCHEDULER_MULTIPLICATION_GFP_THRESHOLD" | default 100000 }}
+            priority: {{ env "KLYSHKO_SCHEDULER_MULTIPLICATION_GFP_PRIORITY" | default 10 }}
+          bitGf2n:
+            enabled: {{ env "KLYSHKO_SCHEDULER_BIT_GF2N_ENABLED" | default "true" }}
+            threshold: {{ env "KLYSHKO_SCHEDULER_BIT_GF2N_THRESHOLD" | default 100000 }}
+            priority: {{ env "KLYSHKO_SCHEDULER_BIT_GF2N_PRIORITY" | default 1 }}
+          inputMaskGf2n:
+            enabled: {{ env "KLYSHKO_SCHEDULER_INPUT_MASK_GF2N_ENABLED" | default "true" }}
+            threshold: {{ env "KLYSHKO_SCHEDULER_INPUT_MASK_GF2N_THRESHOLD" | default 100000 }}
+            priority: {{ env "KLYSHKO_SCHEDULER_INPUT_MASK_GF2N_PRIORITY" | default 1 }}
+          inverseGf2n:
+            enabled: {{ env "KLYSHKO_SCHEDULER_INVERSE_GF2N_ENABLED" | default "true" }}
+            threshold: {{ env "KLYSHKO_SCHEDULER_INVERSE_GF2N_THRESHOLD" | default 100000 }}
+            priority: {{ env "KLYSHKO_SCHEDULER_INVERSE_GF2N_PRIORITY" | default 1 }}
+          squareGf2n:
+            enabled: {{ env "KLYSHKO_SCHEDULER_SQUARE_GF2N_ENABLED" | default "true" }}
+            threshold: {{ env "KLYSHKO_SCHEDULER_SQUARE_GF2N_THRESHOLD" | default 100000 }}
+            priority: {{ env "KLYSHKO_SCHEDULER_SQUARE_GF2N_PRIORITY" | default 1 }}
+          multiplicationGf2n:
+            enabled: {{ env "KLYSHKO_SCHEDULER_MULTIPLICATION_GF2N_ENABLED" | default "true" }}
+            threshold: {{ env "KLYSHKO_SCHEDULER_MULTIPLICATION_GF2N_THRESHOLD" | default 100000 }}
+            priority: {{ env "KLYSHKO_SCHEDULER_MULTIPLICATION_GF2N_PRIORITY" | default 1 }}
+      - generator:
+          image:
+            registry: {{ env "KLYSHKO_IMAGE_REGISTRY" | default "ghcr.io" }}
+            repository: {{ env "KLYSHKO_GENERATOR_IMAGE_REPOSITORY" | default "carbynestack/klyshko-mp-spdz" }}
+            tag: {{ env "KLYSHKO_GENERATOR_IMAGE_TAG" | default "0.2.0" }}
+            pullPolicy: {{ env "KLYSHKO_GENERATOR_IMAGE_PULL_POLICY" | default "IfNotPresent" }}
+          bitGfp:
+            enabled: {{ env "KLYSHKO_GENERATOR_BIT_GFP_ENABLED" | default "true" }}
+            batchSize: {{ env "KLYSHKO_GENERATOR_BIT_GFP_BATCH_SIZE" | default 10000 }}
+          inputMaskGfp:
+            enabled: {{ env "KLYSHKO_GENERATOR_INPUT_MASK_GFP_ENABLED" | default "true" }}
+            batchSize: {{ env "KLYSHKO_GENERATOR_INPUT_MASK_GFP_BATCH_SIZE" | default 10000 }}
+          inverseGfp:
+            enabled: {{ env "KLYSHKO_GENERATOR_INVERSE_GFP_ENABLED" | default "true" }}
+            batchSize: {{ env "KLYSHKO_GENERATOR_INVERSE_GFP_BATCH_SIZE" | default 10000 }}
+          squareGfp:
+            enabled: {{ env "KLYSHKO_GENERATOR_SQUARE_GFP_ENABLED" | default "true" }}
+            batchSize: {{ env "KLYSHKO_GENERATOR_SQUARE_GFP_BATCH_SIZE" | default 10000 }}
+          multiplicationGfp:
+            enabled: {{ env "KLYSHKO_GENERATOR_MULTIPLICATION_GFP_ENABLED" | default "true" }}
+            batchSize: {{ env "KLYSHKO_GENERATOR_MULTIPLICATION_GFP_BATCH_SIZE" | default 10000 }}
+          bitGf2n:
+            enabled: {{ env "KLYSHKO_GENERATOR_BIT_GF2N_ENABLED" | default "true" }}
+            batchSize: {{ env "KLYSHKO_GENERATOR_BIT_GF2N_BATCH_SIZE" | default 1000 }}
+          inputMaskGf2n:
+            enabled: {{ env "KLYSHKO_GENERATOR_INPUT_MASK_GF2N_ENABLED" | default "true" }}
+            batchSize: {{ env "KLYSHKO_GENERATOR_INPUT_MASK_GF2N_BATCH_SIZE" | default 1000 }}
+          inverseGf2n:
+            enabled: {{ env "KLYSHKO_GENERATOR_INVERSE_GF2N_ENABLED" | default "true" }}
+            batchSize: {{ env "KLYSHKO_GENERATOR_INVERSE_GF2N_BATCH_SIZE" | default 1000 }}
+          squareGf2n:
+            enabled: {{ env "KLYSHKO_GENERATOR_SQUARE_GF2N_ENABLED" | default "true" }}
+            batchSize: {{ env "KLYSHKO_GENERATOR_SQUARE_GF2N_BATCH_SIZE" | default 1000 }}
+          multiplicationGf2n:
+            enabled: {{ env "KLYSHKO_GENERATOR_MULTIPLICATION_GF2N_ENABLED" | default "true" }}
+            batchSize: {{ env "KLYSHKO_GENERATOR_MULTIPLICATION_GF2N_BATCH_SIZE" | default 1000 }}
         playerCount: 2
         playerId: {{ if eq (env "IS_MASTER") "true" }}0{{ else }}1{{ end }}
         engineParams:

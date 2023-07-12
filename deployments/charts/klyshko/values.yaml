@@ -7,12 +7,84 @@
 scheduler:
   enabled: false
   concurrency: 2
-  threshold: 100000
-  tuplesPerJob: 100000
   ttlSecondsAfterFinished: 120
-  generator:
-    image: ghcr.io/carbynestack/klyshko-mp-spdz:0.2.0
-    imagePullPolicy: IfNotPresent
+  bitGfp:
+    enabled: true
+    threshold: 1000000
+    priority: 1
+  inputMaskGfp:
+    enabled: true
+    threshold: 1000000
+    priority: 10
+  inverseGfp:
+    enabled: true
+    threshold: 1000000
+    priority: 1
+  squareGfp:
+    enabled: true
+    threshold: 1000000
+    priority: 1
+  multiplicationGfp:
+    enabled: true
+    threshold: 1000000
+    priority: 10
+  bitGf2n:
+    enabled: true
+    threshold: 1000000
+    priority: 1
+  inputMaskGf2n:
+    enabled: true
+    threshold: 1000000
+    priority: 1
+  inverseGf2n:
+    enabled: true
+    threshold: 1000000
+    priority: 1
+  squareGf2n:
+    enabled: true
+    threshold: 1000000
+    priority: 1
+  multiplicationGf2n:
+    enabled: true
+    threshold: 1000000
+    priority: 1
+
+generator:
+  image:
+    registry: ghcr.io
+    repository: carbynestack/klyshko-mp-spdz
+    tag: 0.2.0
+    pullPolicy: IfNotPresent
+  bitGfp:
+    enabled: true
+    batchSize: 10000
+  inputMaskGfp:
+    enabled: true
+    batchSize: 10000
+  inverseGfp:
+    enabled: true
+    batchSize: 10000
+  squareGfp:
+    enabled: true
+    batchSize: 10000
+  multiplicationGfp:
+    enabled: true
+    batchSize: 10000
+  bitGf2n:
+    enabled: true
+    batchSize: 1000
+  inputMaskGf2n:
+    enabled: true
+    batchSize: 1000
+  inverseGf2n:
+    enabled: true
+    batchSize: 1000
+  squareGf2n:
+    enabled: true
+    batchSize: 1000
+  multiplicationGf2n:
+    enabled: true
+    batchSize: 1000
 
 playerCount:
 playerId:

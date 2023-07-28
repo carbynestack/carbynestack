@@ -50,7 +50,7 @@ specific version) you can use the following BibTex entry:
   abstract = {Carbyne Stack is an open-source cloud native stack for building
    scalable Secure Multiparty Computation applications.},
   repository = {https://github.com/carbynestack/carbynestack},
-  doi = {<general-doi>}
+  doi = {10.5281/zenodo.8192460}
 }
 ```
 
@@ -74,7 +74,7 @@ BibTex entry pointing to a specific archived release:
 ```
 
 You can lookup the `release-date` and `version-doi` for a given version
-[here](https://TBD).
+[here](https://zenodo.org/search?page=1&size=20&q=carbynestack).
 
 ### Enhancement Proposals
 

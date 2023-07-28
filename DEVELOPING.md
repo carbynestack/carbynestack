@@ -127,23 +127,75 @@ The flags `-s` and `-S` make sure that your commits are cryptographically
 signed, and that the contribution made in that commit is signed off. See the
 [Contributing Guide](CONTRIBUTING.md) for more information on this.
 
+#### Conventional Commits
+
+We make use of
+[Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) to create
+an explicit commit history that conveys the nature of a change of a commit and
+allows for driving automation of the release process based on
+[Semantic Versioning](https://semver.org/). We use the *commit types* defined by
+[@commitlint/config-conventional](https://github.com/conventional-changelog/commitlint/tree/master/%40commitlint/config-conventional),
+i.e.:
+
+| Type     | Meaning                                                                                                            | Bumps |
+| -------- | ------------------------------------------------------------------------------------------------------------------ | ----- |
+| fix      | Patches a bug in the codebase                                                                                      | patch |
+| feat     | Introduces a new feature to the codebase                                                                           | minor |
+| build    | Affect the build system or external dependencies                                                                   | -     |
+| chore    | Changes that do not relate to a fix or feature and don't modify source or test files (e.g., updating dependencies) | -     |
+| ci       | CI configuration files and scripts                                                                                 | -     |
+| docs     | Updates to documentation only                                                                                      | -     |
+| style    | Changes that do not affect the meaning of the code (e.g., formatting)                                              | -     |
+| refactor | Neither fixes a bug nor adds a feature                                                                             | -     |
+| revert   | Reverts a previous commit                                                                                          | -     |
+| perf     | Improves performance                                                                                               | -     |
+| test     | Adding new or correcting existing tests                                                                            | -     |
+
+A *breaking change*, i.e., something that leads to an incompatible API change
+for the respective unit is indicated by adding a `!` behind the commit type,
+e.g., `feat!: ...`. This bumps the *minor* version for pre-production releases,
+and the *major* version for production (from v1.0.0 onwards) releases. While
+technically possible, one should not mark a change as breaking for other commit
+types than `feat` and `fix`.
+
+A conventional commit message header always has the following structure:
+
+`<type>(scope #1/.../scope #n): <subject>`
+
+The available scopes are defined by the `package-name` fields in a file called
+`release-please-config.json` at the root of the repository.
+
+Note that you can add multiple changes to potentially different scopes by adding
+multiple such lines. See
+[here](https://github.com/googleapis/release-please#what-if-my-pr-contains-multiple-fixes-or-features)
+for an example.
+
+The scopes can be completely omitted, i.e.:
+
+`<type>: <subject>`
+
+In that case all defined scopes are affected by the change.
+
+#### Commit Messages
+
 Please make sure to provide _meaningful_ git commit messages. A great discussion
 of this topic is available from Chris Beams in his post
 [How to Write a Git Commit Message](https://chris.beams.io/posts/git-commit/).
 In short, please adhere to the following seven rules:
 
+1. Use conventional commits as described above
 1. Separate subject from body with a blank line
 1. Limit the subject line to 50 characters
-1. Capitalize the subject line
+1. Do not capitalize the subject
 1. Do not end the subject line with a period
 1. Use the imperative mood in the subject line
 1. Wrap the body at 72 characters
 1. Use the body to explain what and why vs. how
 
-An example from Chris' blog post looks like the following:
+An example (derived from Chris' blog post) looks like the following:
 
 ```text
-Summarize changes in around 50 characters or less
+feat!(scope): summarize changes in around 50 characters or less
 
 More detailed explanatory text, if necessary. Wrap it to about 72
 characters or so. In some contexts, the first line is treated as the

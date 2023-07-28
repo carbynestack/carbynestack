@@ -1,6 +1,7 @@
 # Carbyne Stack
 
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/197a4f29b04a417c950285a38f787e6f)](https://www.codacy.com?utm_source=github.com&utm_medium=referral&utm_content=carbynestack/carbynestack&utm_campaign=Badge_Grade)
+[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-%23FE5196?logo=conventionalcommits&logoColor=white)](https://conventionalcommits.org)
 [![Known Vulnerabilities](https://snyk.io/test/github/carbynestack/carbynestack/badge.svg)](https://snyk.io/test/github/carbynestack/carbynestack)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)

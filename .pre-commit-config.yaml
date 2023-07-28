@@ -1,12 +1,20 @@
 #
-# Copyright (c) 2021 - for information on the respective copyright owner
-# see the NOTICE file and/or the repository https://github.com/carbynestack/castor.
+# Copyright (c) 2021-2023 - for information on the respective copyright owner
+# see the NOTICE file and/or the repository https://github.com/carbynestack/carbynestack.
 #
 # SPDX-License-Identifier: Apache-2.0
 #
 repos:
+  - repo: https://github.com/alessandrojcm/commitlint-pre-commit-hook
+    rev: v9.5.0
+    hooks:
+      - id: commitlint
+        stages:
+          - commit-msg
+        additional_dependencies:
+          - "@commitlint/config-conventional"
   - repo: https://github.com/executablebooks/mdformat
-    rev: 0.7.7
+    rev: 0.7.16
     hooks:
       - id: mdformat
         args:
@@ -15,7 +23,7 @@ repos:
         additional_dependencies:
           - mdformat-gfm
   - repo: https://github.com/igorshubovych/markdownlint-cli
-    rev: v0.27.1
+    rev: v0.33.0
     hooks:
       - id: markdownlint
         exclude: ^docs/.*$

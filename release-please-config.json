@@ -1,0 +1,12 @@
+{
+    "bump-minor-pre-major": true,
+    "separate-pull-requests": true,
+    "pull-request-title-pattern": "chore: release ${component} ${version}",
+    "pull-request-header": ":package: Staging a new release",
+    "packages": {
+        ".": {
+            "package-name": "sdk",
+            "release-type": "simple"
+        }
+    }
+}

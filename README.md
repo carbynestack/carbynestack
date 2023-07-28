@@ -1,5 +1,6 @@
 # Carbyne Stack
 
+[![DOI](https://zenodo.org/badge/408830243.svg)](https://zenodo.org/badge/latestdoi/408830243)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/197a4f29b04a417c950285a38f787e6f)](https://www.codacy.com?utm_source=github.com&utm_medium=referral&utm_content=carbynestack/carbynestack&utm_campaign=Badge_Grade)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-%23FE5196?logo=conventionalcommits&logoColor=white)](https://conventionalcommits.org)
 [![Known Vulnerabilities](https://snyk.io/test/github/carbynestack/carbynestack/badge.svg)](https://snyk.io/test/github/carbynestack/carbynestack)
@@ -26,9 +27,58 @@ Carbyne Stack can be deployed and experimented with locally. See the
 
 Please see the Carbyne Stack [Contributor's Guide](CONTRIBUTING.md).
 
+## Citation
+
+We use [Zenodo](https://zenodo.org/) to archive our work and make it citable via
+*Digital Object Identifiers* (DOIs).
+
+In case you want to cite the Carbyne Stack software in general (and not a
+specific version) you can use the following BibTex entry:
+
+```bibtex
+@software {carbynestack,
+  title = {Carbyne Stack},
+  author = {Becker Sebastian and Duplys Paul and Graf Johannes and
+   Graffi Kalman and Grassi Alessandro and Greven David and Grewe Julian and
+   Jain Shalabh and Klenk Timo and Matyunin Nikolay and Modica Hanna and
+   Raskin Vadim and Scherer Petra and Suschke Volker and Trieflinger Sven and
+   Vlasakiev Veselin and Weinfurtner Jared},
+  date = {2021},
+  institution = {Robert Bosch GmbH},
+  license = {Apache License 2.0},
+  url = {https://carbynestack.io},
+  abstract = {Carbyne Stack is an open-source cloud native stack for building
+   scalable Secure Multiparty Computation applications.},
+  repository = {https://github.com/carbynestack/carbynestack},
+  doi = {<general-doi>}
+}
+```
+
+The given DOI will always reference the latest archived release of Carbyne Stack
+on Zenodo.
+
+### Citing a Release
+
+It is generally preferable to use the DOI for a specific version of Carbyne
+Stack to ensure that other users/researchers can access the exact (research)
+artefact you used for reproducibility. To achieve this you can add a second
+BibTex entry pointing to a specific archived release:
+
+```bibtex
+@softwareversion {carbynestack-v<version>,
+  version = {<version>},
+  date = {<release-date>},
+  crossref = {carbynestack}
+  doi = {<version-doi>}
+}
+```
+
+You can lookup the `release-date` and `version-doi` for a given version
+[here](https://TBD).
+
 ### Enhancement Proposals
 
-We use [_Carbyne Stack Enhancement Proposals_](enhancements/README.md) (CSEPs)
+We use [*Carbyne Stack Enhancement Proposals*](enhancements/README.md) (CSEPs)
 to suggest, communicate and coordinate on new significant efforts for the
 Carbyne Stack project. The CSEP process is intended to provide a consistent and
 controlled path for larger changes to Carbyne Stack (such as new features) so
@@ -44,7 +94,7 @@ Carbyne Stack is open-sourced under the Apache License 2.0. See the
 Carbyne Stack relies heavily on 3rd party Open Source Software. Artifacts that
 comprise 3rd party OSS and that are distributed by us, e.g., Java archives and
 Docker Images, are built to satisfy the license obligations of the 3rd party OSS
-components. A _Software Bill of Materials_ (SBOM), copyright notices, license
+components. A *Software Bill of Materials* (SBOM), copyright notices, license
 texts and links to the source codes for the 3rd party OSS components are made
 available at the root of the module source tree in a folder called
 `3RD-PARTY-LICENSES`. The following sections describe how this information is
@@ -62,13 +112,13 @@ bundled into a single archive called `<artifact-name>-3rd-party-sources.zip`.
 
 #### Docker Images
 
-All _Carbyne Stack_ Docker images are based on one of the
+All *Carbyne Stack* Docker images are based on one of the
 [Carbyne Stack Docker Base Images](https://github.com/carbynestack/base-images).
 With each [release](https://github.com/carbynestack/base-images/releases) of one
-of these base images, a _Disclosure Documentation_ is published, which contains
+of these base images, a *Disclosure Documentation* is published, which contains
 a list of all included software packages, their licenses and sources that are
-distributed with the corresponding image. The download link to the _Disclosure
-Documentation_ can also be obtained from the image using:
+distributed with the corresponding image. The download link to the *Disclosure
+Documentation* can also be obtained from the image using:
 
 ```shell
 docker inspect --format '{{index .Config.Labels "3rd-party-disclosure"}}' ${IMAGE_REPOSITORY}:${IMAGE_TAG}

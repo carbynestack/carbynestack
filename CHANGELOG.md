@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.0](https://github.com/carbynestack/carbynestack/compare/sdk-v0.1.2...sdk-v0.2.0) (2023-08-01)
+
+
+### Features
+
+* upgrade amphora to enable secure truple provisioning ([#84](https://github.com/carbynestack/carbynestack/issues/84)) ([782ad5c](https://github.com/carbynestack/carbynestack/commit/782ad5c2f882c4a64b10e6c71ba6286d1839b12d))
+
 ## [0.1.2](https://github.com/carbynestack/carbynestack/compare/sdk-v0.1.1...sdk-v0.1.2) (2023-07-28)
 
 

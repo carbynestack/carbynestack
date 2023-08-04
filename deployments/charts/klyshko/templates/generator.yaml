@@ -7,11 +7,13 @@
 apiVersion: klyshko.carbnyestack.io/v1alpha1
 kind: TupleGenerator
 metadata:
-  name: default-crg
+  name: {{ .Release.Name }}-tg
 spec:
-  generator:
-    image: {{ printf "%s/%s:%s" .Values.generator.image.registry .Values.generator.image.repository .Values.generator.image.tag }}
-    imagePullPolicy: {{ .Values.generator.image.pullPolicy }}
+  template:
+    spec:
+      container:
+        image: {{ printf "%s/%s:%s" .Values.generator.image.registry .Values.generator.image.repository .Values.generator.image.tag }}
+        imagePullPolicy: {{ .Values.generator.image.pullPolicy }}
   supports:
     {{ if .Values.generator.bitGfp.enabled }}
     - type: BIT_GFP

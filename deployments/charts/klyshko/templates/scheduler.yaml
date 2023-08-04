@@ -8,7 +8,7 @@
 apiVersion: klyshko.carbnyestack.io/v1alpha1
 kind: TupleGenerationScheduler
 metadata:
-  name: {{ .Release.Name }}-tuplegenerationscheduler
+  name: {{ .Release.Name }}-tgs
 spec:
   concurrency: {{ .Values.scheduler.concurrency }}
   ttlSecondsAfterFinished: {{ .Values.scheduler.ttlSecondsAfterFinished }}

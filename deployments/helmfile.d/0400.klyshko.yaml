@@ -25,14 +25,14 @@ releases:
           image:
             registry: {{ env "KLYSHKO_IMAGE_REGISTRY" | default "ghcr.io" }}
             repository: {{ env "KLYSHKO_OPERATOR_IMAGE_REPOSITORY" | default "carbynestack/klyshko-operator" }}
-            tag: {{ env "KLYSHKO_OPERATOR_IMAGE_TAG" | default "0.2.0" }}
+            tag: {{ env "KLYSHKO_OPERATOR_IMAGE_TAG" | default "0.3.0" }}
             pullPolicy: {{ env "KLYSHKO_IMAGE_PULL_POLICY" | default "IfNotPresent" }}
           etcdEndpoint: {{ env "KLYSHKO_ETCD_ENDPOINT" | default "172.18.1.129:2379" | quote }}
       - provisioner:
           image:
             registry: {{ env "KLYSHKO_IMAGE_REGISTRY" | default "ghcr.io" }}
             repository: {{ env "KLYSHKO_PROVISIONER_IMAGE_REPOSITORY" | default "carbynestack/klyshko-provisioner" }}
-            tag: {{ env "KLYSHKO_PROVISIONER_IMAGE_TAG" | default "0.1.0" }}
+            tag: {{ env "KLYSHKO_PROVISIONER_IMAGE_TAG" | default "0.1.1" }}
             pullPolicy: {{ env "KLYSHKO_IMAGE_PULL_POLICY" | default "IfNotPresent" }}
       {{ if env "IMAGE_PULL_SECRET" }}
       - imagePullSecrets:

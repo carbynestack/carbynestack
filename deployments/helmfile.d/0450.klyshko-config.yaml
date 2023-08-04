@@ -19,12 +19,12 @@ releases:
           enabled: {{ env "IS_MASTER" | default "false" }}
           concurrency: {{ env "KLYSHKO_CONCURRENCY" | default 2 }}
           ttlSecondsAfterFinished: {{ env "KLYSHKO_TTL_SECONDS_AFTER_FINISHED" | default 120 }}
-          # Assigning a higher priority to GFp input masks and multiplication triples to get
-          # us going quickly after launching the stack.
+          # Assigning a higher priority to GFp bits, GFp input masks, and multiplication triples
+          # to get us going quickly after launching the stack.
           bitGfp:
             enabled: {{ env "KLYSHKO_SCHEDULER_BIT_GFP_ENABLED" | default "true" }}
             threshold: {{ env "KLYSHKO_SCHEDULER_BIT_GFP_THRESHOLD" | default 100000 }}
-            priority: {{ env "KLYSHKO_SCHEDULER_BIT_GFP_PRIORITY" | default 1 }}
+            priority: {{ env "KLYSHKO_SCHEDULER_BIT_GFP_PRIORITY" | default 10 }}
           inputMaskGfp:
             enabled: {{ env "KLYSHKO_SCHEDULER_INPUT_MASK_GFP_ENABLED" | default "true" }}
             threshold: {{ env "KLYSHKO_SCHEDULER_INPUT_MASK_GFP_THRESHOLD" | default 100000 }}

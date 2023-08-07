@@ -68,7 +68,7 @@ BibTex entry pointing to a specific archived release:
 @softwareversion {carbynestack-v<version>,
   version = {<version>},
   date = {<release-date>},
-  crossref = {carbynestack}
+  crossref = {carbynestack},
   doi = {<version-doi>}
 }
 ```

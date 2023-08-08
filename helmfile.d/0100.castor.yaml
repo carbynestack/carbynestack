@@ -26,7 +26,7 @@ releases:
       image:
         registry: {{ env "CASTOR_IMAGE_REGISTRY" | default "ghcr.io" }}
         repository: {{ env "CASTOR_IMAGE_REPOSITORY" | default "carbynestack/castor-service" }}
-        tag: {{ env "CASTOR_IMAGE_TAG" | default "0.1-SNAPSHOT-2375669729-20-79c4e23" }}
+        tag: {{ env "CASTOR_IMAGE_TAG" | default "0.1.1" }}
         {{ if env "IMAGE_PULL_SECRET" }}
         pullSecrets:
           - {{ env "IMAGE_PULL_SECRET" }}

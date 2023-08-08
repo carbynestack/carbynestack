@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2021 - for information on the respective copyright owner
+# Copyright (c) 2021-2023 - for information on the respective copyright owner
 # see the NOTICE file and/or the repository https://github.com/carbynestack/carbynestack.
 #
 # SPDX-License-Identifier: Apache-2.0
@@ -19,13 +19,13 @@ repositories:
 releases:
 - name: {{ requiredEnv "RELEASE_NAME" }}-ephemeral
   chart: carbynestack-oci/ephemeral
-  version: "0.1-SNAPSHOT-4243288527-23-5bd2cf6"
+  version: "0.1.3"
   values:
     - discovery:
         image:
           registry: {{ env "DISCOVERY_IMAGE_REGISTRY" | default "ghcr.io" }}
           repository: {{ env "DISCOVERY_IMAGE_REPOSITORY" | default "carbynestack/ephemeral/discovery" }}
-          tag: {{ env "DISCOVERY_IMAGE_TAG" | default "0.1-SNAPSHOT-2804677120-20-efc7f8d" }}
+          tag: {{ env "DISCOVERY_IMAGE_TAG" | default "0.1.13" }}
           {{ if env "IMAGE_PULL_SECRET" }}
           pullSecrets:
             - {{ env "IMAGE_PULL_SECRET" }}
@@ -39,7 +39,7 @@ releases:
         image:
           registry: {{ env "EPHEMERAL_IMAGE_REGISTRY" | default "ghcr.io" }}
           repository: {{ env "EPHEMERAL_IMAGE_REPOSITORY" | default "carbynestack/ephemeral/ephemeral" }}
-          tag: {{ env "EPHEMERAL_IMAGE_TAG" | default "0.1-SNAPSHOT-2804677120-20-efc7f8d" }}
+          tag: {{ env "EPHEMERAL_IMAGE_TAG" | default "0.1.13" }}
           {{ if env "IMAGE_PULL_SECRET" }}
           pullSecrets:
             - {{ env "IMAGE_PULL_SECRET" }}
@@ -58,8 +58,15 @@ releases:
           scheme: "http"
           path: "/"
         frontendUrl: {{ requiredEnv "FRONTEND_URL" }}
-        discoveryAddress: {{ requiredEnv "RELEASE_NAME" }}-ephemeral-discovery
+        discovery:
+          host: {{ requiredEnv "RELEASE_NAME" }}-ephemeral-discovery
+          port: 8080
+          connectTimeout: "60s"
         playerId: {{ if eq (env "IS_MASTER") "true" }}0{{ else }}1{{ end }}
+        networkEstablishTimeout: "60s"
+        player:
+          stateTimeout: {{ env "EPHEMERAL_PLAYER_STATE_TIMEOUT" | default "60s" }}
+          computationTimeout: {{ env "EPHEMERAL_PLAYER_COMPUTATION_TIMEOUT" | default "600s" }}
         spdz:
           prime: {{ env "SPDZ_PRIME" | default "198766463529478683931867765928436695041" | quote }}
           rInv: {{ env "SPDZ_R_INV" | default "133854242216446749056083838363708373830" | quote }}
@@ -71,7 +78,7 @@ releases:
         image:
           registry: {{ env "NETWORK_CONTROLLER_IMAGE_REGISTRY" | default "ghcr.io" }}
           repository: {{ env "NETWORK_CONTROLLER_IMAGE_REPOSITORY" | default "carbynestack/ephemeral/network-controller" }}
-          tag: {{ env "NETWORK_CONTROLLER_IMAGE_TAG" | default "0.1-SNAPSHOT-2804677120-20-efc7f8d" }}
+          tag: {{ env "NETWORK_CONTROLLER_IMAGE_TAG" | default "0.1.13" }}
           {{ if env "IMAGE_PULL_SECRET" }}
           pullSecrets:
             - {{ env "IMAGE_PULL_SECRET" }}

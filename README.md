@@ -38,11 +38,11 @@ specific version) you can use the following BibTex entry:
 ```bibtex
 @software {carbynestack,
   title = {Carbyne Stack},
-  author = {Becker Sebastian and Duplys Paul and Graf Johannes and
-   Graffi Kalman and Grassi Alessandro and Greven David and Grewe Julian and
-   Jain Shalabh and Klenk Timo and Matyunin Nikolay and Modica Hanna and
-   Raskin Vadim and Scherer Petra and Suschke Volker and Trieflinger Sven and
-   Vlasakiev Veselin and Weinfurtner Jared},
+  author = {Becker, Sebastian and Duplys, Paul and Graf, Johannes and
+   Graffi, Kalman and Grassi, Alessandro and Greven, David and Grewe, Julian and
+   Jain, Shalabh and Klenk, Timo and Matyunin, Nikolay and Modica, Hanna and
+   Raskin, Vadim and Scherer, Petra and Suschke, Volker and Trieflinger, Sven and
+   Vlasakiev, Veselin and Weinfurtner, Jared},
   date = {2021},
   institution = {Robert Bosch GmbH},
   license = {Apache License 2.0},
@@ -68,7 +68,7 @@ BibTex entry pointing to a specific archived release:
 @softwareversion {carbynestack-v<version>,
   version = {<version>},
   date = {<release-date>},
-  crossref = {carbynestack}
+  crossref = {carbynestack},
   doi = {<version-doi>}
 }
 ```

@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2021 - for information on the respective copyright owner
+# Copyright (c) 2021-2023 - for information on the respective copyright owner
 # see the NOTICE file and/or the repository https://github.com/carbynestack/carbynestack.
 #
 # SPDX-License-Identifier: Apache-2.0
@@ -18,15 +18,15 @@ repositories:
 releases:
   - name: {{ requiredEnv "RELEASE_NAME" }}-minio
     chart: minio/minio
-    version: 3.6.0
+    version: 3.6.6
     wait: true
     values:
       - image:
           repository: {{ env "MINIO_REPOSITORY" | default "quay.io/minio/minio" }}
-          tag: {{ env "MINIO_TAG" | default "RELEASE.2022-03-11T23-57-45Z" }}
+          tag: {{ env "MINIO_TAG" | default "RELEASE.2022-04-16T04-26-02Z" }}
         mcImage:
           repository: {{ env "MINIO_MC_REPOSITORY" | default "quay.io/minio/mc"  }}
-          tag: {{ env "MINIO_MC_TAG" | default "RELEASE.2022-03-13T22-34-00Z" }}
+          tag: {{ env "MINIO_MC_TAG" | default "RELEASE.2022-04-16T21-11-21Z" }}
         {{ if env "IMAGE_PULL_SECRET" }}
         imagePullSecrets:
           - name: {{ env "IMAGE_PULL_SECRET" }}
@@ -36,8 +36,8 @@ releases:
         rootPassword: "dummy-secret"
         replicas: 1
         persistence:
-          enabled: {{ env "MINIO_PERSISTENCE_ENABLED" | default "false" }}
-          size: 1Gi
+          enabled: {{ env "MINIO_PERSISTENCE_ENABLED" | default true }}
+          size: {{ env "MINIO_PERSISTENCE_SIZE" | default "1Gi" }}
         resources:
           limits:
             memory: 256Mi

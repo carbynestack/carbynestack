@@ -41,7 +41,7 @@ releases:
       castor:
         serviceUri: http://{{ requiredEnv "RELEASE_NAME" }}-castor:10100
       redis:
-        host: {{ requiredEnv "RELEASE_NAME" }}-redis
+        host: {{ requiredEnv "RELEASE_NAME" }}-redis-master
       minio:
         endpoint: http://{{ requiredEnv "RELEASE_NAME" }}-minio:9000
       db:

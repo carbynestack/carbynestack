@@ -38,11 +38,11 @@ specific version) you can use the following BibTex entry:
 ```bibtex
 @software {carbynestack,
   title = {Carbyne Stack},
-  author = {Sebastian Becker and Paul Duplys and Johannes Graf and
-   Kalman Graffi and Alessandro Grassi and David Greven and Julian Grewe and
-   Shalabh Jain and Timo Klenk and Nikolay Matyunin and Hanna Modica and
-   Vadim Raskin and Petra Scherer and Volker Suschke and Sven Trieflinger and
-   Veselin Vlasakiev and Jared Weinfurtner},
+  author = {Becker, Sebastian and Duplys, Paul and Graf, Johannes and
+   Graffi, Kalman and Grassi, Alessandro and Greven, David and Grewe, Julian and
+   Jain, Shalabh and Klenk, Timo and Matyunin, Nikolay and Modica, Hanna and
+   Raskin, Vadim and Scherer, Petra and Suschke, Volker and Trieflinger, Sven and
+   Vlasakiev, Veselin and Weinfurtner, Jared},
   date = {2021},
   institution = {Robert Bosch GmbH},
   license = {Apache License 2.0},

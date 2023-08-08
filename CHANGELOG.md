@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.1](https://github.com/carbynestack/carbynestack/compare/sdk-v0.3.0...sdk-v0.3.1) (2023-08-08)
+
+
+### Bug Fixes
+
+* **docs:** correct bibtex name order ([#86](https://github.com/carbynestack/carbynestack/issues/86)) ([0801b66](https://github.com/carbynestack/carbynestack/commit/0801b66d517f5deba841d8c17fcef582da90276f))
+
 ## [0.3.0](https://github.com/carbynestack/carbynestack/compare/sdk-v0.2.0...sdk-v0.3.0) (2023-08-08)
 
 

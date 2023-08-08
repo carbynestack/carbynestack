@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.0](https://github.com/carbynestack/carbynestack/compare/sdk-v0.2.0...sdk-v0.3.0) (2023-08-08)
+
+
+### Features
+
+* add redis deployment and enable persitence for minio and redis ([#87](https://github.com/carbynestack/carbynestack/issues/87)) ([0bfef0f](https://github.com/carbynestack/carbynestack/commit/0bfef0f7ccd822894acebb0e3f615b5c2d0a084f))
+
 ## [0.2.0](https://github.com/carbynestack/carbynestack/compare/sdk-v0.1.2...sdk-v0.2.0) (2023-08-01)
 
 

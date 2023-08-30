@@ -5,6 +5,13 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: check-byte-order-marker
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: mixed-line-ending
   - repo: https://github.com/alessandrojcm/commitlint-pre-commit-hook
     rev: v9.5.0
     hooks:
@@ -13,8 +20,13 @@ repos:
           - commit-msg
         additional_dependencies:
           - "@commitlint/config-conventional"
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v3.0.3
+    hooks:
+      - id: prettier
+        files: \.(js|ts|jsx|tsx|css|less|html|json|yaml|yml)$
   - repo: https://github.com/executablebooks/mdformat
-    rev: 0.7.16
+    rev: 0.7.17
     hooks:
       - id: mdformat
         args:
@@ -22,8 +34,9 @@ repos:
           - "80"
         additional_dependencies:
           - mdformat-gfm
+        exclude: ^3RD-PARTY-LICENSES/.*
   - repo: https://github.com/igorshubovych/markdownlint-cli
-    rev: v0.33.0
+    rev: v0.35.0
     hooks:
       - id: markdownlint
-        exclude: ^docs/.*$
+        exclude: ^docs/.*|^3RD-PARTY-LICENSES/.*|CHANGELOG.md

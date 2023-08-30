@@ -1,0 +1,4 @@
+.gen
+charts/**
+deployments/charts/**
+deployments/helmfile.d/**

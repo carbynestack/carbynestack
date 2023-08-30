@@ -12,10 +12,10 @@ released under Apache License 2.0. Use Carbyne Stack to build resilient scalable
 infrastructure for sensitive data workloads. More information can be found on
 the [Carbyne Stack website](https://carbynestack.io).
 
-> **DISCLAIMER**: Carbyne Stack is *alpha* software. The software is not ready
+> **DISCLAIMER**: Carbyne Stack is _alpha_ software. The software is not ready
 > for production use. It has neither been developed nor tested for a specific
 > use case. The underlying Secure Multiparty Computation protocols are
-> *currently* used in a way that is not secure.
+> _currently_ used in a way that is not secure.
 
 ## Getting Started
 
@@ -78,7 +78,7 @@ You can lookup the `release-date` and `version-doi` for a given version
 
 ### Enhancement Proposals
 
-We use [*Carbyne Stack Enhancement Proposals*](enhancements/README.md) (CSEPs)
+We use [_Carbyne Stack Enhancement Proposals_](enhancements/README.md) (CSEPs)
 to suggest, communicate and coordinate on new significant efforts for the
 Carbyne Stack project. The CSEP process is intended to provide a consistent and
 controlled path for larger changes to Carbyne Stack (such as new features) so
@@ -94,7 +94,7 @@ Carbyne Stack is open-sourced under the Apache License 2.0. See the
 Carbyne Stack relies heavily on 3rd party Open Source Software. Artifacts that
 comprise 3rd party OSS and that are distributed by us, e.g., Java archives and
 Docker Images, are built to satisfy the license obligations of the 3rd party OSS
-components. A *Software Bill of Materials* (SBOM), copyright notices, license
+components. A _Software Bill of Materials_ (SBOM), copyright notices, license
 texts and links to the source codes for the 3rd party OSS components are made
 available at the root of the module source tree in a folder called
 `3RD-PARTY-LICENSES`. The following sections describe how this information is
@@ -112,13 +112,13 @@ bundled into a single archive called `<artifact-name>-3rd-party-sources.zip`.
 
 #### Docker Images
 
-All *Carbyne Stack* Docker images are based on one of the
+All _Carbyne Stack_ Docker images are based on one of the
 [Carbyne Stack Docker Base Images](https://github.com/carbynestack/base-images).
 With each [release](https://github.com/carbynestack/base-images/releases) of one
-of these base images, a *Disclosure Documentation* is published, which contains
+of these base images, a _Disclosure Documentation_ is published, which contains
 a list of all included software packages, their licenses and sources that are
-distributed with the corresponding image. The download link to the *Disclosure
-Documentation* can also be obtained from the image using:
+distributed with the corresponding image. The download link to the _Disclosure
+Documentation_ can also be obtained from the image using:
 
 ```shell
 docker inspect --format '{{index .Config.Labels "3rd-party-disclosure"}}' ${IMAGE_REPOSITORY}:${IMAGE_TAG}

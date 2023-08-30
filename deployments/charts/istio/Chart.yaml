@@ -1,0 +1,12 @@
+#
+# Copyright (c) 2021-2023 - for information on the respective copyright owner
+# see the NOTICE file and/or the repository https://github.com/carbynestack/carbynestack.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+apiVersion: v1
+appVersion: "1.0"
+description: |
+  A Helm chart for deploying Istio shared infrastructure elements for a Carbyne Stack Virtual Cloud Provider.
+name: common
+version: 0.1.0

@@ -27,7 +27,7 @@ the organization's name, optionally also the contributor's name:
 
 ```text
 ## Organization's name
-    
+
    - Individual's name <submission corporate email address>
 ```
 

@@ -1,13 +1,12 @@
 #
-# Copyright (c) 2022 - for information on the respective copyright owner
+# Copyright (c) 2021-2023 - for information on the respective copyright owner
 # see the NOTICE file and/or the repository https://github.com/carbynestack/.github.
 #
 # SPDX-License-Identifier: Apache-2.0
 #
-name: 'Auto Labeler'
+name: "Auto Labeler"
 
 on:
-
   # Allow workflow to be triggered manually
   workflow_dispatch:
 
@@ -17,7 +16,6 @@ on:
       - opened
 
 jobs:
-  
   # re-usable workflow @see https://docs.github.com/en/actions/using-workflows/reusing-workflows
   auto-labeling:
     uses: carbynestack/.github/.github/workflows/auto-labeler.yml@master

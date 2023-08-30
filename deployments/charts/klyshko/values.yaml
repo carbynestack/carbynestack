@@ -1,0 +1,27 @@
+#
+# Copyright (c) 2021-2023 - for information on the respective copyright owner
+# see the NOTICE file and/or the repository https://github.com/carbynestack/carbynestack.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+scheduler:
+  enabled: false
+  concurrency: 2
+  threshold: 100000
+  tuplesPerJob: 100000
+  ttlSecondsAfterFinished: 120
+  generator:
+    image: ghcr.io/carbynestack/klyshko-mp-spdz:0.2.0
+    imagePullPolicy: IfNotPresent
+
+playerCount:
+playerId:
+engineParams:
+  prime:
+  macKeyShares:
+    0:
+      p:
+      2:
+    1:
+      p:
+      2:

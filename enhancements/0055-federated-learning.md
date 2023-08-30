@@ -212,8 +212,8 @@ sequenceDiagram
             c->>c: Perform training on local data creating updated local model with parameters L_i_j
             c->>c: Convert local model parameters to CS representation CS(L_i_j)
             c->>+vc: Upload CS(L_i_j) as secret shares
-            vc->>-c: Return identifier ID(CS(L_i_j)) of secret containing CS(L_i_j) 
-            c-->>-o: Return ID(CS(L_i_j)) 
+            vc->>-c: Return identifier ID(CS(L_i_j)) of secret containing CS(L_i_j)
+            c-->>-o: Return ID(CS(L_i_j))
         end
 
         o->>+os: Invoke aggregate_fit
@@ -344,7 +344,7 @@ sequenceDiagram
     mo->>vc: Deploy SecAgg(s_ref) function
     mo->>mo: Start secret provisioning service for secret s
     o->>o: Generate a server secret S and signature sig(S) using ZK proof subsystem
-    loop For each client c_j in C 
+    loop For each client c_j in C
         mo->>c: Inject secret s into client enclave using remote attestation
         break when remote attestation fails
             mo->>mo: Continue with next client c_j+1
@@ -361,7 +361,7 @@ sequenceDiagram
             os->>os: Verify the proof via verify(p_j, sig(s))
             alt verify(p_j, sig(s)) succeeds
                 os->>os: Admit client c_j to system
-            end 
+            end
         end
     end
     os->>os: Collect all admitted clients c_j into C
@@ -374,7 +374,7 @@ sequenceDiagram
     break when the verification fails
         vc->>o: send error
     end
-    Note right of vc: Continue with Basic Flow from step 21 onwards 
+    Note right of vc: Continue with Basic Flow from step 21 onwards
 ```
 
 <!-- markdownlint-enable MD013 -->

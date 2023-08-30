@@ -60,19 +60,15 @@ export class VCP extends Construct {
 
     // postgres operator
 
-    this.postgres = new helm.release.Release(
-      this,
-      `postgres-operator`,
-      {
-        dependsOn: [this.metalLB.metalLB],
-        provider: config.helmProvider,
-        name: "postgres-operator",
-        chart: "postgres-operator",
-        repository:
-          "https://opensource.zalando.com/postgres-operator/charts/postgres-operator",
-        wait: true,
-        waitForJobs: true,
-      },
-    );
+    this.postgres = new helm.release.Release(this, `postgres-operator`, {
+      dependsOn: [this.metalLB.metalLB],
+      provider: config.helmProvider,
+      name: "postgres-operator",
+      chart: "postgres-operator",
+      repository:
+        "https://opensource.zalando.com/postgres-operator/charts/postgres-operator",
+      wait: true,
+      waitForJobs: true,
+    });
   }
 }

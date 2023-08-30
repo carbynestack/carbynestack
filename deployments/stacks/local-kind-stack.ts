@@ -69,7 +69,6 @@ export default class LocalKindStack extends cdktf.TerraformStack {
       );
 
       const vcp = new VCP(this, `vcp-${i}`, {
-        idPostfix: `-${i}`,
         lbSubnet: `172.18.${i}.255/25`,
         kubernetesProvider,
         kubectlProvider,
@@ -92,7 +91,6 @@ export default class LocalKindStack extends cdktf.TerraformStack {
       new CarbyneStack(this, `cs-${i}`, {
         dependsOn: dependables,
         helmProvider,
-        idPostfix: `-${i}`,
         fqdn: vcp.istio.ingressIP,
         isMaster: i === 1,
         masterHost: "172.18.1.128.sslip.io",

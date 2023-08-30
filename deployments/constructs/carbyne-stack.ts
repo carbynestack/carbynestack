@@ -19,7 +19,6 @@ export interface CarbyneStackConfig {
   masterHost: string;
   masterPort?: string;
   noSSLValidation: boolean;
-  idPostfix?: string;
   macKey: string;
   prime: string;
   r: string;
@@ -47,7 +46,7 @@ export class CarbyneStack extends Construct {
 
     const postgresDBMS = new helm.release.Release(
       this,
-      `postgres-dbms${config.idPostfix}`,
+      `postgres-dbms`,
       {
         dependsOn: [...dependables],
         provider: config.helmProvider,
@@ -67,7 +66,7 @@ export class CarbyneStack extends Construct {
 
     dependables.push(postgresDBMS);
 
-    const minio = new helm.release.Release(this, `minio${config.idPostfix}`, {
+    const minio = new helm.release.Release(this, `minio`, {
       dependsOn: [...dependables],
       provider: config.helmProvider,
       wait: true,
@@ -99,7 +98,7 @@ export class CarbyneStack extends Construct {
       type: cdktf.AssetType.DIRECTORY,
     });
 
-    const istio = new helm.release.Release(this, `istio${config.idPostfix}`, {
+    const istio = new helm.release.Release(this, `istio`, {
       dependsOn: [...dependables],
       provider: config.helmProvider,
       wait: true,
@@ -115,7 +114,7 @@ export class CarbyneStack extends Construct {
     dependables.push(istio);
 
     if (config.isMaster) {
-      const etcd = new helm.release.Release(this, `etcd${config.idPostfix}`, {
+      const etcd = new helm.release.Release(this, `etcd`, {
         dependsOn: [...dependables],
         provider: config.helmProvider,
         wait: true,
@@ -133,7 +132,7 @@ export class CarbyneStack extends Construct {
       dependables.push(etcd);
     }
 
-    const redis = new helm.release.Release(this, `redis${config.idPostfix}`, {
+    const redis = new helm.release.Release(this, `redis`, {
       name: "cs-redis",
       repository: "https://charts.bitnami.com/bitnami/",
       chart: "redis",
@@ -151,7 +150,7 @@ export class CarbyneStack extends Construct {
 
     dependables.push(redis);
 
-    const castor = new helm.release.Release(this, `castor${config.idPostfix}`, {
+    const castor = new helm.release.Release(this, `castor`, {
       dependsOn: [...dependables, minio, postgresDBMS],
       provider: config.helmProvider,
       wait: true,
@@ -201,7 +200,7 @@ export class CarbyneStack extends Construct {
 
     const amphora = new helm.release.Release(
       this,
-      `amphora${config.idPostfix}`,
+      `amphora`,
       {
         dependsOn: [...dependables, minio, postgresDBMS, castor],
         provider: config.helmProvider,
@@ -301,7 +300,7 @@ export class CarbyneStack extends Construct {
 
     const ephemeral = new helm.release.Release(
       this,
-      `ephemeral${config.idPostfix}`,
+      `ephemeral`,
       {
         dependsOn: [...dependables, minio, postgresDBMS, castor],
         provider: config.helmProvider,
@@ -464,7 +463,7 @@ export class CarbyneStack extends Construct {
 
     const klyshkoOperator = new helm.release.Release(
       this,
-      `klyshko-operator${config.idPostfix}`,
+      `klyshko-operator`,
       {
         dependsOn: [...dependables, minio, postgresDBMS, castor],
         provider: config.helmProvider,
@@ -518,7 +517,7 @@ export class CarbyneStack extends Construct {
       },
     );
 
-    new helm.release.Release(this, `klyshko${config.idPostfix}`, {
+    new helm.release.Release(this, `klyshko`, {
       dependsOn: [...dependables],
       provider: config.helmProvider,
       wait: true,

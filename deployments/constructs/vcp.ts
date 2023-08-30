@@ -13,7 +13,6 @@ import { Istio } from "./istio";
 import { Knative } from "./knative";
 
 export interface VCPConfig {
-  idPostfix?: string;
   lbSubnet: string;
   kubernetesProvider: cdktf.TerraformProvider;
   kubectlProvider: cdktf.TerraformProvider;
@@ -32,8 +31,8 @@ export class VCP extends Construct {
 
     // metallb
 
-    this.metalLB = new MetalLB(this, `metal-lb-${config.idPostfix}`, {
-      idPostfix: `-${config.idPostfix}`,
+    this.metalLB = new MetalLB(this, `metal-lb`, {
+      idPostfix: ``,
       subnet: config.lbSubnet,
       kubernetesProvider: config.kubernetesProvider,
       kubectlProvider: config.kubectlProvider,
@@ -42,8 +41,8 @@ export class VCP extends Construct {
 
     // istio
 
-    this.istio = new Istio(this, `istio-${config.idPostfix}`, {
-      idPostfix: `-${config.idPostfix}`,
+    this.istio = new Istio(this, `istio`, {
+      idPostfix: ``,
       dependsOn: [this.metalLB.metalLB, this.metalLB.ipAddressPool],
       kubernetesProvider: config.kubernetesProvider,
       helmProvider: config.helmProvider,
@@ -51,8 +50,8 @@ export class VCP extends Construct {
 
     // knative operator
 
-    this.knative = new Knative(this, `knative-${config.idPostfix}`, {
-      idPostfix: `-${config.idPostfix}`,
+    this.knative = new Knative(this, `knative`, {
+      idPostfix: ``,
       istio: this.istio,
       kubectlProvider: config.kubectlProvider,
       kubernetesProvider: config.kubernetesProvider,
@@ -63,7 +62,7 @@ export class VCP extends Construct {
 
     this.postgres = new helm.release.Release(
       this,
-      `postgres-operator-${config.idPostfix}`,
+      `postgres-operator`,
       {
         dependsOn: [this.metalLB.metalLB],
         provider: config.helmProvider,

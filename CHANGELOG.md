@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://github.com/carbynestack/carbynestack/compare/sdk-v0.3.1...sdk-v0.4.0) (2023-08-31)
+
+
+### Features
+
+* **sdk:** infrastructure as code (IaC) integration using CDKTF ([8b7bcbf](https://github.com/carbynestack/carbynestack/commit/8b7bcbfcd233d4713c485c4b3c49c74469c3d864))
+
 ## [0.3.1](https://github.com/carbynestack/carbynestack/compare/sdk-v0.3.0...sdk-v0.3.1) (2023-08-08)
 
 ### Bug Fixes

@@ -1,0 +1,76 @@
+[
+  {
+    "project": "terraform-provider-kind",
+    "name": "Terraform Provider for kind",
+    "projectUrl": "https://github.com/tehcyx/terraform-provider-kind",
+    "license": {
+      "name": "Apache-2.0",
+      "url": "https://github.com/tehcyx/terraform-provider-kind/blob/master/LICENSE"
+    }
+  },
+  {
+    "project": "terraform-provider-kubectl",
+    "name": "Kubernetes 'kubectl' Provider",
+    "projectUrl": "https://github.com/alon-dotan-starkware/terraform-provider-kubectl",
+    "license": {
+      "name": "MPL-2.0",
+      "url": "https://github.com/alon-dotan-starkware/terraform-provider-kubectl/blob/master/LICENSE"
+    }
+  },
+  {
+    "project": "terraform-provider-helm",
+    "name": "Terraform Helm provider",
+    "projectUrl": "https://github.com/hashicorp/terraform-provider-helm",
+    "license": {
+      "name": "MPL-2.0",
+      "url": "https://github.com/hashicorp/terraform-provider-helm/blob/main/LICENSE"
+    }
+  },
+  {
+    "project": "terraform-provider-kubernetes",
+    "name": "Terraform Kubernetes provider",
+    "projectUrl": "https://github.com/hashicorp/terraform-provider-kubernetes",
+    "license": {
+      "name": "MPL-2.0",
+      "url": "https://github.com/hashicorp/terraform-provider-kubernetes/blob/main/LICENSE"
+    }
+  },
+  {
+    "project": "terraform-cdk",
+    "name": "CDK for Terraform",
+    "projectUrl": "https://github.com/hashicorp/terraform-cdk",
+    "license": {
+      "name": "MPL-2.0",
+      "url": "https://github.com/hashicorp/terraform-cdk/blob/main/LICENSE"
+    }
+  },
+  {
+    "project": "constructs",
+    "name": "Constructs",
+    "projectUrl": "https://github.com/aws/constructs",
+    "license": {
+      "name": "Apache-2.0",
+      "url": "https://github.com/aws/constructs/blob/10.x/LICENSE"
+    }
+  },
+  {
+    "project": "minio-helm-chart",
+    "name": "MinIO Helm Chart",
+    "projectUrl": "https://github.com/minio/minio",
+    "version": "3.6.0",
+    "license": {
+      "name": "AGPL-3.0 license",
+      "url": "https://github.com/minio/minio/blob/master/LICENSE"
+    }
+  },
+  {
+    "project": "bitnami-etcd-helm-chart",
+    "name": "Etcd packaged by Bitnami",
+    "projectUrl": "https://github.com/bitnami/charts",
+    "version": "8.3.1",
+    "license": {
+      "name": "Apache-2.0",
+      "url": "https://github.com/bitnami/charts/blob/main/LICENSE.md"
+    }
+  }
+]

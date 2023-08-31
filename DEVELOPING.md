@@ -178,7 +178,7 @@ In that case all defined scopes are affected by the change.
 
 #### Commit Messages
 
-Please make sure to provide _meaningful_ git commit messages. A great discussion
+Please make sure to provide *meaningful* git commit messages. A great discussion
 of this topic is available from Chris Beams in his post
 [How to Write a Git Commit Message](https://chris.beams.io/posts/git-commit/).
 In short, please adhere to the following seven rules:
@@ -278,7 +278,7 @@ larger more cohesive commits. You can do this with an interactive rebase:
 
 ```shell
 # Rebase all commits on your development branch
-git checkout 
+git checkout
 git rebase -i master
 ```
 

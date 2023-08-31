@@ -1,0 +1,28 @@
+#
+# Copyright (c) 2021-2023 - for information on the respective copyright owner
+# see the NOTICE file and/or the repository https://github.com/carbynestack/carbynestack.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+apiVersion: "acid.zalan.do/v1"
+kind: postgresql
+metadata:
+  # Note that is essential for the operator that the name begins with the teamId given in the spec section
+  name: cs-{{ .Release.Name }}-dbms
+  namespace: {{ .Release.Namespace }}
+spec:
+  teamId: "cs"
+  volume:
+    size: 1Gi
+  numberOfInstances: 1
+  enableMasterLoadBalancer: false
+  users:
+{{ .Values.users | toYaml | trim | indent 4 }}
+  databases:
+{{ .Values.databases | toYaml | trim | indent 4 }}
+  postgresql:
+    version: "15"
+  patroni:
+    pg_hba:
+    - host all all 0.0.0.0/0 md5
+    - local all all md5

@@ -27,7 +27,7 @@ the organization's name, optionally also the contributor's name:
 
 ```text
 ## Organization's name
-    
+
    - Individual's name <submission corporate email address>
 ```
 
@@ -53,4 +53,6 @@ the organization's name, optionally also the contributor's name:
 ### Robert Bosch GmbH
 
 - Becker Sebastian <sebastian.becker@de.bosch.com>
+- Grassi Alessandro <fixed-term.alessandro.grassi@de.bosch.com>
 - Trieflinger Sven <sven.trieflinger@de.bosch.com>
+- Weinfurtner Jared <jared.weinfurtner@de.bosch.com>

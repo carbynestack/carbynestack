@@ -1,0 +1,20 @@
+#
+# Copyright (c) 2021-2023 - for information on the respective copyright owner
+# see the NOTICE file and/or the repository https://github.com/carbynestack/carbynestack.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+# Defines the user to be created and their associated roles. Required format is
+#
+# <user-name>:
+#   - <role-1>
+#   - <role-2>
+#   - ...
+#
+# For details about the available roles see the documentation of the Zalando postgres operator at
+# https://github.com/zalando/postgres-operator/blob/master/docs/user.md
+users:
+
+# Defines the databases to be created in the format <database-name>: <owning-user>
+databases:

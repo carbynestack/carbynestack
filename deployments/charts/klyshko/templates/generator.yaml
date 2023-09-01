@@ -15,43 +15,92 @@ spec:
         image: {{ printf "%s/%s:%s" .Values.generator.image.registry .Values.generator.image.repository .Values.generator.image.tag }}
         imagePullPolicy: {{ .Values.generator.image.pullPolicy }}
   supports:
+    # If not overwritten explicitly use the CRG-specific values for the batch
+    # sizes when the MP-SPDZ CowGear offline phase is used and the default
+    # batch size in case the MP-SPDZ Fake or a custom offline phase is used.
+    {{ if eq .Values.generator.image.repository "carbynestack/klyshko-mp-spdz-cowgear" }}
+    # As soon as https://github.com/carbynestack/castor/issues/45 is resolved,
+    # update the batch size values below (currently capped to 10K) to the
+    # values given at https://github.com/carbynestack/klyshko/tree/master/klyshko-mp-spdz-cowgear#deployment.
     {{ if .Values.generator.bitGfp.enabled }}
     - type: BIT_GFP
-      batchSize: {{ .Values.generator.bitGfp.batchSize }}
+      batchSize: {{ default "10000" .Values.generator.bitGfp.batchSize }}
     {{ end }}
     {{ if .Values.generator.inputMaskGfp.enabled }}
     - type: INPUT_MASK_GFP
-      batchSize: {{ .Values.generator.inputMaskGfp.batchSize }}
+      batchSize: {{ default "10000" .Values.generator.inputMaskGfp.batchSize }}
     {{ end }}
     {{ if .Values.generator.inverseGfp.enabled }}
     - type: INVERSE_TUPLE_GFP
-      batchSize: {{ .Values.generator.inverseGfp.batchSize }}
+      batchSize: {{ default "10000" .Values.generator.inverseGfp.batchSize }}
     {{ end }}
     {{ if .Values.generator.squareGfp.enabled }}
     - type: SQUARE_TUPLE_GFP
-      batchSize: {{ .Values.generator.squareGfp.batchSize }}
+      batchSize: {{ default "10000" .Values.generator.squareGfp.batchSize }}
     {{ end }}
     {{ if .Values.generator.multiplicationGfp.enabled }}
     - type: MULTIPLICATION_TRIPLE_GFP
-      batchSize: {{ .Values.generator.multiplicationGfp.batchSize }}
+      batchSize: {{ default "10000" .Values.generator.multiplicationGfp.batchSize }}
     {{ end }}
     {{ if .Values.generator.bitGf2n.enabled }}
     - type: BIT_GF2N
-      batchSize: {{ .Values.generator.bitGf2n.batchSize }}
+      batchSize: {{ default "10000" .Values.generator.bitGf2n.batchSize }}
     {{ end }}
     {{ if .Values.generator.inputMaskGf2n.enabled }}
     - type: INPUT_MASK_GF2N
-      batchSize: {{ .Values.generator.inputMaskGf2n.batchSize }}
+      batchSize: {{ default "10000" .Values.generator.inputMaskGf2n.batchSize }}
     {{ end }}
     {{ if .Values.generator.inverseGf2n.enabled }}
     - type: INVERSE_TUPLE_GF2N
-      batchSize: {{ .Values.generator.inverseGf2n.batchSize }}
+      batchSize: {{ default "10000" .Values.generator.inverseGf2n.batchSize }}
     {{ end }}
     {{ if .Values.generator.squareGf2n.enabled }}
     - type: SQUARE_TUPLE_GF2N
-      batchSize: {{ .Values.generator.squareGf2n.batchSize }}
+      batchSize: {{ default "10000" .Values.generator.squareGf2n.batchSize }}
     {{ end }}
     {{ if .Values.generator.multiplicationGf2n.enabled }}
     - type: MULTIPLICATION_TRIPLE_GF2N
-      batchSize: {{ .Values.generator.multiplicationGf2n.batchSize }}
+      batchSize: {{ default "10000" .Values.generator.multiplicationGf2n.batchSize }}
+    {{ end }}
+    {{ else }}
+    {{ if .Values.generator.bitGfp.enabled }}
+    - type: BIT_GFP
+      batchSize: {{ default .Values.generator.defaultBatchSize .Values.generator.bitGfp.batchSize }}
+    {{ end }}
+    {{ if .Values.generator.inputMaskGfp.enabled }}
+    - type: INPUT_MASK_GFP
+      batchSize: {{ default .Values.generator.defaultBatchSize .Values.generator.inputMaskGfp.batchSize }}
+    {{ end }}
+    {{ if .Values.generator.inverseGfp.enabled }}
+    - type: INVERSE_TUPLE_GFP
+      batchSize: {{ default .Values.generator.defaultBatchSize .Values.generator.inverseGfp.batchSize }}
+    {{ end }}
+    {{ if .Values.generator.squareGfp.enabled }}
+    - type: SQUARE_TUPLE_GFP
+      batchSize: {{ default .Values.generator.defaultBatchSize .Values.generator.squareGfp.batchSize }}
+    {{ end }}
+    {{ if .Values.generator.multiplicationGfp.enabled }}
+    - type: MULTIPLICATION_TRIPLE_GFP
+      batchSize: {{ default .Values.generator.defaultBatchSize .Values.generator.multiplicationGfp.batchSize }}
+    {{ end }}
+    {{ if .Values.generator.bitGf2n.enabled }}
+    - type: BIT_GF2N
+      batchSize: {{ default .Values.generator.defaultBatchSize .Values.generator.bitGf2n.batchSize }}
+    {{ end }}
+    {{ if .Values.generator.inputMaskGf2n.enabled }}
+    - type: INPUT_MASK_GF2N
+      batchSize: {{ default .Values.generator.defaultBatchSize .Values.generator.inputMaskGf2n.batchSize }}
+    {{ end }}
+    {{ if .Values.generator.inverseGf2n.enabled }}
+    - type: INVERSE_TUPLE_GF2N
+      batchSize: {{ default .Values.generator.defaultBatchSize .Values.generator.inverseGf2n.batchSize }}
+    {{ end }}
+    {{ if .Values.generator.squareGf2n.enabled }}
+    - type: SQUARE_TUPLE_GF2N
+      batchSize: {{ default .Values.generator.defaultBatchSize .Values.generator.squareGf2n.batchSize }}
+    {{ end }}
+    {{ if .Values.generator.multiplicationGf2n.enabled }}
+    - type: MULTIPLICATION_TRIPLE_GF2N
+      batchSize: {{ default .Values.generator.defaultBatchSize .Values.generator.multiplicationGf2n.batchSize }}
+    {{ end }}
     {{ end }}

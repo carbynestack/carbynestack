@@ -69,34 +69,34 @@ releases:
             pullPolicy: {{ env "KLYSHKO_GENERATOR_IMAGE_PULL_POLICY" | default "IfNotPresent" }}
           bitGfp:
             enabled: {{ env "KLYSHKO_GENERATOR_BIT_GFP_ENABLED" | default "true" }}
-            batchSize: {{ env "KLYSHKO_GENERATOR_BIT_GFP_BATCH_SIZE" | default 10000 }}
+            batchSize: {{ env "KLYSHKO_GENERATOR_BIT_GFP_BATCH_SIZE" }}
           inputMaskGfp:
             enabled: {{ env "KLYSHKO_GENERATOR_INPUT_MASK_GFP_ENABLED" | default "true" }}
-            batchSize: {{ env "KLYSHKO_GENERATOR_INPUT_MASK_GFP_BATCH_SIZE" | default 10000 }}
+            batchSize: {{ env "KLYSHKO_GENERATOR_INPUT_MASK_GFP_BATCH_SIZE" }}
           inverseGfp:
             enabled: {{ env "KLYSHKO_GENERATOR_INVERSE_GFP_ENABLED" | default "true" }}
-            batchSize: {{ env "KLYSHKO_GENERATOR_INVERSE_GFP_BATCH_SIZE" | default 10000 }}
+            batchSize: {{ env "KLYSHKO_GENERATOR_INVERSE_GFP_BATCH_SIZE" }}
           squareGfp:
             enabled: {{ env "KLYSHKO_GENERATOR_SQUARE_GFP_ENABLED" | default "true" }}
-            batchSize: {{ env "KLYSHKO_GENERATOR_SQUARE_GFP_BATCH_SIZE" | default 10000 }}
+            batchSize: {{ env "KLYSHKO_GENERATOR_SQUARE_GFP_BATCH_SIZE" }}
           multiplicationGfp:
             enabled: {{ env "KLYSHKO_GENERATOR_MULTIPLICATION_GFP_ENABLED" | default "true" }}
-            batchSize: {{ env "KLYSHKO_GENERATOR_MULTIPLICATION_GFP_BATCH_SIZE" | default 10000 }}
+            batchSize: {{ env "KLYSHKO_GENERATOR_MULTIPLICATION_GFP_BATCH_SIZE" }}
           bitGf2n:
             enabled: {{ env "KLYSHKO_GENERATOR_BIT_GF2N_ENABLED" | default "true" }}
-            batchSize: {{ env "KLYSHKO_GENERATOR_BIT_GF2N_BATCH_SIZE" | default 1000 }}
+            batchSize: {{ env "KLYSHKO_GENERATOR_BIT_GF2N_BATCH_SIZE" }}
           inputMaskGf2n:
             enabled: {{ env "KLYSHKO_GENERATOR_INPUT_MASK_GF2N_ENABLED" | default "true" }}
-            batchSize: {{ env "KLYSHKO_GENERATOR_INPUT_MASK_GF2N_BATCH_SIZE" | default 1000 }}
+            batchSize: {{ env "KLYSHKO_GENERATOR_INPUT_MASK_GF2N_BATCH_SIZE" }}
           inverseGf2n:
             enabled: {{ env "KLYSHKO_GENERATOR_INVERSE_GF2N_ENABLED" | default "true" }}
-            batchSize: {{ env "KLYSHKO_GENERATOR_INVERSE_GF2N_BATCH_SIZE" | default 1000 }}
+            batchSize: {{ env "KLYSHKO_GENERATOR_INVERSE_GF2N_BATCH_SIZE" }}
           squareGf2n:
             enabled: {{ env "KLYSHKO_GENERATOR_SQUARE_GF2N_ENABLED" | default "true" }}
-            batchSize: {{ env "KLYSHKO_GENERATOR_SQUARE_GF2N_BATCH_SIZE" | default 1000 }}
+            batchSize: {{ env "KLYSHKO_GENERATOR_SQUARE_GF2N_BATCH_SIZE" }}
           multiplicationGf2n:
             enabled: {{ env "KLYSHKO_GENERATOR_MULTIPLICATION_GF2N_ENABLED" | default "true" }}
-            batchSize: {{ env "KLYSHKO_GENERATOR_MULTIPLICATION_GF2N_BATCH_SIZE" | default 1000 }}
+            batchSize: {{ env "KLYSHKO_GENERATOR_MULTIPLICATION_GF2N_BATCH_SIZE" }}
         playerCount: 2
         playerId: {{ if eq (env "IS_MASTER") "true" }}0{{ else }}1{{ end }}
         engineParams:

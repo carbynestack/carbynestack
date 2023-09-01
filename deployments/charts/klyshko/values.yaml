@@ -10,43 +10,43 @@ scheduler:
   ttlSecondsAfterFinished: 120
   bitGfp:
     enabled: true
-    threshold: 1000000
+    threshold: 100000
     priority: 1
   inputMaskGfp:
     enabled: true
-    threshold: 1000000
+    threshold: 100000
     priority: 10
   inverseGfp:
     enabled: true
-    threshold: 1000000
+    threshold: 100000
     priority: 1
   squareGfp:
     enabled: true
-    threshold: 1000000
+    threshold: 100000
     priority: 1
   multiplicationGfp:
     enabled: true
-    threshold: 1000000
+    threshold: 100000
     priority: 10
   bitGf2n:
     enabled: true
-    threshold: 1000000
+    threshold: 10000
     priority: 1
   inputMaskGf2n:
     enabled: true
-    threshold: 1000000
+    threshold: 10000
     priority: 1
   inverseGf2n:
     enabled: true
-    threshold: 1000000
+    threshold: 10000
     priority: 1
   squareGf2n:
     enabled: true
-    threshold: 1000000
+    threshold: 10000
     priority: 1
   multiplicationGf2n:
     enabled: true
-    threshold: 1000000
+    threshold: 10000
     priority: 1
 
 generator:
@@ -55,36 +55,37 @@ generator:
     repository: carbynestack/klyshko-mp-spdz
     tag: 0.2.0
     pullPolicy: IfNotPresent
+  defaultBatchSize: 100000
   bitGfp:
     enabled: true
-    batchSize: 10000
+    batchSize:
   inputMaskGfp:
     enabled: true
-    batchSize: 10000
+    batchSize:
   inverseGfp:
     enabled: true
-    batchSize: 10000
+    batchSize:
   squareGfp:
     enabled: true
-    batchSize: 10000
+    batchSize:
   multiplicationGfp:
     enabled: true
-    batchSize: 10000
+    batchSize:
   bitGf2n:
     enabled: true
-    batchSize: 1000
+    batchSize:
   inputMaskGf2n:
     enabled: true
-    batchSize: 1000
+    batchSize:
   inverseGf2n:
     enabled: true
-    batchSize: 1000
+    batchSize:
   squareGf2n:
     enabled: true
-    batchSize: 1000
+    batchSize:
   multiplicationGf2n:
     enabled: true
-    batchSize: 1000
+    batchSize:
 
 playerCount:
 playerId:

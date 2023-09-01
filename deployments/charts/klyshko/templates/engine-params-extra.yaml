@@ -9,6 +9,9 @@ kind: ConfigMap
 metadata:
   name: io.carbynestack.engine.params.extra
 data:
+  # If we don't use the MP-SPDZ Fake offline phase, we generate an empty map as
+  # the MAC key shares of the other VCPs are not required.
+  {{ if eq .Values.generator.image.repository "carbynestack/klyshko-mp-spdz" }}
   {{- $pid := (.Values.playerId | toString) -}}
   {{- range $k, $v := .Values.engineParams.macKeyShares }}
   {{- if ne $k $pid }}
@@ -19,3 +22,4 @@ data:
     {{ $v }}
   {{- end}}
   {{- end }}
+  {{ end }}

@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.5.0](https://github.com/carbynestack/carbynestack/compare/sdk-v0.4.0...sdk-v0.5.0) (2023-09-04)
+
+
+### ⚠ BREAKING CHANGES
+
+* Update deployment to support latest Klyshko features ([#74](https://github.com/carbynestack/carbynestack/issues/74))
+
+### Features
+
+* Update deployment to support latest Klyshko features ([#74](https://github.com/carbynestack/carbynestack/issues/74)) ([23f0854](https://github.com/carbynestack/carbynestack/commit/23f0854486040d06880840ac915deb7db1c4bebd))
+
 ## [0.4.0](https://github.com/carbynestack/carbynestack/compare/sdk-v0.3.1...sdk-v0.4.0) (2023-08-31)
 
 

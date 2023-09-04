@@ -8,13 +8,59 @@
 apiVersion: klyshko.carbnyestack.io/v1alpha1
 kind: TupleGenerationScheduler
 metadata:
-  name: {{ .Release.Name }}-tuplegenerationscheduler
+  name: {{ .Release.Name }}-tgs
 spec:
   concurrency: {{ .Values.scheduler.concurrency }}
-  threshold: {{ .Values.scheduler.threshold }}
-  tuplesPerJob: {{ .Values.scheduler.tuplesPerJob }}
-  generator:
-    image: {{ .Values.scheduler.generator.image }}
-    imagePullPolicy: {{ .Values.scheduler.generator.imagePullPolicy }}
   ttlSecondsAfterFinished: {{ .Values.scheduler.ttlSecondsAfterFinished }}
+  policies:
+    {{ if .Values.scheduler.bitGfp.enabled }}
+    - type: BIT_GFP
+      threshold: {{ .Values.scheduler.bitGfp.threshold }}
+      priority: {{ .Values.scheduler.bitGfp.priority }}
+    {{ end }}
+    {{ if .Values.scheduler.inputMaskGfp.enabled }}
+    - type: INPUT_MASK_GFP
+      threshold: {{ .Values.scheduler.inputMaskGfp.threshold }}
+      priority: {{ .Values.scheduler.inputMaskGfp.priority }}
+    {{ end }}
+    {{ if .Values.scheduler.inverseGfp.enabled }}
+    - type: INVERSE_TUPLE_GFP
+      threshold: {{ .Values.scheduler.inverseGfp.threshold }}
+      priority: {{ .Values.scheduler.inverseGfp.priority }}
+    {{ end }}
+    {{ if .Values.scheduler.squareGfp.enabled }}
+    - type: SQUARE_TUPLE_GFP
+      threshold: {{ .Values.scheduler.squareGfp.threshold }}
+      priority: {{ .Values.scheduler.squareGfp.priority }}
+    {{ end }}
+    {{ if .Values.scheduler.multiplicationGfp.enabled }}
+    - type: MULTIPLICATION_TRIPLE_GFP
+      threshold: {{ .Values.scheduler.multiplicationGfp.threshold }}
+      priority: {{ .Values.scheduler.multiplicationGfp.priority }}
+    {{ end }}
+    {{ if .Values.scheduler.bitGf2n.enabled }}
+    - type: BIT_GF2N
+      threshold: {{ .Values.scheduler.bitGf2n.threshold }}
+      priority: {{ .Values.scheduler.bitGf2n.priority }}
+    {{ end }}
+    {{ if .Values.scheduler.inputMaskGf2n.enabled }}
+    - type: INPUT_MASK_GF2N
+      threshold: {{ .Values.scheduler.inputMaskGf2n.threshold }}
+      priority: {{ .Values.scheduler.inputMaskGf2n.priority }}
+    {{ end }}
+    {{ if .Values.scheduler.inverseGf2n.enabled }}
+    - type: INVERSE_TUPLE_GF2N
+      threshold: {{ .Values.scheduler.inverseGf2n.threshold }}
+      priority: {{ .Values.scheduler.inverseGf2n.priority }}
+    {{ end }}
+    {{ if .Values.scheduler.squareGf2n.enabled }}
+    - type: SQUARE_TUPLE_GF2N
+      threshold: {{ .Values.scheduler.squareGf2n.threshold }}
+      priority: {{ .Values.scheduler.squareGf2n.priority }}
+    {{ end }}
+    {{ if .Values.scheduler.multiplicationGf2n.enabled }}
+    - type: MULTIPLICATION_TRIPLE_GF2N
+      threshold: {{ .Values.scheduler.multiplicationGf2n.threshold }}
+      priority: {{ .Values.scheduler.multiplicationGf2n.priority }}
+    {{ end }}
 {{ end }}

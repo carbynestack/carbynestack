@@ -447,15 +447,15 @@ export class CarbyneStack extends Construct {
 
     dependables.push(ephemeral);
 
-    const klyshkoOperator = new helm.release.Release(this, `klyshko-operator`, {
+    const klyshkoOperator = new helm.release.Release(this, `klyshko`, {
       dependsOn: [...dependables, minio, postgresDBMS, castor],
       provider: config.helmProvider,
       wait: true,
       waitForJobs: true,
-      name: "cs-klyshko-operator",
+      name: "cs-klyshko",
       chart: "klyshko",
       repository: "oci://ghcr.io/carbynestack",
-      version: "0.1.7",
+      version: "0.4.0",
       set: [
         {
           name: "controller.image.registry",
@@ -467,7 +467,7 @@ export class CarbyneStack extends Construct {
         },
         {
           name: "controller.image.tag",
-          value: "0.2.0",
+          value: "0.3.0",
         },
         {
           name: "controller.etcdEndpoint",
@@ -483,28 +483,24 @@ export class CarbyneStack extends Construct {
         },
         {
           name: "provisioner.image.tag",
-          value: "0.1.0",
+          value: "0.1.1",
         },
       ],
     });
 
     dependables.push(klyshkoOperator);
 
-    const klyshkoChart = new cdktf.TerraformAsset(
-      this,
-      "klyshko-dbms-chart-path",
-      {
-        path: path.resolve(__dirname, "../charts/klyshko"),
-        type: cdktf.AssetType.DIRECTORY,
-      },
-    );
+    const klyshkoChart = new cdktf.TerraformAsset(this, "klyshko-chart-path", {
+      path: path.resolve(__dirname, "../charts/klyshko"),
+      type: cdktf.AssetType.DIRECTORY,
+    });
 
-    new helm.release.Release(this, `klyshko`, {
-      dependsOn: [...dependables],
+    new helm.release.Release(this, `klyshko-config`, {
+      dependsOn: [...dependables, klyshkoOperator],
       provider: config.helmProvider,
       wait: true,
       waitForJobs: true,
-      name: "cs-klyshko",
+      name: "cs-klyshko-config",
       chart: `./${klyshkoChart.path}`,
       set: [
         { name: "scheduler.enabled", value: `${config.isMaster}` },

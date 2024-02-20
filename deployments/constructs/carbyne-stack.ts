@@ -455,7 +455,7 @@ export class CarbyneStack extends Construct {
       name: "cs-klyshko-operator",
       chart: "klyshko",
       repository: "oci://ghcr.io/carbynestack",
-      version: "0.1.7",
+      version: "0.4.0",
       set: [
         {
           name: "controller.image.registry",
@@ -467,7 +467,7 @@ export class CarbyneStack extends Construct {
         },
         {
           name: "controller.image.tag",
-          value: "0.2.0",
+          value: "0.3.0",
         },
         {
           name: "controller.etcdEndpoint",
@@ -483,7 +483,7 @@ export class CarbyneStack extends Construct {
         },
         {
           name: "provisioner.image.tag",
-          value: "0.1.0",
+          value: "0.1.1",
         },
       ],
     });

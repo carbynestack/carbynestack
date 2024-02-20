@@ -24,7 +24,6 @@
     "@cdktf/provider-helm": "7.0.0",
     "@cdktf/provider-http": "^6.0.0",
     "@cdktf/provider-kubernetes": "8.0.0",
-    "cdktf": "^0.17.1",
     "constructs": "^10.2.1"
   },
   "devDependencies": {

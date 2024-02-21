@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.1](https://github.com/carbynestack/carbynestack/compare/sdk-v0.5.0...sdk-v0.5.1) (2024-02-21)
+
+
+### Bug Fixes
+
+* update klyshko dependencies ([#101](https://github.com/carbynestack/carbynestack/issues/101)) ([84afdbe](https://github.com/carbynestack/carbynestack/commit/84afdbef1da595e155ee16f51e25e654f1d6b9b9))
+
 ## [0.5.0](https://github.com/carbynestack/carbynestack/compare/sdk-v0.4.0...sdk-v0.5.0) (2023-09-04)
 
 

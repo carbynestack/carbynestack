@@ -447,12 +447,12 @@ export class CarbyneStack extends Construct {
 
     dependables.push(ephemeral);
 
-    const klyshkoOperator = new helm.release.Release(this, `klyshko-operator`, {
+    const klyshkoOperator = new helm.release.Release(this, `klyshko`, {
       dependsOn: [...dependables, minio, postgresDBMS, castor],
       provider: config.helmProvider,
       wait: true,
       waitForJobs: true,
-      name: "cs-klyshko-operator",
+      name: "cs-klyshko",
       chart: "klyshko",
       repository: "oci://ghcr.io/carbynestack",
       version: "0.4.0",
@@ -490,21 +490,17 @@ export class CarbyneStack extends Construct {
 
     dependables.push(klyshkoOperator);
 
-    const klyshkoChart = new cdktf.TerraformAsset(
-      this,
-      "klyshko-dbms-chart-path",
-      {
-        path: path.resolve(__dirname, "../charts/klyshko"),
-        type: cdktf.AssetType.DIRECTORY,
-      },
-    );
+    const klyshkoChart = new cdktf.TerraformAsset(this, "klyshko-chart-path", {
+      path: path.resolve(__dirname, "../charts/klyshko"),
+      type: cdktf.AssetType.DIRECTORY,
+    });
 
-    new helm.release.Release(this, `klyshko`, {
-      dependsOn: [...dependables],
+    new helm.release.Release(this, `klyshko-config`, {
+      dependsOn: [...dependables, klyshkoOperator],
       provider: config.helmProvider,
       wait: true,
       waitForJobs: true,
-      name: "cs-klyshko",
+      name: "cs-klyshko-config",
       chart: `./${klyshkoChart.path}`,
       set: [
         { name: "scheduler.enabled", value: `${config.isMaster}` },

@@ -1,0 +1,23 @@
+#
+# Copyright (c) 2021-2024 - for information on the respective copyright owner
+# see the NOTICE file and/or the repository https://github.com/carbynestack/carbynestack.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: cs-secure-gateway
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    hosts:
+    - "*"
+    tls:
+      mode: SIMPLE
+      credentialName: {{ .Values.tls.secret }}

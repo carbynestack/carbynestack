@@ -17,3 +17,5 @@ releases:
         hosts:
           amphora: {{ requiredEnv "RELEASE_NAME" }}-amphora
           castor: {{ requiredEnv "RELEASE_NAME" }}-castor
+    - tls:
+        secret: {{ requiredEnv "TLS_SECRET_NAME" }}

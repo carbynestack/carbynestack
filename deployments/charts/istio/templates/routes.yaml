@@ -13,6 +13,7 @@ spec:
     - "*"
   gateways:
     - cs-service-gateway
+    - cs-secure-gateway
   http:
     - match:
         - uri:
@@ -34,6 +35,7 @@ spec:
     - "*"
   gateways:
     - cs-service-gateway
+    - cs-secure-gateway
   http:
     - match:
         - uri:

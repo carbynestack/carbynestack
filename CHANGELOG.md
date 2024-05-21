@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.0](https://github.com/carbynestack/carbynestack/compare/sdk-v0.5.1...sdk-v0.6.0) (2024-05-21)
+
+
+### Features
+
+* IaC for Azure Cluter & Azure Private Cluster ([#103](https://github.com/carbynestack/carbynestack/issues/103)) ([476fff7](https://github.com/carbynestack/carbynestack/commit/476fff7570d004ea9a9e0eb278597566e50c4e4e))
+
 ## [0.5.1](https://github.com/carbynestack/carbynestack/compare/sdk-v0.5.0...sdk-v0.5.1) (2024-02-21)
 
 ### Bug Fixes

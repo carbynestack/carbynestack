@@ -35,6 +35,8 @@ releases:
         master:
           host: {{ requiredEnv "DISCOVERY_MASTER_HOST" }}
           port: {{ env "DISCOVERY_MASTER_PORT" | default 31400 }}
+        tls:
+          secret: {{ requiredEnv "TLS_SECRET_NAME" }}
     - ephemeral:
         image:
           registry: {{ env "EPHEMERAL_IMAGE_REGISTRY" | default "ghcr.io" }}

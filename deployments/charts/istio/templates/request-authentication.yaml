@@ -1,0 +1,38 @@
+#
+# Copyright (c) 2021-2024 - for information on the respective copyright owner
+# see the NOTICE file and/or the repository https://github.com/carbynestack/carbynestack.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+apiVersion: security.istio.io/v1
+kind: RequestAuthentication
+metadata:
+  name: "jwt-authn"
+  namespace: istio-system
+spec:
+  selector:
+    matchLabels:
+      istio: ingressgateway
+  jwtRules:
+  - issuer: {{ .Values.authn.jwtRules.issuer }}
+    jwksUri: {{ .Values.authn.jwtRules.jwksUri }}
+---
+{{- if not .Values.authn.disabled }}
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: "jwt-authn-policy"
+  namespace: istio-system
+spec:
+  selector:
+    matchLabels:
+      istio: ingressgateway
+  action:  DENY
+  rules:
+  - from:
+    - source:
+        notRequestPrincipals: ["*"]
+    to:
+    - operation:
+        paths: ["/", "/castor/*", "/amphora/*"]
+{{- end }}

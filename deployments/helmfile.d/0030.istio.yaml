@@ -27,5 +27,5 @@ releases:
     - authn:
         disabled: {{ env "NO_JWT_AUTHN" | default "false" }}
         jwtRules:
-          issuer: {{ env "JWT_ISSUER" | quote }}
-          jwksUri: {{ env "JWT_ISSUER" | quote }}
+          issuer: {{  env "JWT_ISSUER" | quote }} # TODO: Set default value: {{ env "JWT_ISSUER" | quote }}
+          jwksUri: {{ env "JWKS_URI" | quote }}

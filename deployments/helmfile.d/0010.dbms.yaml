@@ -22,6 +22,12 @@ releases:
           - superuser
           - createdb
           - login
+          kratos:
+          - login
+          hydra:
+          - login
       - databases: # name: owner
           castor: cs
           amphora: cs
+          kratos: kratos
+          hydra: hydra

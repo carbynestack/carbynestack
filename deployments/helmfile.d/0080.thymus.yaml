@@ -25,9 +25,9 @@ releases:
     values:
       - thymus:
           gateway:
-            enabled: true
+            enabled: false
           users:
-            enabled: true
+            enabled: false
       - kratos:
           kratos:
             config:

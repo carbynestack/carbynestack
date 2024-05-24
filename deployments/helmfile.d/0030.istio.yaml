@@ -13,6 +13,7 @@ releases:
     chart: ../charts/istio
     wait: true
     values:
+    - frontendUrl: {{ requiredEnv "FRONTEND_URL" }}
     - routes:
         hosts:
           amphora: {{ requiredEnv "RELEASE_NAME" }}-amphora
@@ -20,5 +21,5 @@ releases:
     - authn:
         disabled: {{ env "NO_JWT_AUTHN" | default "false" }}
         jwtRules:
-          issuer: {{  env "JWT_ISSUER" | quote }} # TODO: Set default value: {{ env "JWT_ISSUER" | quote }}
-          jwksUri: {{ env "JWKS_URI" | quote }}
+          issuer: {{  env "JWT_ISSUER" | default (printf "http://%s/iam/oauth" ( requiredEnv "FRONTEND_URL" )) | quote }}
+          jwksUri: {{ env "JWKS_URI" | default (printf "http://%s/iam/oauth/.well-known/jwks.json" ( requiredEnv "FRONTEND_URL" )) | quote }}

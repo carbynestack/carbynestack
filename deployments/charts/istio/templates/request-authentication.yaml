@@ -49,4 +49,10 @@ spec:
         # ToDo: remove this once tunneling is implemented
         hosts: [{{ printf "*.%s" .Values.frontendUrl | quote }}]
         paths: ["*"]
+  - from:
+    - source:
+        requestPrincipals: ["*"]
+    to:
+    - operation:
+        paths: ["*"]
 {{- end }}

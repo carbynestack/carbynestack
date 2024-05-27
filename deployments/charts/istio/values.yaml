@@ -12,6 +12,7 @@ authn:
     issuer: "http://localhost/iam/oauth"
     jwksUri: "http://localhost/.well-known/jwks.json"
 routes:
+  frontendUrl: "localhost"
   hosts:
     amphora:
     castor:

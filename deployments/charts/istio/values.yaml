@@ -5,6 +5,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 routes:
+  frontendUrl: "localhost"
   hosts:
     amphora:
     castor:

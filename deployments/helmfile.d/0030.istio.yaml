@@ -25,7 +25,7 @@ releases:
           amphora: {{ requiredEnv "RELEASE_NAME" }}-amphora
           castor: {{ requiredEnv "RELEASE_NAME" }}-castor
     - authn:
-        disabled: {{ env "NO_JWT_AUTHN" | default "false" }}
+        disabled: {{ env "NO_JWT_AUTHN" | default "true" }}
         jwtRules:
-          issuer: {{  env "JWT_ISSUER" | quote }} # TODO: Set default value: {{ env "JWT_ISSUER" | quote }}
-          jwksUri: {{ env "JWKS_URI" | quote }}
+          issuer: {{ env "JWT_ISSUER" }}
+          jwksUri: {{ env "JWKS_URI" }}

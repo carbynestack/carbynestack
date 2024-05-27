@@ -27,6 +27,9 @@ export interface CarbyneStackConfig {
   gf2nMacKey: string;
   gf2nBitLength: number;
   gf2nStorageSize: number;
+  noJWTAuthn: boolean;
+  jwtIssuer: string;
+  jwksUri: string;
 }
 
 export class CarbyneStack extends Construct {
@@ -104,6 +107,9 @@ export class CarbyneStack extends Construct {
       set: [
         { name: "routes.hosts.amphora", value: "cs-amphora" },
         { name: "routes.hosts.castor", value: "cs-castor" },
+        { name: "authn.disabled", value: `${config.noJWTAuthn}` },
+        { name: "authn.jwtRules.issuer", value: config.jwtIssuer },
+        { name: "authn.jwtRules.jwksUri", value: config.jwksUri },
       ],
     });
 

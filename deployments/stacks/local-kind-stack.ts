@@ -111,6 +111,10 @@ export default class LocalKindStack extends cdktf.TerraformStack {
         gf2nMacKey: i === 1 ? "0xb660b323e6" : "0x4ec9a0343c",
         gf2nBitLength: 40,
         gf2nStorageSize: 8,
+        noJWTAuthn: true,
+        jwtIssuer: "testing@secure.istio.io", // TODO: Change to actual iam issuer
+        jwksUri:
+          "https://raw.githubusercontent.com/istio/istio/release-1.22/security/tools/jwt/samples/jwks.json",
       });
     }
   }

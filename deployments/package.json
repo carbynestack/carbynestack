@@ -8,7 +8,7 @@
   "scripts": {
     "get": "cdktf get",
     "clean": "rm -rf .gen cdktf.out terraform.* .terraform.*",
-    "build": "tsc",
+    "build": "cdktf get && tsc",
     "synth": "cdktf synth",
     "compile": "tsc --pretty",
     "watch": "tsc -w",
@@ -21,6 +21,8 @@
     "node": ">=14.0"
   },
   "dependencies": {
+    "@cdktf/provider-azuread": "^9.0.1",
+    "@cdktf/provider-azurerm": "9.0.8",
     "@cdktf/provider-helm": "7.0.0",
     "@cdktf/provider-http": "^6.0.0",
     "@cdktf/provider-kubernetes": "8.0.0",

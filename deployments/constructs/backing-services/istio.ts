@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 2023 - for information on the respective copyright owner
- * see the NOTICE file and/or the repository https://github.com/carbynestack/carbynestack.
+ * Copyright (c) 2023-2024 - for information on the respective copyright owner see
+ * the NOTICE file and/or the repository https://github.com/carbynestack/carbynestack.
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,10 +11,10 @@ import * as kubernetes from "@cdktf/provider-kubernetes";
 import * as helm from "@cdktf/provider-helm";
 
 export interface IstioConfig {
-  idPostfix?: string;
   dependsOn: cdktf.ITerraformDependable[];
   helmProvider?: cdktf.TerraformProvider;
   kubernetesProvider?: cdktf.TerraformProvider;
+  ingressGatewayValues?: string[];
 }
 
 export class Istio extends Construct {
@@ -26,7 +26,7 @@ export class Istio extends Construct {
 
     const istioNamespace = new kubernetes.namespace.Namespace(
       this,
-      `istio-system${config.idPostfix}`,
+      `istio-system-${name}`,
       {
         provider: config.kubernetesProvider,
         metadata: {
@@ -35,31 +35,25 @@ export class Istio extends Construct {
       },
     );
 
-    const istioBase = new helm.release.Release(
-      this,
-      `istio-base${config.idPostfix}`,
-      {
-        dependsOn: [...config.dependsOn],
-        wait: true,
-        waitForJobs: true,
-        provider: config.helmProvider,
-        name: "istio-base",
-        chart: "base",
-        namespace: istioNamespace.metadata.name,
-        repository: "https://istio-release.storage.googleapis.com/charts",
-      },
-    );
+    const istioBase = new helm.release.Release(this, `istio-base-${name}`, {
+      dependsOn: [...config.dependsOn],
+      provider: config.helmProvider,
+      name: "istio-base",
+      chart: "base",
+      version: "1.22.0",
+      namespace: istioNamespace.metadata.name,
+      repository: "https://istio-release.storage.googleapis.com/charts",
+    });
 
     // istio control plane - https://istio.io/latest/blog/2020/istiod/
-    const istioD = new helm.release.Release(this, `istiod${config.idPostfix}`, {
+    const istioD = new helm.release.Release(this, `istiod-${name}`, {
       dependsOn: [...config.dependsOn, istioBase],
       provider: config.helmProvider,
       name: "istiod",
       chart: "istiod",
+      version: "1.22.0",
       namespace: istioNamespace.metadata.name,
       repository: "https://istio-release.storage.googleapis.com/charts",
-      wait: true,
-      waitForJobs: true,
     });
 
     // istio ingress
@@ -79,16 +73,16 @@ export class Istio extends Construct {
 
     const istioIngressGateway = new helm.release.Release(
       this,
-      `istio-ingress-gateway${config.idPostfix}`,
+      `istio-ingress-gateway-${name}`,
       {
         provider: config.helmProvider,
         name: "istio-ingressgateway",
         chart: "gateway",
+        version: "1.22.0",
         namespace: istioNamespace.metadata.name,
         dependsOn: [...config.dependsOn, istioBase, istioD],
-        wait: true,
-        waitForJobs: true,
         repository: "https://istio-release.storage.googleapis.com/charts",
+        values: config.ingressGatewayValues,
         set: istioIngressGatewayPorts.flatMap((port, index) => [
           { name: `service.ports[${index}].name`, value: port.name },
           { name: `service.ports[${index}].port`, value: port.port },
@@ -107,7 +101,7 @@ export class Istio extends Construct {
     this.istioIngressGatewayService =
       new kubernetes.dataKubernetesService.DataKubernetesService(
         this,
-        `istio-ingressgateway-service${config.idPostfix}`,
+        `istio-ingressgateway-service-${name}`,
         {
           provider: config.kubernetesProvider,
           dependsOn: [...config.dependsOn, istioIngressGateway],
@@ -118,15 +112,11 @@ export class Istio extends Construct {
         },
       );
 
-    this.ingressIP = new cdktf.TerraformOutput(
-      this,
-      `ingress-ip${config.idPostfix}`,
-      {
-        value: this.istioIngressGatewayService.status
-          .get(0)
-          .loadBalancer.get(0)
-          .ingress.get(0).ip,
-      },
-    ).value;
+    this.ingressIP = new cdktf.TerraformOutput(this, `ingress-ip-${name}`, {
+      value: this.istioIngressGatewayService.status
+        .get(0)
+        .loadBalancer.get(0)
+        .ingress.get(0).ip,
+    }).value;
   }
 }

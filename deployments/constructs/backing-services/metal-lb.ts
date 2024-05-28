@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 2023 - for information on the respective copyright owner
- * see the NOTICE file and/or the repository https://github.com/carbynestack/carbynestack.
+ * Copyright (c) 2023-2024 - for information on the respective copyright owner see
+ * the NOTICE file and/or the repository https://github.com/carbynestack/carbynestack.
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,7 +8,7 @@
 import { Construct } from "constructs";
 import * as cdktf from "cdktf";
 import * as kubernetes from "@cdktf/provider-kubernetes";
-import * as kubectl from "../.gen/providers/kubectl";
+import * as kubectl from "../../.gen/providers/kubectl";
 import * as helm from "@cdktf/provider-helm";
 
 export interface MetalLBConfig {
@@ -67,7 +67,6 @@ export class MetalLB extends Construct {
           },
           { name: "metadata.name", value: "metallb-system" },
         ],
-        wait: true,
       },
     );
 
@@ -87,7 +86,6 @@ export class MetalLB extends Construct {
             addresses:
               - ${config.subnet ?? "172.18.1.255/25"}
         `,
-        wait: true,
       },
     );
 

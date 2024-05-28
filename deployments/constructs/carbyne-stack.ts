@@ -151,6 +151,7 @@ export class CarbyneStack extends Construct {
       set: [
         { name: "routes.hosts.amphora", value: "cs-amphora" },
         { name: "routes.hosts.castor", value: "cs-castor" },
+        { name: "frontendUrl", value: config.fqdn },
         { name: "authn.disabled", value: `${config.noJWTAuthn}` },
         { name: "authn.jwtRules.issuer", value: config.jwtIssuer },
         { name: "authn.jwtRules.jwksUri", value: config.jwksUri },

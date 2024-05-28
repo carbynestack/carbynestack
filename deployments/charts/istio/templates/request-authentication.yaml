@@ -38,7 +38,8 @@ spec:
         # Allow general access on all iam related endpoints and intra-vcp and
         # inter-vcp endpoints
         # ToDo: remove inter-vcp and intra-wcp whitelist once tunneling is implemented
-        paths: ["/iam*", "/amphora/inter-vcp*", "/amphora/intra-vcp*", "/castor/inter-vcp*", "/castor/intra-vcp*"]
+        # ToDO: remove /protobuf.Discovery once tunneling is implemented for epmhemeral discovery service
+        paths: ["/iam*", "/amphora/inter-vcp*", "/amphora/intra-vcp*", "/castor/inter-vcp*", "/castor/intra-vcp*", "/protobuf.Discovery*"]
   - from:
     - source:
         notRequestPrincipals: ["*"]
@@ -46,9 +47,14 @@ spec:
     - operation:
         # Allow all paths for subdomains of the frontend URL
         # This allows general access to empeheral function containers
-        # ToDo: remove this once tunneling is implemented
+        # ToDo: remove this (the whole from statement) once tunneling is implemented
         hosts: [{{ printf "*.%s" .Values.frontendUrl | quote }}]
         paths: ["*"]
+  - from:
+    # Allow MP-SPDZ to connect to proxied server (required by 'slaves')
+    # ToDo: remove this (the whole from statement) once tunneling is implemented
+    - source:
+        hosts: ["*-mpc-service.default.svc.cluster.local"]
   - from:
     - source:
         requestPrincipals: ["*"]

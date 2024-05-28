@@ -59,7 +59,7 @@ releases:
                     ui_url: http://{{ requiredEnv "FRONTEND_URL" }}/iam/ui/registration
               secrets:
                 default:
-                  - {{ randAlphaNum 20 | b64enc | quote }}
+                  - {{ env "THYMUS_SECRET" | default "CHANGE_THIS_VERY_INSECURE_SECRET" | quote }}
               oauth2_provider:
                 url: http://{{ requiredEnv "RELEASE_NAME" }}-thymus-hydra-admin:4445
           deployment:
@@ -150,11 +150,11 @@ releases:
                   url: http://{{ requiredEnv "FRONTEND_URL" }}/iam/admin
               secrets:
                 system:
-                  - {{ randAlphaNum 20 | b64enc | quote }}
+                  - {{ env "THYMUS_SECRET" | default "CHANGE_THIS_VERY_INSECURE_SECRET" | quote }}
               oidc:
                 subject_identifiers:
                   pairwise:
-                    salt: {{ randAlphaNum 20 | b64enc | quote }}
+                    salt: {{ env "THYMUS_SECRET" | default "CHANGE_THIS_VERY_INSECURE_SECRET" | quote }}
           deployment:
             extraEnv:
               - name: DB_USER

@@ -31,7 +31,7 @@ export default class LocalKindCluster extends cdktf.TerraformStack {
         kubectlProvider: kindPlatforms[i - 1].kubectlProvider,
         fqdn: kindPlatforms[i - 1].ingressIP,
         isMaster: i === 1,
-        masterHost: "172.18.1.128.sslip.io",
+        masterHost: `${kindPlatforms[0].ingressIP}.sslip.io`,
         macKey:
           i === 1
             ? "-88222337191559387830816715872691188861"
@@ -50,11 +50,12 @@ export default class LocalKindCluster extends cdktf.TerraformStack {
         gf2nStorageSize: 8,
         noJWTAuthn: true,
         jwtIssuer: `http://${
-          kindPlatforms[i % 2].ingressIP
+          kindPlatforms[i - 1].ingressIP
         }.sslip.io/iam/oauth`,
         jwksUri: `http://${
-          kindPlatforms[i % 2].ingressIP
+          kindPlatforms[i - 1].ingressIP
         }.sslip.io/iam/oauth.well-known/jwks.json`,
+        thymusSecret: "CHANGE_THIS_VERY_INSECURE_SECRET",
       });
     }
   }

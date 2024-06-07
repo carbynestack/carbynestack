@@ -54,7 +54,7 @@ spec:
     # Allow MP-SPDZ to connect to proxied server (required by 'slaves')
     # ToDo: remove this (the whole from statement) once tunneling is implemented
     - source:
-        hosts: ["*-mpc-service.default.svc.cluster.local"]
+        hosts: ["*-mpc-service.default.svc.cluster.local"] # TODO: replace with whitelist
   - from:
     - source:
         requestPrincipals: ["*"]

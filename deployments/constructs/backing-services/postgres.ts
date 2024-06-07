@@ -51,8 +51,12 @@ export class Postgres extends Construct {
         { name: "users.cs[0]", value: "superuser" },
         { name: "users.cs[1]", value: "createdb" },
         { name: "users.cs[2]", value: "login" },
+        { name: "users.kratos[0]", value: "login" },
+        { name: "users.hydra[0]", value: "login" },
         { name: "databases.castor", value: "cs" },
         { name: "databases.amphora", value: "cs" },
+        { name: "databases.kratos", value: "kratos" },
+        { name: "databases.hydra", value: "hydra" },
       ],
     });
   }

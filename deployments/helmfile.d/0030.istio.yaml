@@ -24,3 +24,8 @@ releases:
         hosts:
           amphora: {{ requiredEnv "RELEASE_NAME" }}-amphora
           castor: {{ requiredEnv "RELEASE_NAME" }}-castor
+    - tls:
+        enabled: {{ env "TLS_ENABLED" | default true }}
+        secret: {{ env "TLS_SECRET_NAME" | default "" | quote }}
+    - partner:
+        hosts: {{ env "PARTNER_URLS" | default "" | quote }}

@@ -35,6 +35,9 @@ releases:
         master:
           host: {{ requiredEnv "DISCOVERY_MASTER_HOST" }}
           port: {{ env "DISCOVERY_MASTER_PORT" | default 31400 }}
+        tls:
+          enabled: {{ env "TLS_ENABLED" | default true }}
+          secret: {{ env "TLS_SECRET_NAME" | default "" | quote }}
     - ephemeral:
         image:
           registry: {{ env "EPHEMERAL_IMAGE_REGISTRY" | default "ghcr.io" }}
@@ -61,6 +64,9 @@ releases:
           path: "/"
           tupleStock: {{ env "EPHEMERAL_TUPLE_STOCK" | default 1000 }}
         frontendUrl: {{ requiredEnv "FRONTEND_URL" }}
+        tls:
+          enabled: {{ env "TLS_ENABLED" | default true }}
+          secret: {{ env "TLS_SECRET_NAME" | default "" | quote }}
         discovery:
           host: {{ requiredEnv "RELEASE_NAME" }}-ephemeral-discovery
           port: 8080
@@ -86,3 +92,6 @@ releases:
           pullSecrets:
             - {{ env "IMAGE_PULL_SECRET" }}
           {{ end }}
+        tls:
+          enabled: {{ env "TLS_ENABLED" | default true }}
+          secret: {{ env "TLS_SECRET_NAME" | default "" | quote }}

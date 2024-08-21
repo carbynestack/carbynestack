@@ -25,3 +25,6 @@ tsconfig.tsbuildinfo
 *.key
 *.crt
 *.pem
+
+#Istio
+certs/*

@@ -149,6 +149,8 @@ export default class AzurePrivateCluster extends cdktf.TerraformStack {
         gf2nMacKey: i === 1 ? "0xb660b323e6" : "0x4ec9a0343c",
         gf2nBitLength: 40,
         gf2nStorageSize: 8,
+        tlsEnabled: false,
+        tlsSecret: "",
       });
 
       if (i == 1) {

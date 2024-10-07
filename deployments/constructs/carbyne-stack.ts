@@ -39,6 +39,8 @@ export interface CarbyneStackConfig {
   gf2nMacKey: string;
   gf2nBitLength: number;
   gf2nStorageSize: number;
+  tlsEnabled: boolean;
+  tlsSecret: string;
 }
 
 export class CarbyneStack extends Construct {
@@ -71,10 +73,13 @@ export class CarbyneStack extends Construct {
       helmProvider: config.helmProvider,
     });
 
+    // TODO: Consider moving knative setup into platform constructs (e.g. AzurePlatform, KindPlatform) to avoid ingress-patch problems
     const knative = new Knative(this, `knative-${name}`, {
       ingressIP: config.fqdn,
       kubectlProvider: config.kubectlProvider,
       kubernetesProvider: config.kubernetesProvider,
+      tlsEnabled: config.tlsEnabled,
+      tlsSecret: config.tlsSecret,
     });
 
     // carbyne stack services
@@ -120,6 +125,7 @@ export class CarbyneStack extends Construct {
       gf2nMacKey: config.gf2nMacKey,
       gf2nBitLength: config.gf2nBitLength,
       gf2nStorageSize: config.gf2nStorageSize,
+      // TODO: add TLS support
     });
 
     new Klyshko(this, `klyshko`, {
@@ -148,6 +154,8 @@ export class CarbyneStack extends Construct {
       set: [
         { name: "routes.hosts.amphora", value: "cs-amphora" },
         { name: "routes.hosts.castor", value: "cs-castor" },
+        { name: "tls.enabled", value: `${config.tlsEnabled}` },
+        { name: "tls.secret", value: `${config.tlsSecret}` },
       ],
     });
   }

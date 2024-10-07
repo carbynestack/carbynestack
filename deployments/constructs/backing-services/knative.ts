@@ -15,6 +15,8 @@ export interface KnativeConfig {
   ingressIP: string;
   kubernetesProvider: cdktf.TerraformProvider;
   kubectlProvider: cdktf.TerraformProvider;
+  tlsEnabled: boolean;
+  tlsSecret: string;
 }
 
 export class Knative extends Construct {
@@ -104,5 +106,15 @@ export class Knative extends Construct {
         `,
       },
     );
+    // TODO: Decide how to proceed with Knative ingress gateway (either patch or use default istio ingressgateway)
+    // if (config.tlsEnabled) {
+    //   const patchKnativeIngressGateway = new kubectl.KubectlProvider(this, `patch-knative-ingress-gateway-${name}`, {
+    //     provider: config.kubectlProvider,
+    //     command: `
+    //       kubectl patch gateway knative-ingress-gateway --namespace knative-serving --type=json -p='[{"op": "add", "path": "/spec/servers/-", "value": {"hosts": ["*"], "port": {"name": "https", "number": 443, "protocol": "HTTPS"}, "tls": {"mode": "SIMPLE", "credentialName": "${config.tlsSecret}"}}}]'
+    //     `,
+    //     dependsOn: [this.knativeServing],
+    //   });
+    // }
   }
 }

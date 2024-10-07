@@ -22,6 +22,7 @@ export class KindPlatform extends Construct {
   public kubectlProvider: kubectl.provider.KubectlProvider;
   public helmProvider: helm.provider.HelmProvider;
   public ingressIP: string;
+  public kindCluster: kind.cluster.Cluster;
 
   constructor(scope: Construct, name: string, config: KindConfig) {
     super(scope, name);
@@ -34,7 +35,7 @@ export class KindPlatform extends Construct {
       },
     );
 
-    const kindCluster = new kind.cluster.Cluster(this, `kind-${name}`, {
+    this.kindCluster = new kind.cluster.Cluster(this, `kind-${name}`, {
       provider: kindProvider,
       name: `cs-${name}`,
       waitForReady: true,
@@ -45,7 +46,7 @@ export class KindPlatform extends Construct {
       `provider-kubernetes-${name}`,
       {
         alias: `provider-kubernetes-${name}`,
-        configPath: kindCluster.kubeconfigPath,
+        configPath: this.kindCluster.kubeconfigPath,
       },
     );
 
@@ -54,7 +55,7 @@ export class KindPlatform extends Construct {
       `provider-kubectl-${name}`,
       {
         alias: `provider-kubectl-${name}`,
-        configPath: kindCluster.kubeconfigPath,
+        configPath: this.kindCluster.kubeconfigPath,
       },
     );
 
@@ -64,7 +65,7 @@ export class KindPlatform extends Construct {
       {
         alias: `provider-helm-${name}`,
         kubernetes: {
-          configPath: kindCluster.kubeconfigPath,
+          configPath: this.kindCluster.kubeconfigPath,
         },
       },
     );

@@ -5,27 +5,37 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-#
-# Creates a postgres cluster with all required users and databases using the Zalando postgres-operator.
-#
-# References:
-#     https://github.com/zalando/postgres-operator
-#
 repositories:
+  - name: carbynestack-oci
+    url: "ghcr.io/carbynestack"
+    oci: true
   - name: kratos
     url: https://k8s.ory.sh/helm/charts
   - name: hydra
     url: https://k8s.ory.sh/helm/charts
   - name: kratos-selfservice-ui-node
     url: https://k8s.ory.sh/helm/charts
-  - name: carbynestack-oci
-    url: "ghcr.io/carbynestack"
-    oci: true
+  - name: stackable-stable
+    url: https://repo.stackable.tech/repository/helm-stable
 
+#
+# Deploys the Thymus Authn/Authz services.
+#
+# References:
+#     https://github.com/carbynestack/thymus
+#
 releases:
+  - name: {{ requiredEnv "RELEASE_NAME" }}-opa-operator
+    chart: stackable-stable/opa-operator
+    version: "24.7.0"
+    wait: true
   - name: {{ requiredEnv "RELEASE_NAME" }}-thymus
     chart: carbynestack-oci/thymus
     version: "0.2.3"
+    chart: carbynestack-oci/thymus
+    disableValidationOnInstall: true # Seems to be required. See https://github.com/roboll/helmfile/pull/1618
+    needs:
+      - {{ requiredEnv "RELEASE_NAME" }}-opa-operator
     values:
       - thymus:
           gateway:

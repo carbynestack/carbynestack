@@ -30,3 +30,41 @@ spec:
       hosts:
         - "*"
 {{- end }}
+---
+{{- if .Values.tls.enabled }}
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: cs-service-gateway-mtls
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - port:
+        number: 443
+        name: https-mtls
+        protocol: HTTPS
+      hosts:
+        - {{ .Values.partner.hosts | quote }}
+      tls:
+        mode: MUTUAL
+        credentialName: {{ .Values.tls.secret | quote }}
+{{- end }}
+---
+
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: istio-egressgateway
+spec:
+  selector:
+    istio: egressgateway
+  servers:
+    - port:
+        number: 443
+        name: https
+        protocol: HTTPS
+      hosts:
+        - {{ .Values.partner.hosts | quote }}
+      tls:
+        mode: ISTIO_MUTUAL

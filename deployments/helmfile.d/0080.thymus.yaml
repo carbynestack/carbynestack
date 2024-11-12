@@ -32,7 +32,6 @@ releases:
   - name: {{ requiredEnv "RELEASE_NAME" }}-thymus
     chart: carbynestack-oci/thymus
     version: "0.2.3"
-    chart: carbynestack-oci/thymus
     disableValidationOnInstall: true # Seems to be required. See https://github.com/roboll/helmfile/pull/1618
     needs:
       - {{ requiredEnv "RELEASE_NAME" }}-opa-operator

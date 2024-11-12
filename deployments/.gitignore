@@ -21,6 +21,9 @@ tsconfig.tsbuildinfo
 !jest.config.js
 !setup.js
 
+#Istio
+certs/*
+
 # TLS
 *.key
 *.crt

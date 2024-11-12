@@ -14,12 +14,13 @@ releases:
     wait: true
     values:
     - frontendUrl: {{ requiredEnv "FRONTEND_URL" }}
+    - protocol: {{ env "PROTOCOL" | default "http" | quote }}
+    - authn:
+        disabled: {{ env "NO_JWT_AUTHN" | default "false" }}
+        jwtRules:
+          issuer: {{ env "JWT_ISSUER" | default (printf "%s://%s/iam/oauth" ( env "PROTOCOL" | default "http" ) ( requiredEnv "FRONTEND_URL" )) | quote }}
+          jwksUri: {{ env "JWKS_URI" | default (printf "http://%s-thymus-hydra-public.default:4444/.well-known/jwks.json" ( requiredEnv "RELEASE_NAME" )) | quote }}
     - routes:
         hosts:
           amphora: {{ requiredEnv "RELEASE_NAME" }}-amphora
           castor: {{ requiredEnv "RELEASE_NAME" }}-castor
-    - authn:
-        disabled: {{ env "NO_JWT_AUTHN" | default "true" }}
-        jwtRules:
-          issuer: {{  env "JWT_ISSUER" | default (printf "http://%s/iam/oauth" ( requiredEnv "FRONTEND_URL" )) | quote }}
-          jwksUri: {{ env "JWKS_URI" | default (printf "http://%s/iam/oauth/.well-known/jwks.json" ( requiredEnv "FRONTEND_URL" )) | quote }}

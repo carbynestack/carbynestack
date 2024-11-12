@@ -33,7 +33,7 @@ releases:
       image:
         registry: {{ env "AMPHORA_IMAGE_REGISTRY" | default "ghcr.io" }}
         repository: {{ env "AMPHORA_IMAGE_REPOSITORY" | default "carbynestack/amphora-service" }}
-        tag: {{ env "AMPHORA_IMAGE_TAG" | default "0.1.1" }}
+        tag: {{ env "AMPHORA_IMAGE_TAG" | default "0.2.0" }}
         {{ if env "IMAGE_PULL_SECRET" }}
         pullSecrets:
           - {{ env "IMAGE_PULL_SECRET" }}

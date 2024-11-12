@@ -4,6 +4,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 #
+{{- if not .Values.authn.disabled }}
 apiVersion: security.istio.io/v1
 kind: RequestAuthentication
 metadata:
@@ -18,7 +19,6 @@ spec:
     issuer: {{ .Values.authn.jwtRules.issuer }}
     jwksUri: {{ .Values.authn.jwtRules.jwksUri }}
 ---
-{{- if not .Values.authn.disabled }}
 apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
@@ -30,35 +30,40 @@ spec:
       istio: ingressgateway
   action:  ALLOW
   rules:
-  - from:
-    - source:
-        notRequestPrincipals: ["*"]
-    to:
-    - operation:
-        # Allow general access on all iam related endpoints and intra-vcp and
-        # inter-vcp endpoints
-        # ToDo: remove inter-vcp and intra-wcp whitelist once tunneling is implemented
-        # ToDO: remove /protobuf.Discovery once tunneling is implemented for epmhemeral discovery service
-        paths: ["/iam*", "/amphora/inter-vcp*", "/amphora/intra-vcp*", "/castor/inter-vcp*", "/castor/intra-vcp*", "/protobuf.Discovery*"]
-  - from:
-    - source:
-        notRequestPrincipals: ["*"]
-    to:
-    - operation:
-        # Allow all paths for subdomains of the frontend URL
-        # This allows general access to empeheral function containers
-        # ToDo: remove this (the whole from statement) once tunneling is implemented
-        hosts: [{{ printf "*.%s" .Values.frontendUrl | quote }}]
-        paths: ["*"]
-  - from:
-    # Allow MP-SPDZ to connect to proxied server (required by 'slaves')
-    # ToDo: remove this (the whole from statement) once tunneling is implemented
-    - source:
-        hosts: ["*-mpc-service.default.svc.cluster.local"] # TODO: replace with whitelist
-  - from:
-    - source:
-        requestPrincipals: ["*"]
-    to:
-    - operation:
-        paths: ["*"]
+    - from:
+        # Allow everyone to access referenced endpoints
+        - source:
+            notRequestPrincipals: ["*"]
+        - source:
+            requestPrincipals: ["*"]
+      to:
+        - operation:
+            # Allow general access on all iam related endpoints
+            paths: ["/iam*"]
+        - operation:
+            # ToDo: remove inter-vcp and intra-wcp whitelist once secure-channels are implemented
+            # ToDO: remove /protobuf.Discovery once secure-channels are implemented for epmhemeral discovery service
+            paths: ["/amphora/inter-vcp*", "/amphora/intra-vcp*", "/castor/inter-vcp*", "/castor/intra-vcp*", "/protobuf.Discovery*"]
+    - to:
+        # Allow all MPC party interactions
+        # ToDo: remove once secure-channels are implemented
+        - operation:
+            ports: ["30000", "30001", "30002", "30003", "30004"]
+    - from:
+        # Authenticated users only can access public ephemeral and amphora endpoints
+        # Castor telemetry is also allowed for the time being for demo purposes
+        - source:
+            requestPrincipals: [{{ printf "%s://%s/iam/oauth/*" .Values.protocol .Values.frontendUrl | quote }}]
+      to:
+        - operation:
+            # Allow all paths for subdomains of the frontend URL
+            # This allows general access to ephemeral function containers
+            hosts: [{{ printf "*.%s" .Values.frontendUrl | quote }}]
+            paths: ["/"]
+        - operation:
+            # Amphora public endpoints
+            paths: ["/amphora/input-masks", "/amphora/masked-inputs", "/amphora/secret-shares*"]
+        - operation:
+            # Castor telemetry endpoint
+            paths: ["/castor/intra-vcp/telemetry"]
 {{- end }}

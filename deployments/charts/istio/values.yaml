@@ -4,8 +4,14 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 #
+frontendUrl: "localhost"
+protocol: "http"
+authn:
+  disabled: false
+  jwtRules:
+    issuer: "http://localhost/iam/oauth"
+    jwksUri: "http://localhost/.well-known/jwks.json"
 routes:
-  frontendUrl: "localhost"
   hosts:
     amphora:
     castor:

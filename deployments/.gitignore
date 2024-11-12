@@ -20,3 +20,8 @@ cdktf.log
 tsconfig.tsbuildinfo
 !jest.config.js
 !setup.js
+
+# TLS
+*.key
+*.crt
+*.pem

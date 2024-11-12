@@ -18,6 +18,7 @@ import { Castor } from "./services/castor";
 import { Amphora } from "./services/amphora";
 import { Ephemeral } from "./services/ephemeral";
 import { Klyshko } from "./services/klyshko";
+import { Thymus } from "./services/thymus";
 
 export interface CarbyneStackConfig {
   dependsOn: cdktf.ITerraformDependable[];
@@ -39,6 +40,10 @@ export interface CarbyneStackConfig {
   gf2nMacKey: string;
   gf2nBitLength: number;
   gf2nStorageSize: number;
+  noJWTAuthn: boolean;
+  jwtIssuer: string;
+  jwksUri: string;
+  thymusSecret: string;
 }
 
 export class CarbyneStack extends Construct {
@@ -79,9 +84,21 @@ export class CarbyneStack extends Construct {
 
     // carbyne stack services
 
+    const thymus = new Thymus(this, `thymus`, {
+      helmProvider: config.helmProvider,
+      dependsOn: [postgres.release],
+      fqdn: config.fqdn,
+      thymusSecret: config.thymusSecret,
+    });
+
     const castor = new Castor(this, `castor`, {
       helmProvider: config.helmProvider,
-      dependsOn: [minio.release, postgres.release, redis.release],
+      dependsOn: [
+        minio.release,
+        postgres.release,
+        redis.release,
+        thymus.release,
+      ],
       isMaster: config.isMaster,
       partnerFQDN: config.partnerFQDN,
     });
@@ -93,6 +110,7 @@ export class CarbyneStack extends Construct {
         postgres.release,
         redis.release,
         castor.release,
+        thymus.release,
       ],
       isMaster: config.isMaster,
       partnerFQDN: config.partnerFQDN,
@@ -148,6 +166,10 @@ export class CarbyneStack extends Construct {
       set: [
         { name: "routes.hosts.amphora", value: "cs-amphora" },
         { name: "routes.hosts.castor", value: "cs-castor" },
+        { name: "frontendUrl", value: config.fqdn },
+        { name: "authn.disabled", value: `${config.noJWTAuthn}` },
+        { name: "authn.jwtRules.issuer", value: config.jwtIssuer },
+        { name: "authn.jwtRules.jwksUri", value: config.jwksUri },
       ],
     });
   }

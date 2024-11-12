@@ -24,8 +24,3 @@ releases:
         hosts:
           amphora: {{ requiredEnv "RELEASE_NAME" }}-amphora
           castor: {{ requiredEnv "RELEASE_NAME" }}-castor
-    - authn:
-        disabled: {{ env "NO_JWT_AUTHN" | default "true" }}
-        jwtRules:
-          issuer: {{ env "JWT_ISSUER" }}
-          jwksUri: {{ env "JWKS_URI" }}

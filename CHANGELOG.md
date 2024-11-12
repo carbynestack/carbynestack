@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.6.0](https://github.com/carbynestack/carbynestack/compare/sdk-v0.5.1...sdk-v0.6.0) (2024-11-12)
+
+
+### ⚠ BREAKING CHANGES
+
+* implement end user authentication ([#108](https://github.com/carbynestack/carbynestack/issues/108))
+
+### Features
+
+* IaC for Azure Cluter & Azure Private Cluster ([#103](https://github.com/carbynestack/carbynestack/issues/103)) ([476fff7](https://github.com/carbynestack/carbynestack/commit/476fff7570d004ea9a9e0eb278597566e50c4e4e))
+* implement end user authentication ([#108](https://github.com/carbynestack/carbynestack/issues/108)) ([be521f9](https://github.com/carbynestack/carbynestack/commit/be521f9d962ec219f0e162e31e8e186eb3d5b568))
+
 ## [0.5.1](https://github.com/carbynestack/carbynestack/compare/sdk-v0.5.0...sdk-v0.5.1) (2024-02-21)
 
 ### Bug Fixes

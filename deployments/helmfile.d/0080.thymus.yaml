@@ -31,12 +31,21 @@ releases:
     wait: true
   - name: {{ requiredEnv "RELEASE_NAME" }}-thymus
     chart: carbynestack-oci/thymus
-    version: "0.2.3"
+    version: "0.4.0"
     disableValidationOnInstall: true # Seems to be required. See https://github.com/roboll/helmfile/pull/1618
     needs:
       - {{ requiredEnv "RELEASE_NAME" }}-opa-operator
     values:
       - thymus:
+          policyCatalogue:
+            image:
+              registry: {{ env "THYMUS_IMAGE_REGISTRY" | default "ghcr.io" }}
+              repository: {{ env "THYMUS_IMAGE_REPOSITORY" | default "carbynestack/thymus/catalogue" }}
+              tag: {{ env "THYMUS_IMAGE_TAG" | default "0.2.1" }}
+              {{ if env "IMAGE_PULL_SECRET" }}
+              pullSecrets:
+                - {{ env "IMAGE_PULL_SECRET" }}
+              {{ end }}
           gateway:
             enabled: false
           users:

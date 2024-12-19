@@ -15,3 +15,8 @@ routes:
   hosts:
     amphora:
     castor:
+  tls:
+    enabled:
+    secret:
+  partner:
+    hosts:

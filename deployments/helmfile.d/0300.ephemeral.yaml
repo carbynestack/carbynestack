@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2021-2023 - for information on the respective copyright owner
+# Copyright (c) 2021-2024 - for information on the respective copyright owner
 # see the NOTICE file and/or the repository https://github.com/carbynestack/carbynestack.
 #
 # SPDX-License-Identifier: Apache-2.0
@@ -50,6 +50,7 @@ releases:
             cpu: {{ env "EPHEMERAL_RESOURCES_REQUESTS_CPU" | default "100m" }}
         minScale: 1
         programIdentifier: "ephemeral-generic"
+        authUserIdField: "email"
         amphora:
           host: {{ requiredEnv "RELEASE_NAME" }}-amphora:10000
           scheme: "http"

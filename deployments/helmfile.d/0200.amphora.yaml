@@ -21,6 +21,8 @@ releases:
   chart: carbynestack-oci/amphora
   version: "0.3.0"
   values:
+  - auth:
+      userIdFieldName: "email"
   - spdz:
       macKey: {{ if eq (env "IS_MASTER") "true" }} {{ env "MAC_KEY" | default "-88222337191559387830816715872691188861" | quote }} {{ else }} {{ env "MAC_KEY" | default "1113507028231509545156335486838233835" | quote }} {{ end }}
       prime: {{ env "SPDZ_PRIME" | default "198766463529478683931867765928436695041" | quote }}

@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.7.0](https://github.com/carbynestack/carbynestack/compare/sdk-v0.6.0...sdk-v0.7.0) (2024-12-19)
+
+
+### Features
+
+* add policy subsystem via Thymus ([#109](https://github.com/carbynestack/carbynestack/issues/109)) ([37f1c48](https://github.com/carbynestack/carbynestack/commit/37f1c4874d05e9f1fbf511ea61a92f6ccb327891))
+* enable authorization ([#114](https://github.com/carbynestack/carbynestack/issues/114)) ([fc0e7cf](https://github.com/carbynestack/carbynestack/commit/fc0e7cf46372034869620fd2ea4cef11b4538a2b))
+
 ## [0.6.0](https://github.com/carbynestack/carbynestack/compare/sdk-v0.5.1...sdk-v0.6.0) (2024-11-12)
 
 

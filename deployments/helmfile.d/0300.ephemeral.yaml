@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2021-2023 - for information on the respective copyright owner
+# Copyright (c) 2021-2024 - for information on the respective copyright owner
 # see the NOTICE file and/or the repository https://github.com/carbynestack/carbynestack.
 #
 # SPDX-License-Identifier: Apache-2.0
@@ -19,13 +19,13 @@ repositories:
 releases:
 - name: {{ requiredEnv "RELEASE_NAME" }}-ephemeral
   chart: carbynestack-oci/ephemeral
-  version: "0.1.3"
+  version: "0.2.0"
   values:
     - discovery:
         image:
           registry: {{ env "DISCOVERY_IMAGE_REGISTRY" | default "ghcr.io" }}
           repository: {{ env "DISCOVERY_IMAGE_REPOSITORY" | default "carbynestack/ephemeral/discovery" }}
-          tag: {{ env "DISCOVERY_IMAGE_TAG" | default "0.1.13" }}
+          tag: {{ env "DISCOVERY_IMAGE_TAG" | default "0.2.0" }}
           {{ if env "IMAGE_PULL_SECRET" }}
           pullSecrets:
             - {{ env "IMAGE_PULL_SECRET" }}
@@ -39,7 +39,7 @@ releases:
         image:
           registry: {{ env "EPHEMERAL_IMAGE_REGISTRY" | default "ghcr.io" }}
           repository: {{ env "EPHEMERAL_IMAGE_REPOSITORY" | default "carbynestack/ephemeral/ephemeral" }}
-          tag: {{ env "EPHEMERAL_IMAGE_TAG" | default "0.1.13" }}
+          tag: {{ env "EPHEMERAL_IMAGE_TAG" | default "0.2.0" }}
           {{ if env "IMAGE_PULL_SECRET" }}
           pullSecrets:
             - {{ env "IMAGE_PULL_SECRET" }}
@@ -49,6 +49,8 @@ releases:
             memory: {{ env "EPHEMERAL_RESOURCES_REQUESTS_MEMORY" | default "256Mi" }}
             cpu: {{ env "EPHEMERAL_RESOURCES_REQUESTS_CPU" | default "100m" }}
         minScale: 1
+        programIdentifier: "ephemeral-generic"
+        authUserIdField: "email"
         amphora:
           host: {{ requiredEnv "RELEASE_NAME" }}-amphora:10000
           scheme: "http"
@@ -57,6 +59,7 @@ releases:
           host: {{ requiredEnv "RELEASE_NAME" }}-castor:10100
           scheme: "http"
           path: "/"
+          tupleStock: {{ env "EPHEMERAL_TUPLE_STOCK" | default 1000 }}
         frontendUrl: {{ requiredEnv "FRONTEND_URL" }}
         discovery:
           host: {{ requiredEnv "RELEASE_NAME" }}-ephemeral-discovery
@@ -78,7 +81,7 @@ releases:
         image:
           registry: {{ env "NETWORK_CONTROLLER_IMAGE_REGISTRY" | default "ghcr.io" }}
           repository: {{ env "NETWORK_CONTROLLER_IMAGE_REPOSITORY" | default "carbynestack/ephemeral/network-controller" }}
-          tag: {{ env "NETWORK_CONTROLLER_IMAGE_TAG" | default "0.1.13" }}
+          tag: {{ env "NETWORK_CONTROLLER_IMAGE_TAG" | default "0.2.0" }}
           {{ if env "IMAGE_PULL_SECRET" }}
           pullSecrets:
             - {{ env "IMAGE_PULL_SECRET" }}

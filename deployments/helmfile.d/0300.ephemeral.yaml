@@ -37,7 +37,7 @@ releases:
         isMaster: {{ requiredEnv "IS_MASTER" }}
         master:
           host: {{ requiredEnv "DISCOVERY_MASTER_HOST" }}
-          port: {{ env "DISCOVERY_MASTER_PORT" | default 31400 }}
+          port: {{ env "DISCOVERY_MASTER_PORT" | default 80 }}
     - ephemeral:
         image:
           registry: {{ env "EPHEMERAL_IMAGE_REGISTRY" | default "ghcr.io" }}

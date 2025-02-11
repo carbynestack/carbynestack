@@ -41,11 +41,11 @@ spec:
     istio: ingressgateway
   servers:
     - port:
-        number: 443
+        number: 1443
         name: https-mtls
         protocol: HTTPS
       hosts:
-        - {{ .Values.partner.hosts | quote }}
+        - "*"
       tls:
         mode: MUTUAL
         credentialName: {{ .Values.tls.secret | quote }}
@@ -54,16 +54,14 @@ spec:
 apiVersion: networking.istio.io/v1beta1
 kind: Gateway
 metadata:
-  name: istio-egressgateway
+  name: partner-egressgateway
 spec:
   selector:
     istio: egressgateway
   servers:
     - port:
-        number: 443
-        name: https
-        protocol: HTTPS
+        number: 80
+        name: http
+        protocol: HTTP
       hosts:
         - {{ .Values.partner.hosts | quote }}
-      tls:
-        mode: ISTIO_MUTUAL

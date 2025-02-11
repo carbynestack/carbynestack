@@ -7,36 +7,12 @@
 apiVersion: networking.istio.io/v1beta1
 kind: DestinationRule
 metadata:
-  name: egressgateway-for-vcp-partner
-spec:
-  host: istio-egressgateway.istio-system.svc.cluster.local
-  subsets:
-    #- name: cnn
-    - name: partner-vcp
-      trafficPolicy:
-        loadBalancer:
-          simple: ROUND_ROBIN
-        portLevelSettings:
-          - port:
-              number: 443
-            tls:
-              mode: ISTIO_MUTUAL
-              sni: {{ .Values.partner.hosts | quote }}
----
-apiVersion: networking.istio.io/v1beta1
-kind: DestinationRule
-metadata:
-  name: originate-mtls-for-partner-vcp
-  namespace: istio-system
+  name: egressgateway-to-partner-vcp
 spec:
   host: {{ .Values.partner.hosts | quote }}
   trafficPolicy:
     loadBalancer:
       simple: ROUND_ROBIN
-    portLevelSettings:
-    - port:
-        number: 443
-      tls:
-        mode: MUTUAL
-        credentialName: {{ .Values.tls.secret | quote }}
-        sni: {{ .Values.partner.hosts | quote }}
+    tls:
+      mode: MUTUAL
+      credentialName: {{ .Values.tls.secret | quote }}

@@ -28,5 +28,3 @@ releases:
       - auth:
           rbac:
             create: false
-        service:
-          type: LoadBalancer

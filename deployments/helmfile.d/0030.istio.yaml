@@ -24,6 +24,9 @@ releases:
         hosts:
           amphora: {{ requiredEnv "RELEASE_NAME" }}-amphora
           castor: {{ requiredEnv "RELEASE_NAME" }}-castor
+          ephemeral:
+            discovery: {{ requiredEnv "RELEASE_NAME" }}-ephemeral-discovery
+          etcd: {{ requiredEnv "RELEASE_NAME" }}-etcd
     - tls:
         enabled: {{ env "TLS_ENABLED" | default true }}
         secret: {{ env "TLS_SECRET_NAME" | default "" | quote }}

@@ -4,6 +4,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 #
+{{- if .Values.tls.enabled }}
 apiVersion: networking.istio.io/v1beta1
 kind: ServiceEntry
 metadata:
@@ -15,7 +16,7 @@ spec:
   - number: 80
     name: http
     protocol: HTTP
-  - number: 443
-    name: https
-    protocol: HTTPS
+    targetPort: 1443
   resolution: DNS
+  location: MESH_EXTERNAL
+{{- end }}

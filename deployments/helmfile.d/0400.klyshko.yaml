@@ -27,7 +27,8 @@ releases:
             repository: {{ env "KLYSHKO_OPERATOR_IMAGE_REPOSITORY" | default "carbynestack/klyshko-operator" }}
             tag: {{ env "KLYSHKO_OPERATOR_IMAGE_TAG" | default "0.3.0" }}
             pullPolicy: {{ env "KLYSHKO_IMAGE_PULL_POLICY" | default "IfNotPresent" }}
-          etcdEndpoint: {{ env "KLYSHKO_ETCD_ENDPOINT" | default "172.18.1.129:2379" | quote }}
+          etcdEndpoint: {{ env "KLYSHKO_ETCD_ENDPOINT" | default "cs-etcd:2379" | quote }}
+          castorUrl: {{ env "KLYSHKO_CASTOR_URL" | default "http://cs-castor:10100" | quote }}
       - provisioner:
           image:
             registry: {{ env "KLYSHKO_IMAGE_REGISTRY" | default "ghcr.io" }}

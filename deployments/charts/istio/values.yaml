@@ -15,6 +15,9 @@ routes:
   hosts:
     amphora:
     castor:
+    ephemeral:
+      discovery:
+    etcd:
   tls:
     enabled:
     secret:

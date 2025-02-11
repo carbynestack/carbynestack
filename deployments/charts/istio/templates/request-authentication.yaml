@@ -28,6 +28,7 @@ spec:
   selector:
     matchLabels:
       istio: ingressgateway
+      #name: cs-service-gateway
   action:  ALLOW
   rules:
     - from:
@@ -38,15 +39,28 @@ spec:
             requestPrincipals: ["*"]
       to:
         - operation:
+            # Allow general access to all requests to the mtls ingress gateways:
+            # - 9443: inter-vcp http
+            # AuthN and AuthZ is handled via mtls.
+            ports: ["9443"]
+    - from:
+        # Allow everyone to access referenced endpoints
+        - source:
+            notRequestPrincipals: ["*"]
+        - source:
+            requestPrincipals: ["*"]
+      to:
+        - operation:
             # Allow general access on all iam related endpoints
-            paths: ["/iam*"]
+            notPaths: ["/iam/oauth/admin*"]
+            paths: ["/iam/ui*", "/iam/oauth/*", "/iam/self-service*"]
         - operation:
             # ToDo: remove inter-vcp and intra-wcp whitelist once secure-channels are implemented
             # ToDO: remove /protobuf.Discovery once secure-channels are implemented for epmhemeral discovery service
-            paths: ["/amphora/inter-vcp*", "/amphora/intra-vcp*", "/castor/inter-vcp*", "/castor/intra-vcp*", "/protobuf.Discovery*"]
+            paths: ["/protobuf.Discovery*"]
     - to:
-        # Allow all MPC party interactions
-        # ToDo: remove once secure-channels are implemented
+        # Allow all MPC party interactions. AuthN and AuthZ is handled via mtls established by ephemeral and its mpc
+        # framework(s).
         - operation:
             ports: ["30000", "30001", "30002", "30003", "30004"]
     - from:
@@ -60,6 +74,9 @@ spec:
             # This allows general access to ephemeral function containers
             hosts: [{{ printf "*.%s" .Values.frontendUrl | quote }}]
             paths: ["/"]
+        - operation:
+            # Allow general access on all iam related endpoints
+            paths: ["/iam*"]
         - operation:
             # Amphora public endpoints
             paths: ["/amphora/input-masks", "/amphora/masked-inputs", "/amphora/secret-shares*"]

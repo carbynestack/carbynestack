@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2021-2024 - for information on the respective copyright owner
+# Copyright (c) 2021-2025 - for information on the respective copyright owner
 # see the NOTICE file and/or the repository https://github.com/carbynestack/carbynestack.
 #
 # SPDX-License-Identifier: Apache-2.0
@@ -15,6 +15,7 @@ releases:
     values:
     - frontendUrl: {{ requiredEnv "FRONTEND_URL" }}
     - protocol: {{ env "PROTOCOL" | default "http" | quote }}
+    - ingressGateway: {{ env "CS_INGRESS_GATEWAY" | default "knative-serving/knative-ingress-gateway" | quote }}
     - authn:
         disabled: {{ env "NO_JWT_AUTHN" | default "false" }}
         jwtRules:
@@ -24,8 +25,19 @@ releases:
         hosts:
           amphora: {{ requiredEnv "RELEASE_NAME" }}-amphora
           castor: {{ requiredEnv "RELEASE_NAME" }}-castor
+          ephemeral:
+            discovery: {{ requiredEnv "RELEASE_NAME" }}-ephemeral-discovery
+          etcd: {{ requiredEnv "RELEASE_NAME" }}-etcd
     - tls:
         enabled: {{ env "TLS_ENABLED" | default true }}
         secret: {{ env "TLS_SECRET_NAME" | default "" | quote }}
     - partner:
-        hosts: {{ env "PARTNER_URLS" | default "" | quote }}
+        hosts:
+        {{- range $i := until (env "PARTNER_COUNT" | default "1" | int) }}
+        - {{ (printf "PARTNER_URL_%d" $i) | env | default "" | quote }}
+        {{- end }}
+        {{- if ne (env "IS_MASTER") "true" }}
+        etcdMaster:
+          host: {{ env "ETCD_MASTER_URL" | default "" | quote }}
+          ip: {{ env "ETCD_MASTER_IP" | default "" | quote }}
+        {{ end }}

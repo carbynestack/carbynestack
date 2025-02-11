@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2024 - for information on the respective copyright owner
+# Copyright (c) 2024-2025 - for information on the respective copyright owner
 # see the NOTICE file and/or the repository https://github.com/carbynestack/carbynestack.
 #
 # SPDX-License-Identifier: Apache-2.0
@@ -31,7 +31,7 @@ releases:
     wait: true
   - name: {{ requiredEnv "RELEASE_NAME" }}-thymus
     chart: carbynestack-oci/thymus
-    version: "0.6.1"
+    version: "0.6.2"
     disableValidationOnInstall: true # Seems to be required. See https://github.com/roboll/helmfile/pull/1618
     needs:
       - {{ requiredEnv "RELEASE_NAME" }}-opa-operator
@@ -48,6 +48,8 @@ releases:
               {{ end }}
           gateway:
             enabled: false
+            metadata:
+              name: {{ env "CS_INGRESS_GATEWAY" | default "knative-serving/knative-ingress-gateway" | quote }}
           users:
             enabled: false
       - kratos:

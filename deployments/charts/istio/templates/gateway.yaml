@@ -1,9 +1,10 @@
 #
-# Copyright (c) 2021-2024 - for information on the respective copyright owner
+# Copyright (c) 2021-2025 - for information on the respective copyright owner
 # see the NOTICE file and/or the repository https://github.com/carbynestack/carbynestack.
 #
 # SPDX-License-Identifier: Apache-2.0
 #
+{{- if not (.Values.ingressGateway) }}
 apiVersion: networking.istio.io/v1beta1
 kind: Gateway
 metadata:
@@ -31,6 +32,7 @@ spec:
         - "*"
 {{- end }}
 ---
+{{- end }}
 {{- if .Values.tls.enabled }}
 apiVersion: networking.istio.io/v1beta1
 kind: Gateway
@@ -41,29 +43,55 @@ spec:
     istio: ingressgateway
   servers:
     - port:
-        number: 443
+        number: 1443
         name: https-mtls
         protocol: HTTPS
       hosts:
-        - {{ .Values.partner.hosts | quote }}
+        - "*"
       tls:
         mode: MUTUAL
         credentialName: {{ .Values.tls.secret | quote }}
-{{- end }}
 ---
 apiVersion: networking.istio.io/v1beta1
 kind: Gateway
 metadata:
-  name: istio-egressgateway
+  name: cs-etcd-gateway-mtls
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - port:
+        number: 2379
+        name: etcd-mtls
+        protocol: TCP
+      hosts:
+        - "*"
+      tls:
+        mode: MUTUAL
+        credentialName: {{ .Values.tls.secret | quote }}
+---
+{{- end }}
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: partner-egressgateway
 spec:
   selector:
     istio: egressgateway
   servers:
+    {{- range $i, $e := .Values.partner.hosts }}
     - port:
-        number: 443
-        name: https
-        protocol: HTTPS
+        number: {{ add 80 $i }}
+        name: http-{{ $i }}
+        protocol: HTTP
       hosts:
-        - {{ .Values.partner.hosts | quote }}
-      tls:
-        mode: ISTIO_MUTUAL
+        - {{ $e | quote }}
+    {{- end }}
+    {{- if and (.Values.partner.etcdMaster) (.Values.partner.etcdMaster.host) }}
+    - port:
+        number: 2379
+        name: etcd-tcp
+        protocol: TCP
+      hosts:
+        - {{ .Values.partner.etcdMaster.host | quote }}
+    {{- end }}

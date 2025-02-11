@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2021-2024 - for information on the respective copyright owner
+# Copyright (c) 2021-2025 - for information on the respective copyright owner
 # see the NOTICE file and/or the repository https://github.com/carbynestack/carbynestack.
 #
 # SPDX-License-Identifier: Apache-2.0
@@ -24,6 +24,19 @@ spec:
             port:
               number: 10100
             host: {{ .Values.routes.hosts.castor }}
+    - match:
+        - uri:
+            prefix: /castor
+      fault:
+        abort:
+          percentage:
+            value: 100
+          httpStatus: 404
+      route:
+        - destination:
+            port:
+              number: 10100
+            host: {{ .Values.routes.hosts.castor }}
 ---
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
@@ -33,13 +46,31 @@ spec:
   hosts:
     - "*"
   gateways:
+    {{- if (.Values.ingressGateway) }}
+    - {{ .Values.ingressGateway }}
+    {{- else }}
     - cs-service-gateway
+    {{- end }}
   http:
+    - match:
+        # only telemetry is exposed to the public
+        - uri:
+            prefix: /castor/intra-vcp/telemetry
+      rewrite:
+        uri: /intra-vcp/telemetry
+      route:
+        - destination:
+            port:
+              number: 10100
+            host: {{ .Values.routes.hosts.castor }}
     - match:
         - uri:
             prefix: /castor
-      rewrite:
-        uri: /
+      fault:
+        abort:
+          percentage:
+            value: 100
+          httpStatus: 404
       route:
         - destination:
             port:
@@ -75,9 +106,43 @@ spec:
   hosts:
     - "*"
   gateways:
+    {{- if (.Values.ingressGateway) }}
+    - {{ .Values.ingressGateway }}
+    {{- else }}
     - cs-service-gateway
+    {{- end }}
   http:
-    - match:
+    # inter-vcp and intra-vcp are excluded from public access
+    - name: "amphora-inter-vcp-route"
+      match:
+        - uri:
+            prefix: /amphora/inter-vcp
+      fault:
+        abort:
+          percentage:
+            value: 100
+          httpStatus: 404
+      route:
+        - destination:
+            port:
+              number: 10000
+            host: {{ .Values.routes.hosts.amphora }}
+    - name: "amphora-intra-vcp-route"
+      match:
+        - uri:
+            prefix: /amphora/intra-vcp
+      fault:
+        abort:
+          percentage:
+            value: 100
+          httpStatus: 404
+      route:
+        - destination:
+            port:
+              number: 10000
+            host: {{ .Values.routes.hosts.amphora }}
+    - name: "amphora-public-route"
+      match:
         - uri:
             prefix: /amphora
       rewrite:
@@ -91,32 +156,133 @@ spec:
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
-  name: direct-inter-vcp-through-egress-gateway
+  name: ephemeral
 spec:
   hosts:
-  - {{ .Values.partner.hosts | quote }}
+    - "*"
   gateways:
-  - istio-egressgateway
-  - mesh
+    - cs-service-gateway-mtls
   http:
-  - match:
-    - gateways:
-      - mesh
-      port: 80
-    route:
-    - destination:
-        host: istio-egressgateway.istio-system.svc.cluster.local
-        subset: partner-vcp
-        port:
-          number: 443
-      weight: 100
-  - match:
-    - gateways:
-      - istio-egressgateway
-      port: 443
-    route:
-    - destination:
-        host: {{ .Values.partner.hosts | quote }}
-        port:
-          number: 443
-      weight: 100
+    - match:
+        - uri:
+            prefix: /protobuf.Discovery
+      route:
+        - destination:
+            port:
+              number: 8080
+            host: {{ .Values.routes.hosts.ephemeral.discovery }}
+---
+{{- if not (.Values.partner.etcdMaster) }}
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: etcd-via-etcd-mtls-gateway
+spec:
+  hosts:
+    - "*"
+  gateways:
+    - cs-etcd-gateway-mtls
+  tcp:
+    - match:
+        - port: 2379
+      route:
+        - destination:
+            port:
+              number: 2379
+            host: {{ .Values.routes.hosts.etcd }}
+---
+{{- end }}
+{{ $etcdMasterHost := "" }}
+{{- if and .Values.partner.etcdMaster .Values.partner.etcdMaster.host }}
+{{ $etcdMasterHost = .Values.partner.etcdMaster.host }}
+{{- end }}
+{{- range $i, $e := .Values.partner.hosts }}
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: direct-inter-vcp-through-egress-gateway-{{ $i }}
+spec:
+  hosts:
+    - {{ $e | quote }}
+  gateways:
+    - mesh
+    - partner-egressgateway
+  http:
+    - match:
+        - gateways:
+            - mesh
+          port: 80
+      route:
+        - destination:
+            host: istio-egressgateway.istio-system.svc.cluster.local
+            port:
+              number: {{ add 80 $i }}
+          weight: 100
+    - match:
+        - gateways:
+            - partner-egressgateway
+          port: {{ add 80 $i }}
+      route:
+        - destination:
+            host: {{ $e | quote }}
+            port:
+              number: 80
+          weight: 100
+  {{- if and ($etcdMasterHost) (eq $e $etcdMasterHost) }}
+  tcp:
+    - match:
+        - gateways:
+            - mesh
+          port: 2379
+      route:
+        - destination:
+            host: istio-egressgateway.istio-system.svc.cluster.local
+            port:
+              number: 2379
+          weight: 100
+    - match:
+        - gateways:
+            - partner-egressgateway
+          port: 2379
+      route:
+        - destination:
+            host: {{ $etcdMasterHost | quote }}
+            port:
+              number: 2379
+          weight: 100
+  {{- end }}
+---
+{{- end }}
+{{- if and ($etcdMasterHost) (not (has $etcdMasterHost .Values.partner.hosts)) }}
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: direct-etcd-through-egress-gateway
+spec:
+  hosts:
+    - {{ $etcdMasterHost | quote }}
+  gateways:
+    - mesh
+    - partner-egressgateway
+  tcp:
+    - match:
+        - gateways:
+            - mesh
+          port: 2379
+      route:
+        - destination:
+            host: istio-egressgateway.istio-system.svc.cluster.local
+            port:
+              number: 2379
+          weight: 100
+    - match:
+        - gateways:
+            - partner-egressgateway
+          port: 2379
+      route:
+        - destination:
+            host: {{ $etcdMasterHost | quote }}
+            port:
+              number: 2379
+          weight: 100
+{{- end }}

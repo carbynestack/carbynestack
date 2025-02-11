@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2021-2024 - for information on the respective copyright owner
+# Copyright (c) 2021-2025 - for information on the respective copyright owner
 # see the NOTICE file and/or the repository https://github.com/carbynestack/carbynestack.
 #
 # SPDX-License-Identifier: Apache-2.0
@@ -19,7 +19,7 @@ repositories:
 releases:
 - name: {{ requiredEnv "RELEASE_NAME" }}-ephemeral
   chart: carbynestack-oci/ephemeral
-  version: "0.2.0"
+  version: "0.3.0"
   values:
     - tls:
         enabled: {{ env "TLS_ENABLED" | default true }}
@@ -37,7 +37,7 @@ releases:
         isMaster: {{ requiredEnv "IS_MASTER" }}
         master:
           host: {{ requiredEnv "DISCOVERY_MASTER_HOST" }}
-          port: {{ env "DISCOVERY_MASTER_PORT" | default 31400 }}
+          port: {{ env "DISCOVERY_MASTER_PORT" | default 80 }}
     - ephemeral:
         image:
           registry: {{ env "EPHEMERAL_IMAGE_REGISTRY" | default "ghcr.io" }}

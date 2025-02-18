@@ -27,6 +27,12 @@ Carbyne Stack can be deployed and experimented with locally. See the
 
 Please see the Carbyne Stack [Contributor's Guide](CONTRIBUTING.md).
 
+## Governance
+
+For more information on our project's governance model and decision-making
+process, please visit our
+[Governance repository](https://github.com/carbynestack/governance).
+
 ## Citation
 
 We use [Zenodo](https://zenodo.org/) to archive our work and make it citable via

@@ -1,0 +1,42 @@
+#
+# Copyright (c) 2024 - for information on the respective copyright owner
+# see the NOTICE file and/or the repository https://github.com/carbynestack/carbynestack.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: egressgateway-for-vcp-partner
+spec:
+  host: istio-egressgateway.istio-system.svc.cluster.local
+  subsets:
+    #- name: cnn
+    - name: partner-vcp
+      trafficPolicy:
+        loadBalancer:
+          simple: ROUND_ROBIN
+        portLevelSettings:
+          - port:
+              number: 443
+            tls:
+              mode: ISTIO_MUTUAL
+              sni: {{ .Values.partner.hosts | quote }}
+---
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: originate-mtls-for-partner-vcp
+  namespace: istio-system
+spec:
+  host: {{ .Values.partner.hosts | quote }}
+  trafficPolicy:
+    loadBalancer:
+      simple: ROUND_ROBIN
+    portLevelSettings:
+    - port:
+        number: 443
+      tls:
+        mode: MUTUAL
+        credentialName: {{ .Values.tls.secret | quote }}
+        sni: {{ .Values.partner.hosts | quote }}

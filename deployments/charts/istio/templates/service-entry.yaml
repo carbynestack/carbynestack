@@ -1,0 +1,21 @@
+#
+# Copyright (c) 2024 - for information on the respective copyright owner
+# see the NOTICE file and/or the repository https://github.com/carbynestack/carbynestack.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+apiVersion: networking.istio.io/v1beta1
+kind: ServiceEntry
+metadata:
+  name: partner-vcp
+spec:
+  hosts:
+  - {{ .Values.partner.hosts | quote }}
+  ports:
+  - number: 80
+    name: http
+    protocol: HTTP
+  - number: 443
+    name: https
+    protocol: HTTPS
+  resolution: DNS

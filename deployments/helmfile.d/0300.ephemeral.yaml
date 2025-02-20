@@ -21,6 +21,9 @@ releases:
   chart: carbynestack-oci/ephemeral
   version: "0.2.0"
   values:
+    - tls:
+        enabled: {{ env "TLS_ENABLED" | default true }}
+        secret: {{ env "TLS_SECRET_NAME" | default "" | quote }}
     - discovery:
         image:
           registry: {{ env "DISCOVERY_IMAGE_REGISTRY" | default "ghcr.io" }}
@@ -34,7 +37,7 @@ releases:
         isMaster: {{ requiredEnv "IS_MASTER" }}
         master:
           host: {{ requiredEnv "DISCOVERY_MASTER_HOST" }}
-          port: {{ env "DISCOVERY_MASTER_PORT" | default 31400 }}
+          port: {{ env "DISCOVERY_MASTER_PORT" | default 80 }}
     - ephemeral:
         image:
           registry: {{ env "EPHEMERAL_IMAGE_REGISTRY" | default "ghcr.io" }}

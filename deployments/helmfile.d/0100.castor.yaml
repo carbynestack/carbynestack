@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2021-2024 - for information on the respective copyright owner
+# Copyright (c) 2021-2025 - for information on the respective copyright owner
 # see the NOTICE file and/or the repository https://github.com/carbynestack/carbynestack.
 #
 # SPDX-License-Identifier: Apache-2.0
@@ -10,6 +10,9 @@ repositories:
     url: "ghcr.io/carbynestack"
     oci: true
 
+{{- $isMaster := eq (requiredEnv "PLAYER_ID" | int) 0 }}
+{{- $fqdn := (printf "PARTNER_FQDN_%s" (requiredEnv "PLAYER_ID")) | requiredEnv }}
+
 #
 # Deploys a Carbyne Stack Castor Offline Tuple Store service.
 #
@@ -19,22 +22,26 @@ repositories:
 releases:
 - name: {{ requiredEnv "RELEASE_NAME" }}-castor
   chart: carbynestack-oci/castor
-  version: "0.2.0"
+  version: "0.3.1"
   values:
   - castor:
       noSslValidation: {{ env "NO_SSL_VALIDATION" | default false }}
       image:
         registry: {{ env "CASTOR_IMAGE_REGISTRY" | default "ghcr.io" }}
         repository: {{ env "CASTOR_IMAGE_REPOSITORY" | default "carbynestack/castor-service" }}
-        tag: {{ env "CASTOR_IMAGE_TAG" | default "0.2.0" }}
+        tag: {{ env "CASTOR_IMAGE_TAG" | default "0.2.1" }}
         {{ if env "IMAGE_PULL_SECRET" }}
         pullSecrets:
           - {{ env "IMAGE_PULL_SECRET" }}
         {{ end }}
-      isMaster: {{ env "IS_MASTER" | default "true" }}
-      {{ if env "CASTOR_SLAVE_URI" }}
-      slaveUri: {{ env "CASTOR_SLAVE_URI" }}
-      {{ end }}
+      isMaster: {{ $isMaster | quote }}
+      slaveUris:
+      {{- range $i := until (requiredEnv "PARTNER_COUNT" | int) }}
+      {{- if ne $i (requiredEnv "PLAYER_ID" | int) }}
+      {{- $partnerFQDN := (printf "PARTNER_FQDN_%d" $i) | requiredEnv }}
+      - {{ printf "http://%s/castor" $partnerFQDN | quote }}
+      {{- end }}
+      {{- end }}
       minio:
         endpoint: http://{{ requiredEnv "RELEASE_NAME" }}-minio:9000
       redis:

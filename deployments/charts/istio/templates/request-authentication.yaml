@@ -59,13 +59,8 @@ spec:
             # Allow general access on all iam related endpoints
             notPaths: ["/iam/oauth/admin*"]
             paths: ["/iam/ui*", "/iam/oauth/*", "/iam/self-service*"]
-        - operation:
-            # ToDo: remove inter-vcp and intra-wcp whitelist once secure-channels are implemented
-            # ToDO: remove /protobuf.Discovery once secure-channels are implemented for epmhemeral discovery service
-            paths: ["/protobuf.Discovery*"]
     - to:
-        # Allow all MPC party interactions. AuthN and AuthZ is handled via mtls established by ephemeral and its mpc
-        # framework(s).
+        # Allow all MPC party interactions. AuthN and AuthZ is handled via mtls configured by ephemeral.
         - operation:
             ports: ["30000", "30001", "30002", "30003", "30004"]
     - from:

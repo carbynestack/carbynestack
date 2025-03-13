@@ -9,6 +9,8 @@ repositories:
   - name: bitnami
     url: "https://charts.bitnami.com/bitnami"
 
+{{- $isMaster := eq (requiredEnv "PLAYER_ID" | int) 0 }}
+
 #
 # Deploys etcd used as coordination service between VCPs in a VC.
 #
@@ -17,7 +19,7 @@ repositories:
 #
 values:
   - etcd:
-      enabled: {{ env "IS_MASTER" }}
+      enabled: {{ $isMaster }}
 releases:
   - name: {{ requiredEnv "RELEASE_NAME" }}-etcd
     chart: bitnami/etcd

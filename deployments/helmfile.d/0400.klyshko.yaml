@@ -10,6 +10,8 @@ repositories:
     url: "ghcr.io/carbynestack"
     oci: true
 
+{{- $fqdn := (printf "PARTNER_FQDN_%s" (requiredEnv "PLAYER_ID")) | requiredEnv }}
+
 #
 # Deploys a Carbyne Stack Klyshko Offline Tuple Generation service.
 #
@@ -27,7 +29,7 @@ releases:
             repository: {{ env "KLYSHKO_OPERATOR_IMAGE_REPOSITORY" | default "carbynestack/klyshko-operator" }}
             tag: {{ env "KLYSHKO_OPERATOR_IMAGE_TAG" | default "0.3.0" }}
             pullPolicy: {{ env "KLYSHKO_IMAGE_PULL_POLICY" | default "IfNotPresent" }}
-          etcdEndpoint: {{ env "KLYSHKO_ETCD_ENDPOINT" | default "cs-etcd:2379" | quote }}
+          etcdEndpoint: {{ if eq (env "ETCD_MASTER_URL") $fqdn }}"cs-etcd:2379"{{ else }}{{ printf "%s:%s" (env "ETCD_MASTER_URL") (env "ETCD_MASTER_PORT" | default "2379") | quote }}{{ end }}
           castorUrl: {{ env "KLYSHKO_CASTOR_URL" | default "http://cs-castor:10100" | quote }}
       - provisioner:
           image:

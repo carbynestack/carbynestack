@@ -1,9 +1,10 @@
 #
-# Copyright (c) 2021-2023- for information on the respective copyright owner
+# Copyright (c) 2021-2025 - for information on the respective copyright owner
 # see the NOTICE file and/or the repository https://github.com/carbynestack/carbynestack.
 #
 # SPDX-License-Identifier: Apache-2.0
 #
+{{- if not (.Values.ingressGateway) }}
 apiVersion: networking.istio.io/v1beta1
 kind: Gateway
 metadata:
@@ -12,9 +13,85 @@ spec:
   selector:
     istio: ingressgateway
   servers:
+{{- if .Values.tls.enabled }}
+    - port:
+        number: 443
+        name: https
+        protocol: HTTPS
+      hosts:
+        - "*"
+      tls:
+        mode: SIMPLE
+        credentialName: {{ .Values.tls.secret | quote }}
+{{- else }}
     - port:
         number: 80
         name: http
         protocol: HTTP
       hosts:
         - "*"
+{{- end }}
+---
+{{- end }}
+{{- if .Values.tls.enabled }}
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: cs-service-gateway-mtls
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - port:
+        number: 1443
+        name: https-mtls
+        protocol: HTTPS
+      hosts:
+        - "*"
+      tls:
+        mode: MUTUAL
+        credentialName: {{ .Values.tls.secret | quote }}
+---
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: cs-etcd-gateway-mtls
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - port:
+        number: 2379
+        name: etcd-mtls
+        protocol: TCP
+      hosts:
+        - "*"
+      tls:
+        mode: MUTUAL
+        credentialName: {{ .Values.tls.secret | quote }}
+---
+{{- end }}
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: partner-egressgateway
+spec:
+  selector:
+    istio: egressgateway
+  servers:
+    {{- range $i, $e := .Values.partner.hosts }}
+    - port:
+        number: {{ add 80 $i }}
+        name: http-{{ $i }}
+        protocol: HTTP
+      hosts:
+        - {{ $e | quote }}
+    {{- end }}
+    {{- if and (.Values.partner.etcdMaster) (.Values.partner.etcdMaster.host) }}
+    - port:
+        number: 2379
+        name: etcd-tcp
+        protocol: TCP
+      hosts:
+        - {{ .Values.partner.etcdMaster.host | quote }}
+    {{- end }}

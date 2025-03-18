@@ -1,0 +1,37 @@
+#
+# Copyright (c) 2024-2025 - for information on the respective copyright owner
+# see the NOTICE file and/or the repository https://github.com/carbynestack/carbynestack.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+{{- if .Values.tls.enabled }}
+apiVersion: networking.istio.io/v1beta1
+kind: ServiceEntry
+metadata:
+  name: partner-vcp
+spec:
+  hosts:
+  {{- range .Values.partner.hosts }}
+    - {{ . | quote }}
+  {{- end }}
+  {{- if and (.Values.partner.etcdMaster)
+             (.Values.partner.etcdMaster.host)
+             (not (has .Values.partner.etcdMaster.host .Values.partner.hosts)) }}
+    - {{ .Values.partner.etcdMaster.host | quote }}
+  {{- end }}
+  {{- if and .Values.partner.etcdMaster .Values.partner.etcdMaster.ip }}
+  addresses:
+    - {{ .Values.partner.etcdMaster.ip }}/32
+  {{- end }}
+  ports:
+    - number: 80
+      name: http
+      protocol: HTTP
+      targetPort: 1443
+    - number: 2379
+      name: etcd-tcp
+      protocol: TCP
+      targetPort: 2379
+  resolution: DNS
+  location: MESH_EXTERNAL
+{{- end }}

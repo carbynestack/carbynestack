@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2021-2023 - for information on the respective copyright owner
+# Copyright (c) 2021-2025 - for information on the respective copyright owner
 # see the NOTICE file and/or the repository https://github.com/carbynestack/carbynestack.
 #
 # SPDX-License-Identifier: Apache-2.0
@@ -11,12 +11,15 @@
 # References:
 #     https://github.com/carbynestack/klyshko
 #
+
+{{- $isMaster := eq (requiredEnv "PLAYER_ID" | int) 0 }}
+
 releases:
   - name: {{ requiredEnv "RELEASE_NAME" }}-klyshko-config
     chart: ../charts/klyshko
     values:
       - scheduler:
-          enabled: {{ env "IS_MASTER" | default "false" }}
+          enabled: {{ $isMaster }}
           concurrency: {{ env "KLYSHKO_CONCURRENCY" | default 2 }}
           ttlSecondsAfterFinished: {{ env "KLYSHKO_TTL_SECONDS_AFTER_FINISHED" | default 120 }}
           # Assigning a higher priority to GFp bits, GFp input masks, and multiplication triples
@@ -97,8 +100,8 @@ releases:
           multiplicationGf2n:
             enabled: {{ env "KLYSHKO_GENERATOR_MULTIPLICATION_GF2N_ENABLED" | default "true" }}
             batchSize: {{ env "KLYSHKO_GENERATOR_MULTIPLICATION_GF2N_BATCH_SIZE" }}
-        playerCount: 2
-        playerId: {{ if eq (env "IS_MASTER") "true" }}0{{ else }}1{{ end }}
+        playerCount: {{ requiredEnv "PARTNER_COUNT" | int }}
+        playerId: {{ requiredEnv "PLAYER_ID" | int }}
         engineParams:
           prime: {{ env "SPDZ_PRIME" | default "198766463529478683931867765928436695041" | quote }}
           macKeyShares:

@@ -5,6 +5,15 @@ is the process of managing and provisioning infrastructure through code instead
 of manually deploying resources via kubectl, helm, etc. This allows for the
 infrastructure to be versioned, tested, and deployed in a repeatable manner.
 
+> **Warning** \
+> The IaC code in this repository is using outdated versions of
+> the Carbyne Stack components. The code is not maintained and should be used
+> for reference only. \
+> For the latest version of the Carbyne Stack, please
+> refer to the manual deployment as described by the getting started guide on
+> the
+> [Carbyne Stack website](https://carbynestack.io/documentation/getting-started/deployment/manual/).
+
 ## Prerequisites
 
 Before you begin, ensure you have met the following requirements:

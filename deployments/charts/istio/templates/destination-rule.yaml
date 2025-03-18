@@ -1,0 +1,39 @@
+#
+# Copyright (c) 2024-2025 - for information on the respective copyright owner
+# see the NOTICE file and/or the repository https://github.com/carbynestack/carbynestack.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+{{- $tlsSecret := .Values.tls.secret }}
+{{- range $i, $e := .Values.partner.hosts }}
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: egressgateway-to-partner-vcp-{{ $i }}
+spec:
+  host: {{ $e | quote }}
+  trafficPolicy:
+    loadBalancer:
+      simple: ROUND_ROBIN
+    tls:
+      mode: MUTUAL
+      credentialName: {{ $tlsSecret | quote }}
+---
+{{- end }}
+{{- if and (.Values.partner.etcdMaster)
+           (.Values.partner.etcdMaster.host)
+           (not (has .Values.partner.etcdMaster.host .Values.partner.hosts)) }}
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: egressgateway-to-partner-vcp-etcd-master
+spec:
+    host: {{ .Values.partner.etcdMaster.host | quote }}
+    trafficPolicy:
+      loadBalancer:
+        simple: ROUND_ROBIN
+      tls:
+        mode: MUTUAL
+        credentialName: {{ $tlsSecret | quote }}
+---
+{{- end }}

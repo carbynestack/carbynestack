@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.8.0](https://github.com/carbynestack/carbynestack/compare/sdk-v0.7.0...sdk-v0.8.0) (2025-03-18)
+
+
+### ⚠ BREAKING CHANGES
+
+* Add TLS support ([#107](https://github.com/carbynestack/carbynestack/issues/107))
+
+### Features
+
+* Add TLS support ([#107](https://github.com/carbynestack/carbynestack/issues/107)) ([4d64672](https://github.com/carbynestack/carbynestack/commit/4d646721bd1ac37e69b2b1fe35f245a5ceadb1b2))
+
 ## [0.7.0](https://github.com/carbynestack/carbynestack/compare/sdk-v0.6.0...sdk-v0.7.0) (2024-12-19)
 
 

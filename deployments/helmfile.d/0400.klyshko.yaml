@@ -21,16 +21,26 @@ repositories:
 releases:
   - name: {{ requiredEnv "RELEASE_NAME" }}-klyshko
     chart: carbynestack-oci/klyshko
-    version: "0.4.0"
+    version: "0.5.0"
     values:
       - controller:
           image:
             registry: {{ env "KLYSHKO_IMAGE_REGISTRY" | default "ghcr.io" }}
             repository: {{ env "KLYSHKO_OPERATOR_IMAGE_REPOSITORY" | default "carbynestack/klyshko-operator" }}
-            tag: {{ env "KLYSHKO_OPERATOR_IMAGE_TAG" | default "0.3.0" }}
+            tag: {{ env "KLYSHKO_OPERATOR_IMAGE_TAG" | default "0.4.0" }}
             pullPolicy: {{ env "KLYSHKO_IMAGE_PULL_POLICY" | default "IfNotPresent" }}
-          etcdEndpoint: {{ if eq (env "ETCD_MASTER_URL") $fqdn }}"cs-etcd:2379"{{ else }}{{ printf "%s:%s" (env "ETCD_MASTER_URL") (env "ETCD_MASTER_PORT" | default "2379") | quote }}{{ end }}
+          etcd:
+            endpoint: {{ if eq (env "ETCD_MASTER_URL") $fqdn }}"cs-etcd:2379"{{ else }}{{ printf "%s:%s" (env "ETCD_MASTER_URL") (env "ETCD_MASTER_PORT" | default "2379") | quote }}{{ end }}
+          tls:
+            {{- if (env "TLS_ENABLED") }}
+            mode: "runtime"
+            secretName: {{ requiredEnv "TLS_SECRET_NAME" | default "" | quote }}
+            {{- else }}
+            mode: "disabled"
+            secretName: {{ env "TLS_SECRET_NAME" | default "" | quote }}
+            {{- end }}
           castorUrl: {{ env "KLYSHKO_CASTOR_URL" | default "http://cs-castor:10100" | quote }}
+          logLevel: {{ env "KLYSHKO_LOG_LEVEL" | default "info" | quote }}
       - provisioner:
           image:
             registry: {{ env "KLYSHKO_IMAGE_REGISTRY" | default "ghcr.io" }}

@@ -30,3 +30,5 @@ releases:
       - auth:
           rbac:
             create: false
+        image:
+          repository: bitnamilegacy/etcd

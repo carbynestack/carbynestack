@@ -28,3 +28,5 @@ releases:
           persistence:
             enabled: {{ env "REDIS_PERSISTENCE_ENABLED" | default true }}
             size: {{ env "REDIS_PERSISTENCE_SIZE" | default "1Gi" }}
+        image:
+          repository: bitnamilegacy/redis

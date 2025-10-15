@@ -59,4 +59,6 @@ the organization's name, optionally also the contributor's name:
 - Weinfurtner Jared <jared.weinfurtner@de.bosch.com>
 
 ### SAP SE
+
 - Nicolai Hüning <nicolai.huening@sap.com>
+

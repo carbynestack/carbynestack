@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.1](https://github.com/carbynestack/carbynestack/compare/sdk-v0.8.0...sdk-v0.8.1) (2025-10-24)
+
+
+### Bug Fixes
+
+* Use legacy bitnami docker registry for redis and etcd ([#121](https://github.com/carbynestack/carbynestack/issues/121)) ([f11cb72](https://github.com/carbynestack/carbynestack/commit/f11cb72f157142ca92e2958769ad84fef61bd17c))
+
 ## [0.8.0](https://github.com/carbynestack/carbynestack/compare/sdk-v0.7.0...sdk-v0.8.0) (2025-03-18)
 
 

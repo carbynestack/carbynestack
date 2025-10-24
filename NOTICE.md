@@ -57,3 +57,8 @@ the organization's name, optionally also the contributor's name:
 - Hettwer Benjamin <benjamin.hettwer@de.bosch.com>
 - Trieflinger Sven <sven.trieflinger@de.bosch.com>
 - Weinfurtner Jared <jared.weinfurtner@de.bosch.com>
+
+### SAP SE
+
+- Nicolai Hüning <nicolai.huening@sap.com>
+
